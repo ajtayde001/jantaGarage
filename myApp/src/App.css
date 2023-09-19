@@ -1,0 +1,198 @@
+.App {
+  text-align: center;
+  height: 100%;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+html, body, #root, .App {
+  height: 100%;
+}
+/* 
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+} */
+
+.container {
+  width: 250px;
+  height: 30px;
+  display: flex;
+  margin-top: "40px";
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* .container:hover {
+  box-shadow: 0 0 3px 0 #1d6e97;
+  border-color: #cece19;
+  outline: none;
+  border: none;
+} */
+.form {
+  color: #555;
+  display: flex;
+  padding: 2px;
+  border: 1px solid currentColor;
+  border-radius: 5px;
+  
+}
+
+.input[type="search"] {
+  border: none;
+  background: transparent;
+  margin: 0;
+  padding: 7px 8px;
+  font-size: 14px;
+  color: inherit;
+  outline: none;
+  border: none;
+}
+
+/* input[type="search"]::placeholder {
+  color: #737272;
+} */
+
+.sarchbtn[type="submit"] {
+  text-indent: -999px;
+  overflow: hidden;
+  width: 40px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid transparent;
+  border-radius: inherit;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+button[type="submit"]:hover {
+  opacity: 1;
+}
+
+.sarchbtn[type="submit"]:focus,
+.sarchbtn[type="search"]:focus {
+  box-shadow: 0 0 3px 0 #f4f6f7;
+  border-color: #f9f9fb;
+  outline: none;
+  border: none;
+}
+/*
+form.nosubmit {
+ border: none;
+ padding: 0;
+}
+
+input.nosubmit {
+  border: 1px solid #555;
+  width: 100%;
+  padding: 9px 4px 9px 40px;
+   background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
+} */
+.btn:hover {
+  /* background-color: red; */
+  cursor: pointer;
+  border: 2px solid gray;
+}
+/* th, td {
+	border: 1px solid black;
+	padding: 8px;
+}
+
+thead th {
+  width: 25%;
+} */
+
+/* table{
+  border-collapse: collapse;
+  width: 95%;
+  margin: auto;
+  /* height: 50%; */
+   
+  th,td{
+    width: 44px;
+      height: 20px;
+      /* gap: 20px; */
+      padding: 5px;
+      /* text-align: center; */
+      margin: auto;
+    text-align: left;
+    
+      /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+      
+  }
+
+  .page{
+    width: 100px;
+    height: 40px;
+    border: 2px solid black;
+    background: white;
+    cursor:pointer;
+    
+    box-shadow:  rgba(0, 0, 0, 0.35) 0px 5px 15px
+  }
+ 
+  .page:hover{
+    /* background-color: red; */
+    cursor: pointer;
+    background-color:pink;
+    /* border: 2px solid gray; */
+  }
+  
+  #BoxShedow{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 10px;
+  }
+ 
+  #file-input {
+    display: none;
+    width: "100px";
+    
+  }
+
+  #file-input-label {
+    width: "100px";
+    /* font-size: 1.3em; */
+    margin: 15px;
+    padding: 3px;
+    border: 1px solid black;
+    border-radius: 4%;
+   
+  }
