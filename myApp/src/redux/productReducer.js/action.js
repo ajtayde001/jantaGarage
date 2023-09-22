@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_KARYKARTA_SUCCESS, GET_PRODUCT_SUCCESS, GET_SEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_KARYKARTA_SUCCESS, GET_PRODUCT_SUCCESS, GET_SEARCH_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
 import axios from "axios";
 
 
@@ -28,6 +28,39 @@ export const getSearchDAta =(data,yourConfig) => (dispatch) => {
         console.log(res)
         return (
         dispatch({type:GET_SEARCH_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+export const getFilterDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    axios.post("https://staging-api.digitaloms.in/complainbox/list/UNSOLVED",data, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_FILTER_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+export const getUserSearchDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    axios.get(`https://staging-api.digitaloms.in/visitor/search/${data}`, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_USERSEARCH_SUCCESS, payload:res.data})
         )
     })
     .catch((err)=>{
@@ -73,6 +106,8 @@ export const postCommentData =(prop,yourConfig) => (dispatch) => {
     });
 }
 
+/////////////////////////////////////////////////
+
 export const postCOMPLAINERdata =(prop,yourConfig) => (dispatch) => {
     console.log(prop)
     dispatch({type:PRODUCT_REQUEST})
@@ -91,16 +126,17 @@ export const postCOMPLAINERdata =(prop,yourConfig) => (dispatch) => {
     });
 }
 
+//////////////////////////////////////////////
+
 export const postCOMPLANTdata =(prop,yourConfig) => (dispatch) => {
     console.log(prop)
     dispatch({type:PRODUCT_REQUEST})
 
-    return axios.post(`
-    https://staging-api.digitaloms.in/visitor`,prop,yourConfig)
+    return axios.post(`https://staging-api.digitaloms.in/complainbox`,prop,yourConfig)
     .then((res) => {
         console.log(res)
         return (
-        dispatch({type:POST_COMPLAINTE_SUCCESS})
+        dispatch({type:POST_COMPLAINTE_SUCCESS,payload:res.data})
         )
     })
     .catch((err)=>{
@@ -108,6 +144,8 @@ export const postCOMPLANTdata =(prop,yourConfig) => (dispatch) => {
         dispatch({type:PRODUCT_FAILURE})
     });
 }
+
+///////////////////////////////////////////////////
 
 export const getCategoriesData=(yourConfig) => (dispatch) => {
     
@@ -144,12 +182,6 @@ export const getAssembliesData=(yourConfig) => (dispatch) => {
     });
 }
 
-//https://staging-api.digitaloms.in/common/comment
-// {
-//     "text": "akakaka ",
-//     "entityType": "COMPLAIN",
-//     "complains": 288
-// }
 
 //https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
 export const getKarykrtaDAta =(data,yourConfig) => (dispatch) => {
@@ -160,7 +192,7 @@ export const getKarykrtaDAta =(data,yourConfig) => (dispatch) => {
     .then((res) => {
         console.log(res)
         return (
-        dispatch({type:GET_KARYKARTA_SUCCESS, payload:res.data})
+        dispatch({type:GET_KARYKARTA_SUCCESS, payload:res.data[0]})
         )
     })
     .catch((err)=>{
@@ -178,7 +210,7 @@ export const getAdhikariDAta =(data,yourConfig) => (dispatch) => {
     .then((res) => {
         console.log(res)
         return (
-        dispatch({type:GET_ADHIKARI_SUCCESS, payload:res.data})
+        dispatch({type:GET_ADHIKARI_SUCCESS, payload:res.data[0]})
         )
     })
     .catch((err)=>{

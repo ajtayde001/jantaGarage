@@ -16,12 +16,6 @@ export const Homepage = () => {
       Welcome To Admin Dashboard
 
     </h1>
-    {/* <div style={{
-      border: '1px solid black',
-      width:"20px"
-    }}>
-    <h4>{JWTToken}</h4>
-    </div> */}
     
    </div>
    

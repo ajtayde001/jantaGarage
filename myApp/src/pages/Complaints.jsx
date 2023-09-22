@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { deleteData, getCategoriesData, getProductDAta, getSearchDAta, postCommentData } from "../redux/productReducer.js/action";
+import React, { useEffect, useRef, useState } from "react";
+import { deleteData, getAssembliesData, getCategoriesData, getFilterDAta, getProductDAta, getSearchDAta, postCommentData } from "../redux/productReducer.js/action";
 import { useDispatch, useSelector } from "react-redux";
 import { FcFilledFilter } from "react-icons/fc";
 import { FaDownload } from "react-icons/fa";
@@ -8,17 +8,124 @@ import TableList from "../components/TableList";
 import { IoIosArrowForward } from "react-icons/io";
 import { GrFormPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
-const Complaints = () => {
-  // const [mainData, setmainData]=useState([])
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Box,
+  Button,
+  Portal,
+} from '@chakra-ui/react'
 
-  const { products, serchMainData ,CategoriesData} = useSelector((store) => store.productReducer);
+// {
+//   "category": {
+//       "id": 1,
+//       "name": "वीज",
+//       "prefix": "VZ",
+//       "createdDate": "2019-12-03T07:07:12.376Z",
+//       "updatedDate": "2023-03-28T10:34:25.000Z",
+//       "createdBy": 1,
+//       "updatedBy": 1,
+//       "types": [
+//           {
+//               "id": 1,
+//               "name": "वीज बिल",
+//               "createdDate": "2019-12-03T07:07:12.406Z",
+//               "updatedDate": "2023-03-28T10:36:03.000Z",
+//               "createdBy": 1,
+//               "updatedBy": 1
+//           },
+//           {
+//               "id": 2,
+//               "name": "वीज पुरवठा",
+//               "createdDate": "2019-12-03T07:07:12.406Z",
+//               "updatedDate": "2023-03-28T10:36:23.000Z",
+//               "createdBy": 1,
+//               "updatedBy": 1
+//           },
+//           {
+//               "id": 3,
+//               "name": "नवीन कनेक्शन",
+//               "createdDate": "2019-12-03T07:07:12.406Z",
+//               "updatedDate": "2019-12-03T07:07:12.406Z",
+//               "createdBy": 0,
+//               "updatedBy": 0
+//           }
+//       ]
+//   },
+//   "type": {
+//       "id": 1,
+//       "name": "वीज बिल",
+//       "createdDate": "2019-12-03T07:07:12.406Z",
+//       "updatedDate": "2023-03-28T10:36:03.000Z",
+//       "createdBy": 1,
+//       "updatedBy": 1
+//   },
+//   "dateFrom": "",
+//   "dateTo": "",
+//   "kiosk": false,
+//   "page": {
+//       "number": 0,
+//       "size": 10
+//   },
+//   "flag": null,
+//   "assembly": {
+//       "id": 4,
+//       "name": "Bhusawal",
+//       "createdDate": "2021-11-29T07:29:31.892Z",
+//       "updatedDate": "2021-11-29T07:29:31.892Z",
+//       "createdBy": 2,
+//       "updatedBy": 2
+//   },
+//   "cityType": {
+//      label
+
+// "Village"
+// value
+
+// "VILLAGE"
+//   }
+// }
+const mainObj = {
+
+  assembly: null,
+  dateFrom: "",
+  dateTo: "",
+  kiosk: false,
+  page: { number: 0, size: 10 },
+  flag: null,
+  category:null,
+  type:null,
+  cityType: null,
+};
+ const cityData={
+  label:"",
+  value:"",
+ }
+const Complaints = () => {
+ 
+
+  const { products, serchMainData ,CategoriesData,assembliesData} = useSelector((store) => store.productReducer);
   const dispatch = useDispatch();
-  const [mainpage, setPage] = useState(1);
+  const [mainpage, setPage] = useState(0);
   const [mainsize, setPagesize] = useState(10);
   const [searchdata, setSearchdata] = useState("");
   const [mainID, setID] = useState(10);
   const [cm, setcm] = useState(false);
+  const initRef = useRef()
+  const [mainData1, setMainData1] = useState(mainObj);
+  const [city, setCity] = useState(cityData);
+  const [cat, setcatData] = useState(null);
 
+  const [userSarch, setUserSearch] = useState("");
+  const [assemble, setassembleData] = useState(null);
+  const [typ, setTypData] = useState(null);
   const nest = () => {
     setPage(mainpage + 1);
   };
@@ -35,18 +142,30 @@ const Complaints = () => {
     },
   };
 
-  //  console.log(serchMainData);
-   console.log(CategoriesData);
+  //  console.log(assembliesData);
+  //  console.log(CategoriesData);
+  //////////////////////////////////
   
+  const handleComp = (e) => {
+    const { name, value } = e.target;
 
-  useEffect(() => {
-    dispatch(getProductDAta(dataMain, yourConfig));
-    dispatch(getCategoriesData(yourConfig));
-  }, [JWTToken, mainpage, mainsize,cm]);
+    setMainData1((pre) => {
+      return { ...pre, [name]: value };
+    });
+  };
 
+  const handleCity = (e) => {
+    const { name, value } = e.target;
+      setCity((pre) => {
+        return { ...pre, [name]: value };
+      })
+      
+  };
+
+ 
   
-  const mainData = products[0];
-  console.log(mainData);
+  const mainData = products[0]?products[0].reverse():null;
+  // console.log(mainData);
 
   const handleExport = () => {
     const obj = mainData?.length > 0 ? mainData[0] : {};
@@ -83,8 +202,8 @@ const Complaints = () => {
   const hnadleDelete = (id) => {
     let pros = mainData.find((e) => e.id == id);
     pros.recordStatus = "DELETED";
-    console.log(pros);
-    // setID(pros.id);
+    // console.log(pros);
+    
     dispatch(deleteData(pros, yourConfig));
     // window.location.reload();
   };
@@ -104,7 +223,7 @@ const Complaints = () => {
   }
  
     dispatch(getSearchDAta(pros, yourConfig));
-    console.log(searchdata)
+    // console.log(searchdata)
   };
 
   const hnadleComment = (id,textdata) => {
@@ -120,6 +239,37 @@ const Complaints = () => {
     // setcm(true);
     // window.location.reload();
   };
+  const caterf = cat ? JSON.parse(cat) : {};
+  // console.log(caterf);
+
+  const assembleOne = assemble ? JSON.parse(assemble) : {};
+  // console.log(assembleOne);
+
+  const typdata = caterf ? caterf.types : [];
+
+  // console.log(typdata)
+  const typKaObj = typ ? JSON.parse(typ) : {};
+  // console.log(city);
+  ////////////////////
+  const handleFilter = () => {
+    // alert("show")
+    mainData1.assembly = Object.keys(assembleOne).length > 0?assembleOne:null;
+    mainData1.cityType = Object.keys(city).length > 0 ?city:null;
+
+    mainData1.category = Object.keys(caterf).length > 0 ?caterf:null;
+    mainData1.type = Object.keys(typKaObj).length > 0  ? typKaObj:null;
+    // console.log(mainData1)
+
+    dispatch(getFilterDAta(mainData1, yourConfig));
+    // setMainData1(mainObj)
+  };
+
+  useEffect(() => {
+    dispatch(getProductDAta(dataMain, yourConfig));
+    dispatch(getCategoriesData(yourConfig));
+    dispatch(getAssembliesData(yourConfig));
+  }, [JWTToken, mainpage, mainsize,cm]);
+
 
   return (
     <>
@@ -245,10 +395,267 @@ const Complaints = () => {
             <div
               style={{
                 border: "1px solid gray",
-                padding: "2px",
+                // padding: "2px",
               }}
             >
-              <FcFilledFilter size={25}></FcFilledFilter>
+      <Popover size={"max"} closeOnBlur={false} placement='bottom' initialFocusRef={initRef}
+       >
+      {({ isOpen, onClose }) => (
+        <>
+          <PopoverTrigger >
+            <Button> <FcFilledFilter size={25}></FcFilledFilter></Button>
+          </PopoverTrigger>
+          <Portal size={'max'}>
+            <PopoverContent boxShadow={"rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"}  w="400px" 
+              h="320px" marginRight={"40px"}>
+              <PopoverArrow />
+              <PopoverHeader >Filter</PopoverHeader>
+              <PopoverCloseButton />
+              <PopoverBody size={'max'}>
+              <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "20px",
+                      padding:"10px",
+                      borderBottom:"1px dotted gray",
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "karyaKartaData",
+                          justifyContent: "space-between",
+                          gap: "20px",
+                        }}
+                      >
+                        <div style={{ width: "50%" }}>
+                        
+                       
+                          <label style={{ float: "left" }}>
+                            Complaint Category
+                          </label>
+                          <br />
+                          <select
+                            placeholder="select"
+                            value={cat}
+                            onChange={(e) => {
+                              setcatData(e.target.value);
+                            }}
+                            style={{
+                              width: "100%",
+                              height: "34px",
+                              border: "0.5px solid gray",
+                              borderRadius: "3px",
+                              fontSize: "14px",
+                              textAlign: "center",
+                            }}
+                            name=""
+                            id=""
+                          >
+                            <option value="" placeholder="select ">
+                              {"Select One"}
+                            </option>
+                            {CategoriesData?.length > 0 &&
+                              CategoriesData?.map((item) => {
+                                return (
+                                  <option
+                                    value={JSON.stringify(item)}
+                                    placeholder="select "
+                                  >
+                                    {item.name}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                          <br />
+                         
+                          
+                          <label style={{ float: "left" }}>
+                           From
+                          </label>
+                          <br />
+                          <input
+                            style={{
+                              width: "100%",
+                              height: "34px",
+                              border: "0.5px solid gray",
+                              borderRadius: "3px",
+                              fontSize: "14px",
+                              textAlign: "center",
+                            }}
+                            type="date"
+                            placeholder="DD/MM/YYYY"
+                            value={mainData1.dateFrom}
+                            name="dateFrom"
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
+                          />
+
+                          <div style={{ display: "flex", gap: "20px" }}>
+                            <div>
+                              <label style={{ float: "left" }}>Assembly</label>
+                              <br />
+                              <select
+                                placeholder="select"
+                                value={cat}
+                                onChange={(e) => {
+                                  setassembleData(e.target.value);
+                                }}
+                                style={{
+                                  width: "100%",
+                                  height: "34px",
+                                  border: "0.5px solid gray",
+                                  borderRadius: "3px",
+                                  fontSize: "14px",
+                                  textAlign: "center",
+                                }}
+                                name=""
+                                id=""
+                              >
+                                <option value="" placeholder="select ">
+                                  {"Select One"}
+                                </option>
+                                {assembliesData?.length > 0 &&
+                                  assembliesData?.map((item) => {
+                                    return (
+                                      <option
+                                        value={JSON.stringify(item)}
+                                        placeholder="select "
+                                      >
+                                        {item.name}
+                                      </option>
+                                    );
+                                  })}
+                              </select>
+                            </div>
+                            <div>
+                              <label style={{ float: "left" }}>City Type</label>
+                              <br />
+                              <select
+                                value={city.label}
+                                name="label"
+                                onChange={(e) => {
+                                  handleCity(e);
+                                }}
+                                id=""
+                                style={{
+                                  width: "100%",
+                                  height: "34px",
+                                  border: "0.5px solid gray",
+                                  borderRadius: "3px",
+                                  fontSize: "14px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                <option value="">Select City</option>
+                                <option value="VILLAGE">VILLAGE</option>
+                                <option value="CITY"> CITY</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div style={{ width: "50%" }}>
+                         
+                         
+                          <label style={{ float: "left" }}>
+                            Complaint Type*
+                          </label>
+                          <br />
+                          <select
+                            placeholder="select"
+                            value={typ}
+                            onChange={(e) => {
+                              setTypData(e.target.value);
+                            }}
+                            style={{
+                              width: "100%",
+                              height: "34px",
+                              border: "0.5px solid gray",
+                              borderRadius: "3px",
+                              fontSize: "14px",
+                              textAlign: "center",
+                            }}
+                          >
+                            <option value="" placeholder="select ">
+                              {"Select One"}
+                            </option>
+                            {typdata?.length > 0 &&
+                              typdata?.map((item) => {
+                                return (
+                                  <option
+                                    value={JSON.stringify(item)}
+                                    placeholder="select "
+                                  >
+                                    {item.name}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                          <br />
+                          <label style={{ float: "left" }}>
+                            To Date*
+                          </label>
+                          <br />
+                          <input
+                            style={{
+                              width: "100%",
+                              height: "34px",
+                              border: "0.5px solid gray",
+                              borderRadius: "3px",
+                              fontSize: "14px",
+                              textAlign: "center",
+                            }}
+                            type="date"
+                            placeholder="DD/MM/YYYY"
+                            value={mainData1.dateTo}
+                            name="dateTo"
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
+                          />
+                         
+                          <br />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <Button
+                  mt={4}
+                  bg={"#ffda83"}
+                  // colorScheme='#ffda83'
+                 
+                  ref={initRef}
+                  marginBottom={"25px"}
+                  onClick={()=>{
+                    handleFilter();
+                    onClose();
+                  }}
+                >
+                  Submit
+                </Button>
+                <Button
+                marginLeft={"25px"}
+                marginBottom={"25px"}
+                  mt={4}
+                  colorScheme='blue'
+                  onClick={onClose}
+                  ref={initRef}
+                >
+                  Close
+                </Button>
+              </PopoverBody>
+            
+            </PopoverContent>
+          </Portal>
+        </>
+      )}
+    </Popover>
+             
             </div>
           </div>
         </div>
@@ -362,7 +769,7 @@ const Complaints = () => {
                 }}
               >
                 {mainData?.length > 0 &&
-                  mainData?.map((item) => {
+                  mainData?.reverse().map((item) => {
                     return (
                       <TableList
                         key={item.id}

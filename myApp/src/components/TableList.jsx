@@ -136,8 +136,8 @@ const TableList = ({
         <td>{tokenNumber ? tokenNumber : ""}</td>
         <td>
           {" "}
-          {category.name ? category.name : ""} <br />
-          {type.name ? type.name : ""}{" "}
+          {category?.name ? category?.name : ""} <br />
+          {type?.name ? type.name : ""}{" "}
         </td>
         <td>{newuserName}</td>
         <td>{address.line1 ? address.line1 : ""}</td>

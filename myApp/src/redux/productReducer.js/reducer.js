@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_KARYKARTA_SUCCESS, GET_PRODUCT_SUCCESS, GET_SEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST} from "./actiontype";
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_KARYKARTA_SUCCESS, GET_PRODUCT_SUCCESS, GET_SEARCH_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST} from "./actiontype";
 
 const initialstate = {
     isLoading : false,
@@ -10,7 +10,10 @@ const initialstate = {
     assembliesData:[],
     karykarta:[],
     adhikari:[],
-    complainerSinleData:{}
+    complainerSinleData:{},
+    complaintPostData:{},
+    srch:[],
+    isSubmitted : false
 }
 export const reducer = (state=initialstate, {type, payload}) =>{
     switch(type){
@@ -27,6 +30,10 @@ export const reducer = (state=initialstate, {type, payload}) =>{
             :payload}
         case GET_SEARCH_SUCCESS :
             return {...state, isLoading : true, products:payload}
+        case GET_FILTER_SUCCESS :
+            return {...state, isLoading : true, products:payload}
+        case GET_USERSEARCH_SUCCESS :
+            return {...state, isLoading : true, srch:payload}
         case GET_Categories_SUCCESS :
             return {...state, isLoading : true, CategoriesData:payload}
         case GET_assemblies_SUCCESS :
@@ -34,9 +41,9 @@ export const reducer = (state=initialstate, {type, payload}) =>{
         case PATCH_PRODUCT_SUCCESS :
             return {...state, isLoading : false,}
         case POST_COMMENT_SUCCESS :
-            return {...state, isLoading : false,}
+            return {...state, isLoading : false}
         case POST_COMPLAINTE_SUCCESS :
-            return {...state, isLoading : false,}
+            return {...state, isLoading : false , isSubmitted:true,complaintPostData:payload}
             case GET_KARYKARTA_SUCCESS:
                 return {...state,karykarta:payload}
                 case GET_ADHIKARI_SUCCESS:

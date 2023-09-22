@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   AccordionItem,
@@ -38,63 +38,75 @@ import {
   expandedIndex,
   Center,
   useStatStyles,
+  Stack,
 } from "@chakra-ui/react";
 import { BsCircle } from "react-icons/bs";
 import { GrEdit } from "react-icons/gr";
-import { BsSquare,BsFillCheckSquareFill } from "react-icons/bs";
+import { BsSquare, BsFillCheckSquareFill } from "react-icons/bs";
 // import { ImHome } from "react-icons/im";
 import { BiSolidUser, BiSolidUserPlus } from "react-icons/bi";
 import { ImCross } from "react-icons/im";
+import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 // import { BsSquare } from "react-icons/bs";
 import { ImHome } from "react-icons/im";
 // import { BiSolidUser, BiSolidUserPlus } from "react-icons/bi";
 import TableList from "../components/TableList";
-import photo from "../Photos/officeSystem.webp"
+import photo from "../Photos/officeSystem.webp";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdhikariDAta, getAssembliesData, getCategoriesData, getKarykrtaDAta, postCOMPLAINERdata, postCOMPLANTdata } from "../redux/productReducer.js/action";
+import {
+  getAdhikariDAta,
+  getAssembliesData,
+  getCategoriesData,
+  getKarykrtaDAta,
+  getUserSearchDAta,
+  postCOMPLAINERdata,
+  postCOMPLANTdata,
+} from "../redux/productReducer.js/action";
+import { Link } from "react-router-dom";
 
-const IntialValue={
+const IntialValue = {
   extraFields: {},
   addressFields: {},
   firstName: "",
   lastName: "",
-  gender:"" ,
-  phone:"" ,
-  middleName:"" ,
-  rationCard:null,
+  gender: "",
+  phone: "",
+  middleName: "",
+  rationCard: null,
   cityType: null,
-}
+};
 
-const addresObj={ flatNo:"" ,
-addressLine1:"" ,
-addressLine2:"" ,
-city:"" ,
-district: "",
-native:"" ,
-pincode:"" }
+const addresObj = {
+  flatNo: "",
+  addressLine1: "",
+  addressLine2: "",
+  city: "",
+  district: "",
+  native: "",
+  pincode: "",
+};
 
-const castObj={
+const castObj = {
   id: 4,
   name: "",
   createdDate: "",
   updatedDate: "",
   createdBy: 0,
   updatedBy: 0,
-  subcast: []
-}
+  subcast: [],
+};
 
-const mainObj={
+const mainObj = {
   address: {
-     
-      prabhag: null,
-      prabhagArea: null,
-      gaon: null,
-      gat_number: null,
-      gan_number: null
+    prabhag: null,
+    prabhagArea: null,
+    gaon: null,
+    gat_number: null,
+    gan_number: null,
   },
   assembly: {},
-  complainer:{},
+  complainer: {},
   isDirectEntry: true,
   commentCreatedBy: 1,
   actualComplainDate: "",
@@ -106,184 +118,250 @@ const mainObj={
   karyaKarta: [],
   adhikari: [],
   pincode: "",
-    
-  cityType: "",
-}
-// const mainObjForAdd={
-//   address: {
-     
-//       prabhag: null,
-//       prabhagArea: null,
-//       gaon: null,
-//       gat_number: null,
-//       gan_number: null
-//   },
-//   assembly: {},
-//   complainer:{},
-//   isDirectEntry: true,
-//   commentCreatedBy: 1,
-//   actualComplainDate: "",
-//   complainDueDate: "",
-//   isAddedByKiosk: false,
-//   category: {},
-//   type: {},
-//   office: 1,
-//   karyaKarta: [],
-//   adhikari: [],
-//   pincode: "",
-    
-//   cityType: "",
-// }
 
+  cityType: "",
+};
 
 function AddPage() {
-  const [karyaKartaData,setkaryaKartaData]=useState([])
-const [karyaKartaDataicone,setkaryaKartaDataicone]=useState([])
+  const [karyaKartaData, setkaryaKartaData] = useState([]);
+  const [sarchkaryaKartaData, srchsetkaryaKartaData] = useState("");
+  const [karyaKartaDataicone, setkaryaKartaDataicone] = useState([]);
 
+///////////////////////////////////////
 
-const [adhikariData,setadhikariData]=useState([])
-const [adhikariDataIcone,setadhikariDataIcone]=useState([])
+  const [adhikariData, setadhikariData] = useState([]);
+  const [sarchAdhikariData, srchsetAdhikaruData] = useState("");
+  const [adhikariDataIcone, setadhikariDataIcone] = useState([]);
+ 
+  const [srchData, setsrchData] = useState();
 
-  const { CategoriesData,assembliesData,karykarta,adhikari,complainerSinleData} = useSelector((store) => store.productReducer);
+  const {
+    CategoriesData,
+    assembliesData,
+    karykarta,
+    adhikari,
+    complainerSinleData,
+    complaintPostData,
+    isSubmitted,
+    srch
+  } = useSelector((store) => store.productReducer);
+
   const dispatch = useDispatch();
-  const JWTToken = localStorage.getItem("token");
-  const yourConfig = {
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-     
-      Authorization: `Bearer ${JWTToken}`,
-    },
-  };
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-const [data,setData]=useState(IntialValue)
-const [mainData,setMainData]=useState(mainObj)
-const [addssdata,setaddssData]=useState(addresObj)
-const [castdata,setcastData]=useState(castObj)
-/////////////////////////////////////////
-const [cat,setcatData]=useState(null)
-const [assemble,setassembleData]=useState(null)
-const [typ,setTypData]=useState(null)
-// const [typ,setTypData]=useState([])
-   
   useEffect(() => {
     // dispatch(getProductDAta(dataMain, yourConfig));
     dispatch(getCategoriesData(yourConfig));
     dispatch(getAssembliesData(yourConfig));
     dispatch(getKarykrtaDAta({}, yourConfig));
     dispatch(getAdhikariDAta({}, yourConfig));
-    
+    setsrchData(complainerSinleData)
   }, []);
+
+    // console.log(complainerSinleData)
+
+    
+  const JWTToken = localStorage.getItem("token");
+  const yourConfig = {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+
+      Authorization: `Bearer ${JWTToken}`,
+    },
+  };
+  const initialRef = useRef(null);
+  const finalRef = useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: docoOpen,
+    onOpen: docoOnOpen,
+    onClose: docoClose,
+  } = useDisclosure();
+
+  // if(isSubmitted){
+   
+  // }
+
+  const [data, setData] = useState(IntialValue);
+  const [mainData, setMainData] = useState(mainObj);
+  const [addssdata, setaddssData] = useState(addresObj);
+  const [castdata, setcastData] = useState(castObj);
+
+  /////////////////////////////////////////
+
+  const [cat, setcatData] = useState(null);
+  const [userSarch, setUserSearch] = useState("");
+  const [assemble, setassembleData] = useState(null);
+  const [typ, setTypData] = useState(null);
+
+  console.log(userSarch)
+
+
+
+  const [mainKartaDatais, setmainKartaDatais] = useState()
+  // console.log(mainKartaDatais);
+
+  const [mainAdhikariDatais, setmainAdhikariDatais] = useState()
+  // console.log(mainKartaDatais);
+
+  const handlekaryaKartaData = (id) => {
+    const result = mainKartaDatais.find((name) => name.id === id);
+    // console.log(result);
+    setkaryaKartaData([...karyaKartaData, result]);
+    setkaryaKartaDataicone([...karyaKartaDataicone, result.id]);
+  };
  
-  console.log(complainerSinleData)
-///for karykrta
-const handlekaryaKartaData=(id)=>{ 
-  const result = karykarta[0].find((name ) => name.id === id)
-  console.log(result)
-  setkaryaKartaData([...karyaKartaData,result])
-  setkaryaKartaDataicone([...karyaKartaDataicone,result.id])
-  }
-  
-  const handleReomve=(id)=>{
-  const result=karyaKartaData.filter((name)=>name.id!==id)
-  const result1=karyaKartaDataicone.filter((name)=>name!==id) 
-  setkaryaKartaData([...result])
-  setkaryaKartaDataicone([...result1])
-  }
-  const handleCheckremove=(id)=>{
-    const result=karyaKartaData.filter((name)=>name.id!==id) 
-    const result1=karyaKartaDataicone.filter((name)=>name!==id) 
+
+  const handleReomve = (id) => {
+    const result = karyaKartaData.filter((name) => name.id !== id);
+    const result1 = karyaKartaDataicone.filter((name) => name !== id);
+    setkaryaKartaData([...result]);
+    setkaryaKartaDataicone([...result1]);
+  };
+////////////////////////////////////////
+
+  const handleserchKaryakarta = (e) => {
+    // e.preventDefault();
+    // console.log(e,mainKartaDatais)
+    srchsetkaryaKartaData(e)
+    let result = mainKartaDatais?.filter((name) => name.firstName.includes(e));
     // console.log(result)
-    setkaryaKartaData([...result])
-    setkaryaKartaDataicone([...result1])
-    }
+    setmainKartaDatais(result)
+    };
+
+//////////////////////////////////////////////////
+
+  const handleserchAdhikari = (e) => {
+    // e.preventDefault();
+    srchsetAdhikaruData(e)
+    let result = mainAdhikariDatais?.filter((name) => name.firstName.includes(e));
+   
+    setmainAdhikariDatais(result)
+
+    };
+
+////////////////////////////////////////////////////
+  const handleCheckremove = (id) => {
+    const result = karyaKartaData.filter((name) => name.id !== id);
+    const result1 = karyaKartaDataicone.filter((name) => name !== id);
+    // console.log(result)
+    setkaryaKartaData([...result]);
+    setkaryaKartaDataicone([...result1]);
+  };
+
+  //for Adhikari
+
+  const handleAdhikarikaryaKartaData = (id) => {
+    const result = mainAdhikariDatais.find((name) => name.id === id);
+    // console.log(result);
+    setadhikariData([...adhikariData, result]);
+    setadhikariDataIcone([...adhikariDataIcone, result.id]);
+  };
+
+  const handleAdhikariReomve = (id) => {
+    const result = adhikariData.filter((name) => name.id !== id);
+    const result1 = adhikariDataIcone.filter((name) => name !== id);
+    setadhikariData([...result]);
+    setadhikariDataIcone([...result1]);
+  };
+  const handleAdhikariCheckremove = (id) => {
+    const result = adhikariData.filter((name) => name.id !== id);
+    const result1 = adhikariDataIcone.filter((name) => name !== id);
+    // console.log(result)
+    setadhikariData([...result]);
+    setadhikariDataIcone([...result1]);
+  };
+  //////////////////////////////////////////////
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setData((pre) => {
+      return { ...pre, [name]: value };
+    });
+  };
+  ///////////////////////////////////////////
+
+  const handleUserSerac1 = (e) => {
+    // e.preventDefault();
   
-    //for Adhikari
-  
-    const handleAdhikarikaryaKartaData=(id)=>{ 
-      const result = adhikari[0].find((name ) => name.id === id)
-      console.log(result)
-      setadhikariData([...adhikariData,result])
-      setadhikariDataIcone([...adhikariDataIcone,result.id])
-      }
+      dispatch(getUserSearchDAta(e, yourConfig));
       
-      const handleAdhikariReomve=(id)=>{
-      const result=adhikariData.filter((name)=>name.id!==id)
-      const result1=adhikariDataIcone.filter((name)=>name!==id)
-      setadhikariData([...result])
-      setadhikariDataIcone([...result1])
-      }
-      const handleAdhikariCheckremove=(id)=>{
-        const result=adhikariData.filter((name)=>name.id!==id) 
-        const result1=adhikariDataIcone.filter((name)=>name!==id) 
-        // console.log(result)
-        setadhikariData([...result])
-        setadhikariDataIcone([...result1])
-        }
- //////////////////////////////////////////////  
-
-const handleChange=(e)=>{
-const {name,value}=e.target;
-
-setData((pre)=>{
-  return {...pre,[name]:value}
-})
-}
-
-   
-const handleChange1=(e)=>{
-const {name,value}=e.target;
-
-setaddssData((pre)=>{
-  return {...pre,[name]:value}
-})
-}
-   
-const handleSub=(e)=>{
-  data.addressFields=addssdata
-  data.cast=castdata
- console.log(data)
-//  console.log(addssdata)
-dispatch(postCOMPLAINERdata(data, yourConfig));
- }
- ////////////////////////
-
-const caterf = cat ? JSON.parse(cat):{}
-console.log(caterf)
-
-const assembleOne = assemble ? JSON.parse(assemble):{}
-console.log(assembleOne)
-
-const typdata = caterf ? caterf.types:[]
-
-// console.log(typdata)
-const typKaObj= typ? JSON.parse(typ):{}
-console.log(typKaObj)
-////////////////////
-
-const handleComp=(e)=>{
-  const {name,value}=e.target;
   
-  setMainData((pre)=>{
-    return {...pre,[name]:value}
-  })
-  }
-const handleCompSub=()=>{
-  // alert("show")
-  mainData.assembly=assembleOne
- 
-  mainData.category=caterf
-  mainData.type=typKaObj
- 
-  }
-const handleMainObj=()=>{
-  mainData.complainer=complainerSinleData?complainerSinleData:data
-  mainData.karyaKarta=karyaKartaData
-  mainData.adhikari=adhikariData
-  console.log(mainData)
-  dispatch(postCOMPLANTdata(mainData, yourConfig));
-  }
+      setUserSearch(null)
+  };
+
+// console.log(srch)
+
+const handleSarchDataforDisplay = (id) => {
+  const result = srch?.filter((name) => name.id == id);
+  // console.log(result[0]);
+  setsrchData(result[0])
+  // setkaryaKartaData([...karyaKartaData, result]);
+  
+};
+// console.log(srchData)
+
+  const handleChange1 = (e) => {
+    const { name, value } = e.target;
+
+    setaddssData((pre) => {
+      return { ...pre, [name]: value };
+    });
+  };
+
+  const handleSub = (e) => {
+    data.addressFields = addssdata;
+    data.cast = castdata;
+    // console.log(data);
+   dispatch(postCOMPLAINERdata(data, yourConfig));
+  setsrchData(data)
+
+  };
+
+  ////////////////////////
+
+  const caterf = cat ? JSON.parse(cat) : {};
+  // console.log(caterf);
+
+  const assembleOne = assemble ? JSON.parse(assemble) : {};
+  // console.log(assembleOne);
+
+  const typdata = caterf ? caterf.types : [];
+
+  // console.log(typdata)
+  const typKaObj = typ ? JSON.parse(typ) : {};
+  // console.log(typKaObj);
+  ////////////////////
+
+  const handleComp = (e) => {
+    const { name, value } = e.target;
+
+    setMainData((pre) => {
+      return { ...pre, [name]: value };
+    });
+  };
+  const handleCompSub = () => {
+    // alert("show")
+    mainData.assembly = assembleOne;
+
+    mainData.category = caterf;
+    mainData.type = typKaObj;
+  };
+  const handleMainObj = () => {
+    mainData.complainer = srchData ? srchData: complainerSinleData;
+    mainData.karyaKarta = karyaKartaData;
+    mainData.adhikari = adhikariData;
+
+    dispatch(postCOMPLANTdata(mainData, yourConfig));
+  };
+
+  
+  useEffect(() => {
+   
+    setmainKartaDatais(karykarta)
+   
+   setmainAdhikariDatais(adhikari)
+  }, [karykarta,adhikari]);
   
   return (
     <div>
@@ -375,8 +453,10 @@ const handleMainObj=()=>{
                               className="input"
                               type="search"
                               placeholder="SearchByName/Phone/Aadhar"
+                              value={userSarch}
+                              onChange={(e)=>{handleUserSerac1(e.target.value)}}
                             />
-                            <button className="sarchbtn" type="submit">
+                            <button className="sarchbtn"  type="submit" >
                               Search
                             </button>
                           </form>
@@ -554,11 +634,13 @@ const handleMainObj=()=>{
                                       // onChange={handleChange}
                                     >
                                       <button
-                                      onClick={()=>{data.gender="MALE"}}
+                                        onClick={() => {
+                                          data.gender = "MALE";
+                                        }}
                                         style={{
                                           width: "150px",
                                           height: "41px",
-                                          
+
                                           // borderRadius: "1px",
                                           // border: "1px solid grey",
                                         }}
@@ -566,7 +648,9 @@ const handleMainObj=()=>{
                                         Male
                                       </button>
                                       <button
-                                       onClick={()=>{data.gender="FEMALE"}}
+                                        onClick={() => {
+                                          data.gender = "FEMALE";
+                                        }}
                                         style={{
                                           width: "150px",
                                           height: "41px",
@@ -577,7 +661,9 @@ const handleMainObj=()=>{
                                         Female
                                       </button>
                                       <button
-                                       onClick={()=>{data.gender="OTHER"}}
+                                        onClick={() => {
+                                          data.gender = "OTHER";
+                                        }}
                                         style={{
                                           width: "150px",
                                           height: "41px",
@@ -765,8 +851,12 @@ const handleMainObj=()=>{
                                                   <option value="">
                                                     Select Education
                                                   </option>
-                                                  <option value="10th">10th</option>
-                                                  <option value="12th">12th</option>
+                                                  <option value="10th">
+                                                    10th
+                                                  </option>
+                                                  <option value="12th">
+                                                    12th
+                                                  </option>
                                                 </select>
                                               </div>
                                               <div>
@@ -1054,7 +1144,7 @@ const handleMainObj=()=>{
                                                   border: "0.5px solid gray",
                                                   borderRadius: "3px",
                                                   fontSize: "14px",
-                                                 
+
                                                   float: "left",
                                                 }}
                                                 onChange={handleChange1}
@@ -1279,7 +1369,9 @@ const handleMainObj=()=>{
                                                 <option value="burhanpur">
                                                   burhnapur
                                                 </option>
-                                                <option value="burhanpur">Pune</option>
+                                                <option value="burhanpur">
+                                                  Pune
+                                                </option>
                                               </select>
                                             </div>
 
@@ -1452,13 +1544,22 @@ const handleMainObj=()=>{
                                               style={{
                                                 width: "80px",
                                                 height: "30px",
-                                              
-
                                               }}
                                             >
-                                            <img src={photo} alt="" name="ProfileImage" value={data.ProfileImage}  onChange={handleChange}/>
+                                              <img
+                                                src={photo}
+                                                alt=""
+                                                name="ProfileImage"
+                                                value={data.ProfileImage}
+                                                onChange={handleChange}
+                                              />
                                             </div>
-                                            <div style={{marginTop:"20px",paddingTop:"8px"}}>
+                                            <div
+                                              style={{
+                                                marginTop: "20px",
+                                                paddingTop: "8px",
+                                              }}
+                                            >
                                               <input
                                                 type="file"
                                                 id="file-input"
@@ -1468,7 +1569,7 @@ const handleMainObj=()=>{
                                               <label
                                                 id="file-input-label"
                                                 for="file-input"
-                                              > 
+                                              >
                                                 +Choose File
                                               </label>
                                             </div>
@@ -1477,8 +1578,8 @@ const handleMainObj=()=>{
                                                 width: "80px",
                                                 height: "30px",
                                                 border: "1px solid grey",
-                                                marginTop:"25px",
-                                                textAlign:"center",
+                                                marginTop: "25px",
+                                                textAlign: "center",
                                                 // paddingTop:"8px"
                                               }}
                                             >
@@ -1494,10 +1595,16 @@ const handleMainObj=()=>{
                                     alignItems="center"
                                     marginLeft="10px"
                                   >
-                                    <FormLabel htmlFor="email-alerts" mb="0" name="isVoter" value={data.isVoter}  onChange={handleChange}>
+                                    <FormLabel
+                                      htmlFor="email-alerts"
+                                      mb="0"
+                                      name="isVoter"
+                                      value={data.isVoter}
+                                      onChange={handleChange}
+                                    >
                                       Our Voter
                                     </FormLabel>
-                                    <Switch id="email-alerts"  />
+                                    <Switch id="email-alerts" />
                                   </FormControl>
                                 </div>
                               </div>
@@ -1511,16 +1618,21 @@ const handleMainObj=()=>{
                                   // gap:"100px"
                                 }}
                               >
-                               
-                                <Button onClick={()=>{handleSub();onClose()}}
-                                backgroundColor={"#fdc356"} >Add</Button>
+                                <Button
+                                  onClick={() => {
+                                    handleSub();
+                                    onClose();
+                                  }}
+                                  backgroundColor={"#fdc356"}
+                                >
+                                  Add
+                                </Button>
                                 <Button variant="ghost" marginLeft="20px">
                                   Clear
                                 </Button>
                                 <Button onClick={onClose} marginLeft="20px">
                                   Cancel
                                 </Button>
-                            
                               </div>
                             </ModalBody>
                             <ModalFooter></ModalFooter>
@@ -1529,7 +1641,7 @@ const handleMainObj=()=>{
                       </div>
                     </div>
                     <div>
-                      <TableContainer>
+                      <TableContainer style={{ maxHeight: "300px", overflowY: "auto" }}>
                         <Table variant="simple">
                           {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
                           <Thead>
@@ -1539,7 +1651,7 @@ const handleMainObj=()=>{
                                 color: "grey",
                               }}
                             >
-                              <Th> </Th>
+                              <Th> <BsCircle></BsCircle></Th>
                               <Th>Full Name</Th>
                               <Th>Mobile No.</Th>
                               <Th>Identity Card No.</Th>
@@ -1547,17 +1659,26 @@ const handleMainObj=()=>{
                             </Tr>
                           </Thead>
                           <Tbody>
-                            <Tr>
-                              <Td>
-                                <BsCircle></BsCircle>
+                            
+                          {srch?.length > 0 &&
+                              srch?.map((item) => {
+                                return (
+                                  <Tr>
+                              <Td >
+                              <BsCircle onClick={()=>{handleSarchDataforDisplay(item.id)}} > </BsCircle>
                               </Td>
-                              <Td>Ajay Tayde</Td>
-                              <Td>7898079499</Td>
-                              <Td isNumeric>25</Td>
+                              <Td>{item.firstName}</Td>
+                              <Td>{item.phone}</Td>
+                              <Td >{item.role}</Td>
                               <Td>
                                 <GrEdit></GrEdit>
                               </Td>
                             </Tr>
+                                );
+                              })}
+                            
+                            
+                            
                           </Tbody>
                         </Table>
                       </TableContainer>
@@ -1569,9 +1690,12 @@ const handleMainObj=()=>{
                         }}
                       >
                         <AccordionButton>
-                        <Button style={{ backgroundColor: "#fdc356" }} onClick={()=>{alert("i am back")}} >
-                          Continue
-                        </Button>
+                          <Button
+                            style={{ backgroundColor: "#fdc356" }}
+                            
+                          >
+                            Continue
+                          </Button>
                         </AccordionButton>
                         {/* <Button onChange={(expandedIndex: expandedIndex) => void} >Cancle</Button > */}
                       </div>
@@ -1596,13 +1720,13 @@ const handleMainObj=()=>{
                       <div style={{ color: "black", fontWeight: "bold" }}>
                         Information
                       </div>
-                      <p>Full Name:</p>
+                      <p>Full Name:{srchData?srchData.firstName:""}</p>
                       <p>Created Date:</p>
-                      <p>Mobile No:</p>
-                      <p>Gender:</p>
-                      <p>Aadhar:</p>
-                      <p>Voter ID:</p>
-                      <p>Is Our Voter:</p>
+                      <p>Mobile No:{srchData?srchData.phone:""}</p>
+                      <p>Gender:{srchData?srchData.gender:""}</p>
+                      <p>Aadhar:{srchData?srchData.aadhar:""}</p>
+                      <p>Voter ID:{srchData?srchData.voterID:""}</p>
+                      <p>Is Our Voter:{}</p>
                       <p>Address:</p>
                       <p>Assembly:</p>
                     </div>
@@ -1699,7 +1823,9 @@ const handleMainObj=()=>{
                             }}
                             value={mainData.description}
                             name="description"
-                            onChange={(e)=>{handleComp(e)}}
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
                             type="text"
                             placeholder="Please add description"
                           />
@@ -1709,9 +1835,11 @@ const handleMainObj=()=>{
                           </label>
                           <br />
                           <select
-                          placeholder="select"
-                          value={cat}
-                          onChange={(e)=>{setcatData(e.target.value)}}
+                            placeholder="select"
+                            value={cat}
+                            onChange={(e) => {
+                              setcatData(e.target.value);
+                            }}
                             style={{
                               width: "100%",
                               height: "34px",
@@ -1723,16 +1851,20 @@ const handleMainObj=()=>{
                             name=""
                             id=""
                           >
-                             <option value="" placeholder="select ">{"Select One"}</option>
+                            <option value="" placeholder="select ">
+                              {"Select One"}
+                            </option>
                             {CategoriesData?.length > 0 &&
-                          CategoriesData?.map((item) => {
-                        return (
-                          <option value={JSON.stringify(item)} placeholder="select ">{item.name}</option>
-                    );
-                  })
-                  }
-                           
-                            
+                              CategoriesData?.map((item) => {
+                                return (
+                                  <option
+                                    value={JSON.stringify(item)}
+                                    placeholder="select "
+                                  >
+                                    {item.name}
+                                  </option>
+                                );
+                              })}
                           </select>
                           <br />
                           <label style={{ float: "left" }}>Pincode</label>
@@ -1748,7 +1880,9 @@ const handleMainObj=()=>{
                             }}
                             value={mainData.pincode}
                             name="pincode"
-                            onChange={(e)=>{handleComp(e)}}
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
                             type="number"
                             placeholder="1234"
                           />
@@ -1770,7 +1904,9 @@ const handleMainObj=()=>{
                             placeholder="DD/MM/YYYY"
                             value={mainData.complainDueDate}
                             name="complainDueDate"
-                            onChange={(e)=>{handleComp(e)}}
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
                           />
 
                           <div style={{ display: "flex", gap: "20px" }}>
@@ -1778,39 +1914,47 @@ const handleMainObj=()=>{
                               <label style={{ float: "left" }}>Assembly</label>
                               <br />
                               <select
-                          placeholder="select"
-                          value={cat}
-                          onChange={(e)=>{setassembleData(e.target.value)}}
-                            style={{
-                              width: "100%",
-                              height: "34px",
-                              border: "0.5px solid gray",
-                              borderRadius: "3px",
-                              fontSize: "14px",
-                              textAlign: "center",
-                            }}
-                            name=""
-                            id=""
-                          >
-                             <option value="" placeholder="select ">{"Select One"}</option>
-                            {assembliesData?.length > 0 &&
-                          assembliesData?.map((item) => {
-                        return (
-                          <option value={JSON.stringify(item)} placeholder="select ">{item.name}</option>
-                    );
-                  })
-                  }
-                           
-                            
-                          </select>
+                                placeholder="select"
+                                value={cat}
+                                onChange={(e) => {
+                                  setassembleData(e.target.value);
+                                }}
+                                style={{
+                                  width: "100%",
+                                  height: "34px",
+                                  border: "0.5px solid gray",
+                                  borderRadius: "3px",
+                                  fontSize: "14px",
+                                  textAlign: "center",
+                                }}
+                                name=""
+                                id=""
+                              >
+                                <option value="" placeholder="select ">
+                                  {"Select One"}
+                                </option>
+                                {assembliesData?.length > 0 &&
+                                  assembliesData?.map((item) => {
+                                    return (
+                                      <option
+                                        value={JSON.stringify(item)}
+                                        placeholder="select "
+                                      >
+                                        {item.name}
+                                      </option>
+                                    );
+                                  })}
+                              </select>
                             </div>
                             <div>
                               <label style={{ float: "left" }}>City Type</label>
                               <br />
                               <select
-                               value={mainData.cityType}
-                               name="cityType"
-                               onChange={(e)=>{handleComp(e)}}
+                                value={mainData.cityType}
+                                name="cityType"
+                                onChange={(e) => {
+                                  handleComp(e);
+                                }}
                                 id=""
                                 style={{
                                   width: "100%",
@@ -1824,7 +1968,6 @@ const handleMainObj=()=>{
                                 <option value="">Select City</option>
                                 <option value="VILLAGE"> VILLAGE</option>
                                 <option value="CITY"> CITY</option>
-                              
                               </select>
                             </div>
                           </div>
@@ -1846,8 +1989,10 @@ const handleMainObj=()=>{
                             type="date"
                             placeholder="DD/MM/YYYY"
                             value={mainData.actualComplainDate}
-                               name="actualComplainDate"
-                               onChange={(e)=>{handleComp(e)}}
+                            name="actualComplainDate"
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
                           />
                           <br />
                           <label style={{ float: "left" }}>
@@ -1855,9 +2000,11 @@ const handleMainObj=()=>{
                           </label>
                           <br />
                           <select
-                          placeholder="select"
-                          value={typ}
-                          onChange={(e)=>{setTypData(e.target.value)}}
+                            placeholder="select"
+                            value={typ}
+                            onChange={(e) => {
+                              setTypData(e.target.value);
+                            }}
                             style={{
                               width: "100%",
                               height: "34px",
@@ -1866,18 +2013,21 @@ const handleMainObj=()=>{
                               fontSize: "14px",
                               textAlign: "center",
                             }}
-                           
                           >
-                             <option value="" placeholder="select ">{"Select One"}</option>
+                            <option value="" placeholder="select ">
+                              {"Select One"}
+                            </option>
                             {typdata?.length > 0 &&
-                          typdata?.map((item) => {
-                        return (
-                          <option value={JSON.stringify(item)} placeholder="select ">{item.name}</option>
-                    );
-                  })
-                  }
-                           
-                            
+                              typdata?.map((item) => {
+                                return (
+                                  <option
+                                    value={JSON.stringify(item)}
+                                    placeholder="select "
+                                  >
+                                    {item.name}
+                                  </option>
+                                );
+                              })}
                           </select>
                           <br />
                           <label style={{ float: "left" }}>
@@ -1885,9 +2035,11 @@ const handleMainObj=()=>{
                           </label>
                           <br />
                           <input
-                             value={mainData.addressComp}
-                             name="addressComp"
-                             onChange={(e)=>{handleComp(e)}}
+                            value={mainData.addressComp}
+                            name="addressComp"
+                            onChange={(e) => {
+                              handleComp(e);
+                            }}
                             style={{
                               width: "100%",
                               height: "34px",
@@ -1952,10 +2104,16 @@ const handleMainObj=()=>{
                   }}
                 >
                   <AccordionButton>
-                  <Button style={{ backgroundColor: "#fdc356" ,marginRight:"20px"}} onClick={handleCompSub}>
-                    Continue
-                  </Button>
-                  <Button >Cancle</Button >
+                    <Button
+                      style={{
+                        backgroundColor: "#fdc356",
+                        marginRight: "20px",
+                      }}
+                      onClick={handleCompSub}
+                    >
+                      Continue
+                    </Button>
+                    <Button>Cancle</Button>
                   </AccordionButton>
                 </div>
               </AccordionPanel>
@@ -1999,7 +2157,6 @@ const handleMainObj=()=>{
                         backgroundColor: "grey",
                         borderRadius: "20px",
                         textAlign: "center",
-                        
                       }}
                     >
                       <span style={{ color: "white", textAlign: "center" }}>
@@ -2017,8 +2174,6 @@ const handleMainObj=()=>{
                     display: "flex",
                     justifyContent: "space-between",
                     gap: "30px",
-                    
-                    
                   }}
                 >
                   <div
@@ -2050,27 +2205,38 @@ const handleMainObj=()=>{
                               className="input"
                               type="search"
                               placeholder="Search Karykarta Name"
+                             
+                              value={sarchkaryaKartaData}
+                              onChange={(e)=>{handleserchKaryakarta(e.target.value);
+                                if(e.target.value==""){
+                                setmainKartaDatais(karykarta)
+                              }}}
                             />
-                            <button className="sarchbtn" type="submit">
+                            <button className="sarchbtn" type="submit" >
                               Search
                             </button>
                           </form>
                         </div>
                       </div>
                     </div>
-                    <div style={{ maxHeight: "300px", overflowY: "auto"}}>
-                      <TableContainer  >
+                    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
+                      <TableContainer>
                         {/* <h1>History</h1> */}
-                        <Table variant="simple"  >
+                        <Table variant="simple">
                           {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
-                         
-                          <Thead style={{position:'sticky',top:0,overflowY:"hidden"}}>
+
+                          <Thead
+                            style={{
+                              position: "sticky",
+                              top: 0,
+                              overflowY: "hidden",
+                            }}
+                          >
                             <Tr
                               style={{
                                 backgroundColor: "#f4f1fb",
                                 color: "grey",
                                 // position:"fixed",
-                                 
                               }}
                             >
                               <Th>
@@ -2084,29 +2250,37 @@ const handleMainObj=()=>{
                             </Tr>
                           </Thead>
 
-                          <Tbody style={{height:"2px"}}>
-                          {karykarta[0]?.length > 0 &&
-                          karykarta[0]?.map((item) => {
-                        return (
-                        
-                          <Tr key={item.id} >
-                                <Td>
-                                  {karyaKartaDataicone.includes(item.id)?<BsFillCheckSquareFill color="#fdc356" onClick={()=>handleCheckremove(item.id)}></BsFillCheckSquareFill>:<BsSquare onClick={()=>handlekaryaKartaData(item.id)}></BsSquare>}
-                                </Td>
-                                <Td>{item.firstName}</Td>
-                                <Td>{item.lastName} </Td>
-                                <Td>{item.gender}</Td>
-                                <Td>aj@gmail.com</Td>
-                                <Td>9977679355</Td>
-                              </Tr>
-                             
-                    );
-                  })
-                  }           
+                          <Tbody style={{ height: "2px" }}>
+                            {mainKartaDatais?.length > 0 &&
+                              mainKartaDatais?.map((item) => {
+                                return (
+                                  <Tr key={item.id}>
+                                    <Td>
+                                      {karyaKartaDataicone.includes(item.id) ? (
+                                        <BsFillCheckSquareFill
+                                          color="#fdc356"
+                                          onClick={() =>
+                                            handleCheckremove(item.id)
+                                          }
+                                        ></BsFillCheckSquareFill>
+                                      ) : (
+                                        <BsSquare
+                                          onClick={() =>
+                                            handlekaryaKartaData(item.id)
+                                          }
+                                        ></BsSquare>
+                                      )}
+                                    </Td>
+                                    <Td>{item.firstName}</Td>
+                                    <Td>{item.lastName} </Td>
+                                    <Td>{item.gender}</Td>
+                                    <Td>aj@gmail.com</Td>
+                                    <Td>9977679355</Td>
+                                  </Tr>
+                                );
+                              })}
                           </Tbody>
-                          
                         </Table>
-                        
                       </TableContainer>
                       <label style={{ float: "left", color: "grey" }}>
                         Note For Assinged Karykrta
@@ -2128,22 +2302,27 @@ const handleMainObj=()=>{
                         placeholder="Note"
                       />
                       <br />
-                     
                     </div>
                     <div
-                        style={{
-                          marginTop: "20px",
-                          display: "flex",
-                          gap: "25px",
-                        }}
-                      >
-                        <AccordionButton>
-                  <Button style={{ backgroundColor: "#fdc356" ,marginRight:"20px"}} onClick={handleCompSub}>
-                    Continue
-                  </Button>
-                  <Button >Cancle</Button >
-                  </AccordionButton>
-                      </div>
+                      style={{
+                        marginTop: "20px",
+                        display: "flex",
+                        gap: "25px",
+                      }}
+                    >
+                      <AccordionButton>
+                        <Button
+                          style={{
+                            backgroundColor: "#fdc356",
+                            marginRight: "20px",
+                          }}
+                          onClick={handleCompSub}
+                        >
+                          Continue
+                        </Button>
+                        <Button>Cancle</Button>
+                      </AccordionButton>
+                    </div>
                   </div>
                   <div
                     style={{
@@ -2179,22 +2358,25 @@ const handleMainObj=()=>{
                               </Tr>
                             </Thead>
                             <Tbody>
-                               {
-                                karyaKartaData.length>0&&karyaKartaData?.map((el)=>{
+                              {karyaKartaData.length > 0 &&
+                                karyaKartaData?.map((el) => {
                                   return (
-                                    <Tr key={el.id} >
-                               
-                                <Td>{el.firstName}</Td>
-                                <Td>{el.lastName} </Td>
-                                <Td><button onClick={()=>handleReomve(el.id)}><ImCross></ImCross></button></Td>
-                              </Tr>
-                                  )
-                                })
-                               }
+                                    <Tr key={el.id}>
+                                      <Td>{el.firstName}</Td>
+                                      <Td>{el.lastName} </Td>
+                                      <Td>
+                                        <button
+                                          onClick={() => handleReomve(el.id)}
+                                        >
+                                          <ImCross></ImCross>
+                                        </button>
+                                      </Td>
+                                    </Tr>
+                                  );
+                                })}
                             </Tbody>
                           </Table>
                         </TableContainer>
-                        
                       </div>
                     </div>
                   </div>
@@ -2203,7 +2385,6 @@ const handleMainObj=()=>{
             </AccordionItem>
           </Accordion>
         </div>
-        
       </div>
 
       <br />
@@ -2218,7 +2399,7 @@ const handleMainObj=()=>{
         }}
       >
         <div style={{ width: "90%", margin: "auto" }} id="BoxShedow">
-        <Accordion allowToggle>
+          <Accordion allowToggle>
             <AccordionItem style={{ borderRadius: "8px" }}>
               <h2>
                 <AccordionButton
@@ -2290,6 +2471,10 @@ const handleMainObj=()=>{
                               className="input"
                               type="search"
                               placeholder="Search Adhikari name"
+                              value={sarchAdhikariData}
+                              onChange={(e)=>{handleserchAdhikari(e.target.value) ;if(e.target.value==""){
+                                setmainAdhikariDatais(adhikari)
+                              }}}
                             />
                             <button className="sarchbtn" type="submit">
                               Search
@@ -2298,7 +2483,7 @@ const handleMainObj=()=>{
                         </div>
                       </div>
                     </div>
-                    <div style={{maxHeight: "300px", overflowY: "auto"}}>
+                    <div style={{ maxHeight: "300px", overflowY: "auto" }}>
                       <TableContainer>
                         {/* <h1>History</h1> */}
                         <Table variant="simple">
@@ -2321,43 +2506,41 @@ const handleMainObj=()=>{
                             </Tr>
                           </Thead>
                           <Tbody>
-                          {adhikari[0]?.length > 0 &&
-                          adhikari[0]?.map((item) => {
-                        return (
-                        
-                          <Tr key={item.id} >
-                                <Td>
-                                  {adhikariDataIcone.includes(item.id)?<BsFillCheckSquareFill color="#fdc356" onClick={()=>handleAdhikariCheckremove(item.id)}></BsFillCheckSquareFill>:<BsSquare onClick={()=>handleAdhikarikaryaKartaData(item.id)}></BsSquare>}
-                                </Td>
-                                <Td>{item.firstName}</Td>
-                                <Td>{item.lastName} </Td>
-                                <Td>{item.gender}</Td>
-                                <Td>aj@gmail.com</Td>
-                                <Td>9977679355</Td>
-                              </Tr>
-                             
-                    );
-                  })
-                  }
-                          
+                            {mainAdhikariDatais?.length > 0 &&
+                              mainAdhikariDatais?.map((item) => {
+                                return (
+                                  <Tr key={item.id}>
+                                    <Td>
+                                      {adhikariDataIcone.includes(item.id) ? (
+                                        <BsFillCheckSquareFill
+                                          color="#fdc356"
+                                          onClick={() =>
+                                            handleAdhikariCheckremove(item.id)
+                                          }
+                                        ></BsFillCheckSquareFill>
+                                      ) : (
+                                        <BsSquare
+                                          onClick={() =>
+                                            handleAdhikarikaryaKartaData(
+                                              item.id
+                                            )
+                                          }
+                                        ></BsSquare>
+                                      )}
+                                    </Td>
+                                    <Td>{item.firstName}</Td>
+                                    <Td>{item.lastName} </Td>
+                                    <Td>{item.gender}</Td>
+                                    <Td>aj@gmail.com</Td>
+                                    <Td>9977679355</Td>
+                                  </Tr>
+                                );
+                              })}
                           </Tbody>
-
-
                         </Table>
                       </TableContainer>
+
                      
-                      {/* <label style={{float:"left",color:"grey"}}>Note For Assinged Karykrta</label>
-              <br />
-              <input style={{
-                    // width: "100%",
-                    height: "34px",
-                    border: "0.5px solid gray",
-                    borderRadius: "3px",
-                    fontSize: "14px",
-                    textAlign: "center",
-                    float:"left"
-                    
-                  }} type="discription" name="" id="" placeholder="Note" /> */}
                       <br />
                       <div style={{ display: "flex", gap: "20px" }}>
                         <BsSquare></BsSquare>
@@ -2369,19 +2552,25 @@ const handleMainObj=()=>{
                       <br />
                     </div>
                     <div
-                  style={{
-                    marginTop: "20px",
-                    display: "flex",
-                    gap: "25px",
-                  }}
-                >
-                   <AccordionButton>
-                  <Button style={{ backgroundColor: "#fdc356" ,marginRight:"20px"}} onClick={handleCompSub}>
-                    Continue
-                  </Button>
-                  <Button >Cancle</Button >
-                  </AccordionButton>
-                </div>
+                      style={{
+                        marginTop: "20px",
+                        display: "flex",
+                        gap: "25px",
+                      }}
+                    >
+                      <AccordionButton>
+                        <Button
+                          style={{
+                            backgroundColor: "#fdc356",
+                            marginRight: "20px",
+                          }}
+                          onClick={handleCompSub}
+                        >
+                          Continue
+                        </Button>
+                        <Button>Cancle</Button>
+                      </AccordionButton>
+                    </div>
                   </div>
                   <div
                     style={{
@@ -2417,18 +2606,24 @@ const handleMainObj=()=>{
                               </Tr>
                             </Thead>
                             <Tbody>
-                            {
-                                adhikariData.length>0&&adhikariData?.map((el)=>{
+                              {adhikariData.length > 0 &&
+                                adhikariData?.map((el) => {
                                   return (
-                                    <Tr key={el.id} >
-                               
-                                <Td>{el.firstName}</Td>
-                                <Td>{el.lastName} </Td>
-                                <Td><button onClick={()=>handleAdhikariReomve(el.id)}><ImCross></ImCross></button></Td>
-                              </Tr>
-                                  )
-                                })
-                               }
+                                    <Tr key={el.id}>
+                                      <Td>{el.firstName}</Td>
+                                      <Td>{el.lastName} </Td>
+                                      <Td>
+                                        <button
+                                          onClick={() =>
+                                            handleAdhikariReomve(el.id)
+                                          }
+                                        >
+                                          <ImCross></ImCross>
+                                        </button>
+                                      </Td>
+                                    </Tr>
+                                  );
+                                })}
                             </Tbody>
                           </Table>
                         </TableContainer>
@@ -2449,9 +2644,110 @@ const handleMainObj=()=>{
           marginLeft: "100px",
         }}
       >
-        <Button style={{ backgroundColor: "#fdc356" }} onClick={handleMainObj}>Submit</Button>
+        <Button style={{ backgroundColor: "#fdc356" }} onClick={()=>{
+          handleMainObj();
+           docoOnOpen()}}
+           >
+          Submit
+        </Button>
         <Button>Cancle</Button>
       </div>
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={docoOpen}
+        onClose={docoClose}
+        // w="1000px" h="320px"
+
+        size={"min"}
+
+        // width="2000px"
+      >
+        <ModalOverlay />
+        <ModalContent w="1100px" h="450px">
+          <ModalCloseButton />
+          <ModalBody pb={6} w="1100px">
+            <Box
+              w="1000px"
+              h="250px"
+              margin={"auto"}
+              marginTop={"20px"}
+              fontSize="lg"
+              fontWeight="bold"
+              border="1px"
+              borderColor="gray.200"
+              bg={"rgba(95,227,161,.2)"}
+            >
+              <Center>
+                <Box
+                
+                  margin={"auto"}
+                  marginTop={"20px"}
+                  fontSize="lg"
+                  fontWeight="bold"
+                >
+                  <IoCheckmarkDoneCircleOutline
+                    size={"120px"}
+                    color="#5fe3a1"
+                  ></IoCheckmarkDoneCircleOutline>
+                  <Center>
+                    <Text fontSize="4xl" color="#5fe3a1">
+                      Success!
+                    </Text>
+                    <br />
+                  </Center>
+                </Box>
+              </Center>
+            </Box>
+            <Center>
+              <Box marginTop={"15px"}>
+                <Stack spacing={3}>
+                  <Center>
+                    <Text>Token Number</Text>
+                  </Center>
+                  <Center>
+                    <Text fontSize="lg" fontWeight="bold">
+                    {complaintPostData.tokenNumber}
+                    </Text>
+                  </Center>
+                </Stack>
+              </Box>
+            </Center>
+            <Center>
+              <div>
+              
+                <Button marginTop="25px">
+                <Link to={"/complaint"}>
+                  Go To List
+                  </Link>
+                </Button>
+              
+               
+                <Button
+                  variant="ghost"
+                  marginLeft="20px"
+                  marginTop="25px"
+                  backgroundColor={"#fdc356"}
+                  onClick={docoClose}
+                >
+                    Add New List
+            
+                  
+                </Button>
+             
+                <Button
+                  onClick={docoClose}
+                  marginLeft="20px"
+                  marginTop="25px"
+                  backgroundColor={"#fdc356"}
+                >
+                  Set Reminder
+                </Button>
+              </div>
+            </Center>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
