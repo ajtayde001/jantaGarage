@@ -34,6 +34,7 @@ import {
   Tbody,
   Text,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 const TableList = ({
   id,
   tokenNumber,
@@ -166,7 +167,7 @@ const TableList = ({
                 flexDirection: "column",
               }}
             >
-              <MdModeEdit color="orange" type="button"></MdModeEdit>
+             <Link to={`/complaint/edit/${id}`}><MdModeEdit color="orange" type="button"></MdModeEdit></Link>
               <RiDeleteBin5Line
                 color="orange"
                 type="button"

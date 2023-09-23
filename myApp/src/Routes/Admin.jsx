@@ -5,6 +5,7 @@ import { Homepage } from "../pages/Homepage";
 import Complaints from "../pages/Complaints";
 import PrivateRoute12 from "../pages/PrivateRouts12";
 import AddPage from "../pages/AddPage";
+import EditComplainPage from "../pages/EditComplainPage";
 export default function Admin({ isEnabled }) {
    
     if (isEnabled) {
@@ -14,7 +15,8 @@ export default function Admin({ isEnabled }) {
         <Route element={<PrivateRoute12/>}>
           <Route path="/dashboard" element={<Homepage />} />
           <Route path="/complaint" element={< Complaints/>} />
-          <Route path="/complaint/add" element={< AddPage/>} />  
+          <Route path="/complaint/add" element={< AddPage/>} /> 
+          <Route path="/complaint/edit/:id" element={< EditComplainPage/>} />  
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>
