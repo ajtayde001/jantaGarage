@@ -130,11 +130,15 @@ function EditComplainPage() {
   console.log(mainKartaDatais);
     const [editData,setEditData]=useState(null)
 
+
     const editKarykrta=editData?.karyaKarta?editData?.karyaKarta:[]
     console.log(editKarykrta)
     const editAdhikari=editData?.adhikari?editData?.adhikari:[]
     console.log(editAdhikari)
   const [karyaKartaData, setkaryaKartaData] = useState([]);
+
+  
+
   console.log(karyaKartaData);
   const [sarchkaryaKartaData, srchsetkaryaKartaData] = useState("");
  
@@ -404,12 +408,34 @@ const handleSarchDataforDisplay = (id) => {
   
 
 
-// const categoryData=editData?.category.name
+
+const categoryData=(editData?.category)?(editData?.category):""
 
 
 
+const pinCodeData=(editData?.complainer)?(editData?.complainer.pincode):""
+
+const complianDueData=(editData)?(editData?.complainDueDate):""
+
+ const assemblyName = (editData?.assembly )? (editData?.assembly) : "";
+ console.log(assemblyName)
 
 
+ const cityTypeData=(editData?.address)?(editData?.address?.cityType):""
+
+ console.log(cityTypeData)
+
+ const complainTypeData=(editData?.type)?(editData?.type):""
+
+ const actualComplainDateData = editData?.actualComplainDate
+ ? editData?.actualComplainDate.split("T")[0]
+ : "";
+
+const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[0] : "";
+
+//  console.log(complainTypeData)
+ const addressCompData=(editData)?(editData?.complainer.address):""
+ 
   return (
     <div>
       <h2
@@ -609,7 +635,7 @@ const handleSarchDataforDisplay = (id) => {
                           <br />
                           <select
                             placeholder="select"
-                            value={editData?.category?.name}
+                            value={categoryData}
                             onChange={(e) => {
                               setcatData(e.target.value);
                             }}
@@ -624,9 +650,13 @@ const handleSarchDataforDisplay = (id) => {
                             name=""
                             id=""
                           >
-                            <option value="" placeholder="select ">
-                              {"Select One"}
-                            </option>
+                             <option
+
+                                    placeholder="select "
+                                  >
+                                    {categoryData.name}
+                                  </option>
+                            
                             {CategoriesData?.length > 0 &&
                               CategoriesData?.map((item) => {
                                 return (
@@ -651,7 +681,7 @@ const handleSarchDataforDisplay = (id) => {
                               fontSize: "14px",
                               textAlign: "center",
                             }}
-                            value={editData?.complainer?.pincode}
+                            value={pinCodeData}
                             name="pincode"
                             onChange={(e) => {
                               handleComp(e);
@@ -675,7 +705,7 @@ const handleSarchDataforDisplay = (id) => {
                             }}
                             type="date"
                             placeholder="DD/MM/YYYY"
-                            value={editData?.complainDueDate}
+                            value={newcreatedDate}
                             name="complainDueDate"
                             onChange={(e) => {
                               handleComp(e);
@@ -688,7 +718,7 @@ const handleSarchDataforDisplay = (id) => {
                               <br />
                               <select
                                 placeholder="select"
-                                value={editData?.assembly?.name}
+                                value={assemblyName}
                                 onChange={(e) => {
                                   setassembleData(e.target.value);
                                 }}
@@ -700,9 +730,13 @@ const handleSarchDataforDisplay = (id) => {
                                   fontSize: "14px",
                                   textAlign: "center",
                                 }}
-                                name=""
+                                name="assembly"
                                 id=""
                               >
+                                 <option
+                                      >
+                                        {assemblyName.name}
+                                      </option>
                                 <option value="" placeholder="select ">
                                   {"Select One"}
                                 </option>
@@ -711,7 +745,7 @@ const handleSarchDataforDisplay = (id) => {
                                     return (
                                       <option
                                         value={JSON.stringify(item)}
-                                        placeholder="select "
+                                        // placeholder="select "
                                       >
                                         {item.name}
                                       </option>
@@ -723,7 +757,7 @@ const handleSarchDataforDisplay = (id) => {
                               <label style={{ float: "left" }}>City Type</label>
                               <br />
                               <select
-                                value={editData?.address?.cityType}
+                                value={cityTypeData}
                                 name="cityType"
                                 onChange={(e) => {
                                   handleComp(e);
@@ -761,7 +795,7 @@ const handleSarchDataforDisplay = (id) => {
                             }}
                             type="date"
                             placeholder="DD/MM/YYYY"
-                            value={editData?.actualComplainDate}
+                            value={actualComplainDateData}
                             name="actualComplainDate"
                             onChange={(e) => {
                               handleComp(e);
@@ -774,7 +808,7 @@ const handleSarchDataforDisplay = (id) => {
                           <br />
                           <select
                             placeholder="select"
-                            value={editData?.type?.name}
+                            value={complainTypeData}
                             onChange={(e) => {
                               setTypData(e.target.value);
                             }}
@@ -787,9 +821,11 @@ const handleSarchDataforDisplay = (id) => {
                               textAlign: "center",
                             }}
                           >
-                            <option value="" placeholder="select ">
-                              {"Select One"}
-                            </option>
+                    <option
+                                   
+                                  >
+                                    {complainTypeData.name}
+                                  </option>
                             {typdata?.length > 0 &&
                               typdata?.map((item) => {
                                 return (
@@ -808,7 +844,7 @@ const handleSarchDataforDisplay = (id) => {
                           </label>
                           <br />
                           <input
-                            value={editData?.addressComp}
+                            value={addressCompData}
                             name="addressComp"
                             onChange={(e) => {
                               handleComp(e);
