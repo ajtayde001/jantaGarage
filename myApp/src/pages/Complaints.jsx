@@ -94,15 +94,13 @@ import {
 // }
 const mainObj = {
 
-  assembly: null,
+  
   dateFrom: "",
   dateTo: "",
   kiosk: false,
   page: { number: 0, size: 10 },
   flag: null,
-  category:null,
-  type:null,
-  cityType: null,
+  
 };
  const cityData={
   label:"",
@@ -159,8 +157,12 @@ const Complaints = () => {
       setCity((pre) => {
         return { ...pre, [name]: value };
       })
-      
+    
   };
+ 
+  if(city.value=="CITY"){
+    city.label = "City";
+  }
 
  
   
@@ -251,11 +253,17 @@ const Complaints = () => {
   const typKaObj = typ ? JSON.parse(typ) : {};
   // console.log(city);
   ////////////////////
+
   const handleFilter = () => {
     // alert("show")
-    mainData1.assembly = Object.keys(assembleOne).length > 0?assembleOne:null;
+    if(Object.keys(assembleOne).length > 0){
+      mainData1.assembly = assembleOne;
+    }
+   if(city.value=="CITY"|| city.value=="VILLAGE" ){
     mainData1.cityType = Object.keys(city).length > 0 ?city:null;
-
+   }
+    
+    
     mainData1.category = Object.keys(caterf).length > 0 ?caterf:null;
     mainData1.type = Object.keys(typKaObj).length > 0  ? typKaObj:null;
     // console.log(mainData1)
@@ -268,7 +276,7 @@ const Complaints = () => {
     dispatch(getProductDAta(dataMain, yourConfig));
     dispatch(getCategoriesData(yourConfig));
     dispatch(getAssembliesData(yourConfig));
-  }, [JWTToken, mainpage, mainsize,cm]);
+  }, [JWTToken, mainpage, mainsize,cm,searchdata]);
 
 
   return (
@@ -537,8 +545,8 @@ const Complaints = () => {
                               <label style={{ float: "left" }}>City Type</label>
                               <br />
                               <select
-                                value={city.label}
-                                name="label"
+                                value={city.value}
+                                name="value"
                                 onChange={(e) => {
                                   handleCity(e);
                                 }}
@@ -759,7 +767,7 @@ const Complaints = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody
+              {mainData?.length==0?"No data available": <tbody
                 style={{
                   width: "100%",
                   padding: "20px",
@@ -768,6 +776,7 @@ const Complaints = () => {
                   boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                 }}
               >
+                
                 {mainData?.length > 0 &&
                   mainData?.reverse().map((item) => {
                     return (
@@ -781,7 +790,8 @@ const Complaints = () => {
                     );
                   })
                   }
-              </tbody>
+              </tbody>}
+             
             </table>
           </div>
         </div>

@@ -56,13 +56,7 @@ const TableList = ({
     ? actualComplainDate.split("T")[0]
     : "";
   const newcreatedDate = createdDate ? createdDate.split("T")[0] : "";
-  //   console.log(tokenNumber);
-  //   console.log(category.name);
-  //   console.log(type.name);
-  // //   console.log(registeredBy.username);
-  //   console.log(address.line1);
-  //   console.log(assemblyName);
-  //   console.log(complainer.firstName);
+  
   const {
     isOpen: deletOpen,
     onOpen: deletOnOpen,
@@ -469,11 +463,6 @@ const TableList = ({
                 style={{
                   width: "80%",
                   padding: "10px",
-                  // display: "flex",
-                  // flexDirection: "column",
-                  // height: "6px",
-                  // gap: "20px",
-                  // border: "1px solid blue",
                   backgroundColor: "#f5f6fa",
                 }}
               >

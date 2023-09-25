@@ -129,14 +129,18 @@ function EditComplainPage() {
   const [mainKartaDatais, setmainKartaDatais] = useState()
   console.log(mainKartaDatais);
     const [editData,setEditData]=useState(null)
-    const editKarykrta=editData?.karyaKarta
+
+    const editKarykrta=editData?.karyaKarta?editData?.karyaKarta:[]
     console.log(editKarykrta)
+    const editAdhikari=editData?.adhikari?editData?.adhikari:[]
+    console.log(editAdhikari)
   const [karyaKartaData, setkaryaKartaData] = useState([]);
   console.log(karyaKartaData);
   const [sarchkaryaKartaData, srchsetkaryaKartaData] = useState("");
  
   const [karyaKartaDataicone, setkaryaKartaDataicone] = useState([]);
   console.log(karyaKartaDataicone);
+
 ///////////////////////////////////////
 
   const [adhikariData, setadhikariData] = useState([]);
@@ -177,6 +181,19 @@ let dataMain = { kiosk: false, page: { number:0 , size: 10 } };
     // setuserDataEdit(products)
     const result=products[0]?.find((el)=>el.id==id)
     setEditData(result)
+    // setkaryaKartaData()
+    if(editKarykrta.length>0){
+      setkaryaKartaData(editKarykrta)
+      for(let i=0; i<editKarykrta.length; i++){
+        setkaryaKartaDataicone([...karyaKartaDataicone,editKarykrta[i].id]);
+      }
+     }
+    if(editAdhikari.length>0){
+      setadhikariData(editAdhikari)
+      for(let i=0; i<editAdhikari.length; i++){
+        setadhikariDataIcone([...adhikariDataIcone,editAdhikari[i].id]);
+      }
+     }
   }, [products]); 
   // console.log(userDataEdit)
   console.log(editData)
@@ -353,8 +370,7 @@ const handleSarchDataforDisplay = (id) => {
 
   // console.log(typdata)
   const typKaObj = typ ? JSON.parse(typ) : {};
-  // console.log(typKaObj);
-  ////////////////////
+
 
   const handleComp = (e) => {
     const { name, value } = e.target;
@@ -388,7 +404,7 @@ const handleSarchDataforDisplay = (id) => {
   
 
 
-const categoryData=editData?.category.name
+// const categoryData=editData?.category.name
 
 
 
