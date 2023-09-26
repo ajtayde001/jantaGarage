@@ -17,11 +17,11 @@ export default function PrivateRoute12() {
 
 
   // Check token validity
-  if (expiry < new Date()) {
-    localStorage.clear();
+  // if (expiry < new Date()) {
+  //   localStorage.clear();
     
-    // return <Navigate to="/login" state={state} />
-  }
+  //   // return <Navigate to="/login" state={state} />
+  // }
 
   return <Outlet />
 }

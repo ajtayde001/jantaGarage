@@ -40,16 +40,18 @@ import {
   useStatStyles,
   Stack,
 } from "@chakra-ui/react";
+
 import { BsCircle } from "react-icons/bs";
 import { GrEdit } from "react-icons/gr";
-import { BsSquare, BsFillCheckSquareFill } from "react-icons/bs";
+import { BsSquare, BsFillCheckSquareFill,BsFillCheckCircleFill } from "react-icons/bs";
+import { AiTwotoneCheckCircle } from "react-icons/ai";
 // import { ImHome } from "react-icons/im";
 import { BiSolidUser, BiSolidUserPlus } from "react-icons/bi";
 import { ImCross } from "react-icons/im";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
 // import { BsSquare } from "react-icons/bs";
 import { ImHome } from "react-icons/im";
-// import { BiSolidUser, BiSolidUserPlus } from "react-icons/bi";
+
 import TableList from "../components/TableList";
 import photo from "../Photos/officeSystem.webp";
 import axios from "axios";
@@ -126,6 +128,7 @@ function AddPage() {
   const [karyaKartaData, setkaryaKartaData] = useState([]);
   const [sarchkaryaKartaData, srchsetkaryaKartaData] = useState("");
   const [karyaKartaDataicone, setkaryaKartaDataicone] = useState([]);
+  // const [searchDataIcon,setSearchDataIcon]=useState
 
 ///////////////////////////////////////
 
@@ -283,21 +286,19 @@ function AddPage() {
 
   const handleUserSerac1 = (e) => {
     // e.preventDefault();
-  
+    // setUserSearch(e)
       dispatch(getUserSearchDAta(e, yourConfig));
-      
-  
-      setUserSearch(null)
+       setUserSearch(null)
   };
 
 // console.log(srch)
+ const [searchIcone,setSearchIcon] = useState(null)
 
 const handleSarchDataforDisplay = (id) => {
+  setSearchIcon(id)
   const result = srch?.filter((name) => name.id == id);
-  // console.log(result[0]);
   setsrchData(result[0])
-  // setkaryaKartaData([...karyaKartaData, result]);
-  
+
 };
 // console.log(srchData)
 
@@ -1665,7 +1666,10 @@ const handleSarchDataforDisplay = (id) => {
                                 return (
                                   <Tr>
                               <Td >
-                              <BsCircle onClick={()=>{handleSarchDataforDisplay(item.id)}} > </BsCircle>
+                              {searchIcone==item.id?<BsFillCheckCircleFill
+                                          color="#fdc356"
+                                          size={22}
+                                        ></BsFillCheckCircleFill>:<BsCircle onClick={()=>{handleSarchDataforDisplay(item.id)}} ></BsCircle>}
                               </Td>
                               <Td>{item.firstName}</Td>
                               <Td>{item.phone}</Td>

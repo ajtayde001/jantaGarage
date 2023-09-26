@@ -126,83 +126,47 @@ const mainObj = {
 function EditComplainPage() {
     const {id}=useParams()
     
+let dataMain = { kiosk: false, page: { number:0 , size: 10 } };
+const {
+  CategoriesData,
+  assembliesData,
+  karykarta,
+  adhikari,
+  complainerSinleData,
+  complaintPostData,
+  isSubmitted,
+  srch,
+  products
+} = useSelector((store) => store.productReducer);
+
   const [mainKartaDatais, setmainKartaDatais] = useState()
-  console.log(mainKartaDatais);
+  // console.log(mainKartaDatais);
     const [editData,setEditData]=useState(null)
 
 
     const editKarykrta=editData?.karyaKarta?editData?.karyaKarta:[]
-    console.log(editKarykrta)
+    // console.log(editKarykrta)
     const editAdhikari=editData?.adhikari?editData?.adhikari:[]
-    console.log(editAdhikari)
+    // console.log(editAdhikari)
   const [karyaKartaData, setkaryaKartaData] = useState([]);
 
   
 
-  console.log(karyaKartaData);
+  // console.log(karyaKartaData);
   const [sarchkaryaKartaData, srchsetkaryaKartaData] = useState("");
  
   const [karyaKartaDataicone, setkaryaKartaDataicone] = useState([]);
-  console.log(karyaKartaDataicone);
+  // console.log(karyaKartaDataicone);
 
 ///////////////////////////////////////
 
   const [adhikariData, setadhikariData] = useState([]);
+  // console.log(adhikariData);
   const [sarchAdhikariData, srchsetAdhikaruData] = useState("");
   const [adhikariDataIcone, setadhikariDataIcone] = useState([]);
- 
+  // console.log(adhikariDataIcone);
   const [srchData, setsrchData] = useState();
   const [userDataEdit, setuserDataEdit] = useState();
-
-let dataMain = { kiosk: false, page: { number:0 , size: 10 } };
-  const {
-    CategoriesData,
-    assembliesData,
-    karykarta,
-    adhikari,
-    complainerSinleData,
-    complaintPostData,
-    isSubmitted,
-    srch,
-    products
-  } = useSelector((store) => store.productReducer);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // dispatch(getProductDAta(dataMain, yourConfig));
-    dispatch(getProductDAta(dataMain, yourConfig));
-    dispatch(getCategoriesData(yourConfig));
-    dispatch(getAssembliesData(yourConfig));
-    dispatch(getKarykrtaDAta({}, yourConfig));
-    dispatch(getAdhikariDAta({}, yourConfig));
-    setsrchData(complainerSinleData)
-
-    
-  }, []);
-
- 
-  useEffect(() => {
-    // setuserDataEdit(products)
-    const result=products[0]?.find((el)=>el.id==id)
-    setEditData(result)
-    // setkaryaKartaData()
-    if(editKarykrta.length>0){
-      setkaryaKartaData(editKarykrta)
-      for(let i=0; i<editKarykrta.length; i++){
-        setkaryaKartaDataicone([...karyaKartaDataicone,editKarykrta[i].id]);
-      }
-     }
-    if(editAdhikari.length>0){
-      setadhikariData(editAdhikari)
-      for(let i=0; i<editAdhikari.length; i++){
-        setadhikariDataIcone([...adhikariDataIcone,editAdhikari[i].id]);
-      }
-     }
-  }, [products]); 
-  // console.log(userDataEdit)
-  console.log(editData)
-
-    // console.log(complainerSinleData)
 
     
   const JWTToken = localStorage.getItem("token");
@@ -239,12 +203,62 @@ let dataMain = { kiosk: false, page: { number:0 , size: 10 } };
   const [assemble, setassembleData] = useState(null);
   const [typ, setTypData] = useState(null);
 
-  console.log(userSarch)
+  // console.log(userSarch)
 
 
 
 
   const [mainAdhikariDatais, setmainAdhikariDatais] = useState()
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getProductDAta(dataMain, yourConfig));
+    dispatch(getProductDAta(dataMain, yourConfig));
+    dispatch(getCategoriesData(yourConfig));
+    dispatch(getAssembliesData(yourConfig));
+    dispatch(getKarykrtaDAta({}, yourConfig));
+    dispatch(getAdhikariDAta({}, yourConfig));
+    setsrchData(complainerSinleData)
+
+    
+  }, []);
+
+  const categoryData=(editData?.category)?(editData?.category):{}
+
+  
+
+  useEffect(() => {
+    // setuserDataEdit(products)
+    const result=products[0]?.find((el)=>el.id==id)
+    setEditData(result)
+    // setkaryaKartaData()
+    if(editKarykrta?.length>0){
+
+      setkaryaKartaData(editKarykrta)
+      for(let i=0; i<editKarykrta?.length; i++){
+        // console.log(editKarykrta[i].id)
+        setkaryaKartaDataicone((pre) => {
+          return [ ...pre,editKarykrta[i].id ];
+        });
+        // setkaryaKartaDataicone([karyaKartaData[i]?.id,...karyaKartaDataicone]);
+      }
+     }
+    if(editAdhikari?.length>0){
+      setadhikariData(editAdhikari)
+      for(let i=0; i<editAdhikari?.length; i++){
+        // setadhikariDataIcone([adhikariData[i].id,...adhikariDataIcone]);
+        setadhikariDataIcone((pre) => {
+          return [ ...pre,editAdhikari[i].id ];
+        });
+      }
+     }
+   
+    
+  }, [products,editKarykrta,editAdhikari]); 
+  // console.log(userDataEdit)
+  console.log(editData)
+
+    // console.log(complainerSinleData)
+
   // console.log(mainKartaDatais);
 
   const handlekaryaKartaData = (id) => {
@@ -334,7 +348,7 @@ let dataMain = { kiosk: false, page: { number:0 , size: 10 } };
       setUserSearch(null)
   };
 
-// console.log(srch)
+
 
 const handleSarchDataforDisplay = (id) => {
   const result = srch?.filter((name) => name.id == id);
@@ -345,57 +359,59 @@ const handleSarchDataforDisplay = (id) => {
 };
 // console.log(srchData)
 
-  const handleChange1 = (e) => {
-    const { name, value } = e.target;
+  // const handleChange1 = (e) => {
+  //   const { name, value } = e.target;
 
-    setaddssData((pre) => {
-      return { ...pre, [name]: value };
-    });
-  };
+  //   setaddssData((pre) => {
+  //     return { ...pre, [name]: value };
+  //   });
+  // };
 
-  const handleSub = (e) => {
-    data.addressFields = addssdata;
-    data.cast = castdata;
-    // console.log(data);
-   dispatch(postCOMPLAINERdata(data, yourConfig));
-  setsrchData(data)
+  // const handleSub = (e) => {
+  //   data.addressFields = addssdata;
+  //   data.cast = castdata;
+  //   // console.log(data);
+  //  dispatch(postCOMPLAINERdata(data, yourConfig));
+  // setsrchData(data)
 
-  };
+  // };
 
   ////////////////////////
-
-  const caterf = cat ? JSON.parse(cat) : {};
-  // console.log(caterf);
-
-  const assembleOne = assemble ? JSON.parse(assemble) : {};
-  // console.log(assembleOne);
-
-  const typdata = caterf ? caterf.types : [];
-
-  // console.log(typdata)
-  const typKaObj = typ ? JSON.parse(typ) : {};
 
 
   const handleComp = (e) => {
     const { name, value } = e.target;
 
-    setMainData((pre) => {
+    setEditData((pre) => {
       return { ...pre, [name]: value };
     });
   };
-  const handleCompSub = () => {
-    // alert("show")
-    mainData.assembly = assembleOne;
+  const caterf = cat ? JSON.parse(cat) : editData?.category;
+  // console.log(caterf);
 
-    mainData.category = caterf;
-    mainData.type = typKaObj;
+  const assembleOne = assemble ? JSON.parse(assemble) : editData?.assembly;
+  // console.log(assembleOne);
+
+  const typdata = caterf ? caterf.types : [];
+
+  // console.log(typdata)
+  const typKaObj = typ ? JSON.parse(typ) : editData?.type;
+
+  const handleCompSub = () => {
+   
+    editData.assembly = assembleOne;
+
+    editData.category = caterf;
+    editData.type = typKaObj;
+    
   };
   const handleMainObj = () => {
-    mainData.complainer = srchData ? srchData: complainerSinleData;
-    mainData.karyaKarta = karyaKartaData;
-    mainData.adhikari = adhikariData;
+    
+    editData.karyaKarta = karyaKartaData;
+    editData.adhikari = adhikariData;
 
-    dispatch(postCOMPLANTdata(mainData, yourConfig));
+    console.log(editData)
+    dispatch(postCOMPLANTdata(editData, yourConfig));
   };
 
   
@@ -409,21 +425,21 @@ const handleSarchDataforDisplay = (id) => {
 
 
 
-const categoryData=(editData?.category)?(editData?.category):""
+
 
 
 
 const pinCodeData=(editData?.complainer)?(editData?.complainer.pincode):""
 
-const complianDueData=(editData)?(editData?.complainDueDate):""
+// const complianDueData=(editData)?(editData?.complainDueDate):""
 
- const assemblyName = (editData?.assembly )? (editData?.assembly) : "";
- console.log(assemblyName)
+//  const assemblyName = (editData?.assembly )? (editData?.assembly) : "";
+//  console.log(assemblyName)
 
 
  const cityTypeData=(editData?.address)?(editData?.address?.cityType):""
 
- console.log(cityTypeData)
+//  console.log(cityTypeData)
 
  const complainTypeData=(editData?.type)?(editData?.type):""
 
@@ -635,9 +651,10 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                           <br />
                           <select
                             placeholder="select"
-                            value={categoryData}
+                            value={cat}
                             onChange={(e) => {
                               setcatData(e.target.value);
+
                             }}
                             style={{
                               width: "100%",
@@ -650,12 +667,9 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                             name=""
                             id=""
                           >
-                             <option
-
-                                    placeholder="select "
-                                  >
-                                    {categoryData.name}
-                                  </option>
+                             <option>
+                              {(editData?.category)?editData?.category?.name:""}
+                            </option>
                             
                             {CategoriesData?.length > 0 &&
                               CategoriesData?.map((item) => {
@@ -681,7 +695,7 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                               fontSize: "14px",
                               textAlign: "center",
                             }}
-                            value={pinCodeData}
+                            value={(editData?.complainer)?(editData?.complainer.pincode):""}
                             name="pincode"
                             onChange={(e) => {
                               handleComp(e);
@@ -705,7 +719,7 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                             }}
                             type="date"
                             placeholder="DD/MM/YYYY"
-                            value={newcreatedDate}
+                            value={editData?.complainDueDate ? editData?.complainDueDate.split("T")[0] : ""}
                             name="complainDueDate"
                             onChange={(e) => {
                               handleComp(e);
@@ -718,7 +732,7 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                               <br />
                               <select
                                 placeholder="select"
-                                value={assemblyName}
+                                value={assemble}
                                 onChange={(e) => {
                                   setassembleData(e.target.value);
                                 }}
@@ -735,7 +749,7 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                               >
                                  <option
                                       >
-                                        {assemblyName.name}
+                                        { (editData?.assembly )? (editData?.assembly?.name) : ""}
                                       </option>
                                 <option value="" placeholder="select ">
                                   {"Select One"}
@@ -808,7 +822,7 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                           <br />
                           <select
                             placeholder="select"
-                            value={complainTypeData}
+                            value={typ}
                             onChange={(e) => {
                               setTypData(e.target.value);
                             }}
@@ -1516,7 +1530,7 @@ const newcreatedDate = editData?.createdDate ? editData?.createdDate.split("T")[
                   </Center>
                   <Center>
                     <Text fontSize="lg" fontWeight="bold">
-                    {complaintPostData.tokenNumber}
+                    {editData?.tokenNumber}
                     </Text>
                   </Center>
                 </Stack>
