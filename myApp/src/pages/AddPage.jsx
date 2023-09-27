@@ -285,10 +285,10 @@ function AddPage() {
   ///////////////////////////////////////////
 
   const handleUserSerac1 = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     // setUserSearch(e)
-      dispatch(getUserSearchDAta(e, yourConfig));
-       setUserSearch(null)
+      dispatch(getUserSearchDAta(userSarch, yourConfig));
+      //  setUserSearch(null)
   };
 
 // console.log(srch)
@@ -455,9 +455,9 @@ const handleSarchDataforDisplay = (id) => {
                               type="search"
                               placeholder="SearchByName/Phone/Aadhar"
                               value={userSarch}
-                              onChange={(e)=>{handleUserSerac1(e.target.value)}}
+                              onChange={(e)=>{setUserSearch(e.target.value)}}
                             />
-                            <button className="sarchbtn"  type="submit" >
+                            <button className="sarchbtn"  type="submit"  onClick={(e)=>{handleUserSerac1(e)}}>
                               Search
                             </button>
                           </form>
