@@ -274,13 +274,7 @@ function AddPage() {
   };
   //////////////////////////////////////////////
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setData((pre) => {
-      return { ...pre, [name]: value };
-    });
-  };
+  
   ///////////////////////////////////////////
 
   const handleUserSerac1 = (e) => {
@@ -356,7 +350,16 @@ const handleSarchDataforDisplay = (id) => {
   };
 /////////////////////
 const[userEditeData,setuserEditeData]=useState(null)
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
+  setData((pre) => {
+    return { ...pre, [name]: value };
+  });
+  setuserEditeData((pre) => {
+    return { ...pre, [name]: value };
+  })
+};
 const handleUserEdit = (id) => {
   const result = srch?.find((name) => name.id == id);
   console.log(result)
