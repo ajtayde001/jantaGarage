@@ -198,14 +198,13 @@ function AddPage() {
 
   console.log(userSarch)
 
-
-
   const [mainKartaDatais, setmainKartaDatais] = useState()
   // console.log(mainKartaDatais);
 
   const [mainAdhikariDatais, setmainAdhikariDatais] = useState()
   // console.log(mainKartaDatais);
 
+ 
   const handlekaryaKartaData = (id) => {
     const result = mainKartaDatais.find((name) => name.id === id);
     // console.log(result);
@@ -355,14 +354,21 @@ const handleSarchDataforDisplay = (id) => {
 
     dispatch(postCOMPLANTdata(mainData, yourConfig));
   };
+/////////////////////
+const[userEditeData,setuserEditeData]=useState(null)
 
-  
+const handleUserEdit = (id) => {
+  const result = srch?.find((name) => name.id == id);
+  console.log(result)
+  setuserEditeData(result)
+};
+  console.log(userEditeData)
   useEffect(() => {
    
     setmainKartaDatais(karykarta)
    
    setmainAdhikariDatais(adhikari)
-  }, [karykarta,adhikari]);
+  }, [karykarta,adhikari,srch]);
   
   return (
     <div>
@@ -1675,7 +1681,1170 @@ const handleSarchDataforDisplay = (id) => {
                               <Td>{item.phone}</Td>
                               <Td >{item.role}</Td>
                               <Td>
-                                <GrEdit></GrEdit>
+                                <GrEdit onClick={()=>{onOpen();handleUserEdit(item.id)}}>
+                                </GrEdit>
+                                <Modal
+                          isCentered
+                          onClose={onClose}
+                          isOpen={isOpen}
+                          size={"min"}
+                          motionPreset="slideInBottom"
+                        >
+                          <ModalContent
+                            w="1350px"
+                            h="370px"
+                            marginTop={"150px"}
+                            id="BoxShedow"
+                          >
+                            <ModalHeader>New Complainer</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  gap: "20px",
+                                  height: "230px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    width: "45%",
+                                    display: "flex",
+                                    gap: "30%",
+                                  }}
+                                >
+                                  <div style={{ width: "25%" }}>
+                                    <label
+                                      style={{ float: "left", color: "grey" }}
+                                    >
+                                      First Name*
+                                    </label>
+                                    <br />
+                                    <input
+                                      style={{
+                                        // width: "100%",
+                                        height: "34px",
+                                        border: "0.5px solid gray",
+                                        borderRadius: "3px",
+                                        fontSize: "14px",
+                                        // textAlign: "center",
+                                        padding: "5px",
+                                        float: "left",
+                                      }}
+                                      onChange={handleChange}
+                                      type="text"
+                                      name="firstName"
+                                      id=""
+                                      value={userEditeData?.firstName}
+                                      placeholder="First Name"
+                                    />
+                                    <br />
+                                    <label
+                                      style={{ float: "left", color: "grey" }}
+                                    >
+                                      Last Name*
+                                    </label>
+                                    <br />
+                                    <input
+                                      style={{
+                                        width: "100%",
+                                        height: "34px",
+                                        border: "0.5px solid gray",
+                                        borderRadius: "3px",
+                                        fontSize: "14px",
+                                        // textAlign: "center",
+                                        padding: "5px",
+                                        float: "left",
+                                      }}
+                                      onChange={handleChange}
+                                      type="text"
+                                      name="lastName"
+                                      id=""
+                                      value={userEditeData?.lastName}
+                                      placeholder="Last Name"
+                                    />
+                                    <br />
+                                    <label
+                                      style={{ float: "left", color: "grey" }}
+                                    >
+                                      Mobile Number*
+                                    </label>
+                                    <br />
+                                    <input
+                                      style={{
+                                        width: "100%",
+                                        height: "34px",
+                                        border: "0.5px solid gray",
+                                        borderRadius: "3px",
+                                        fontSize: "14px",
+                                        // textAlign: "center",
+                                        padding: "5px",
+                                        float: "left",
+                                      }}
+                                      onChange={handleChange}
+                                      type="number"
+                                      name="phone"
+                                      id=""
+                                      value={userEditeData?.phone}
+                                      placeholder="Mobile Number"
+                                    />
+                                    <br />
+                                  </div>
+                                  <div style={{ width: "25%" }}>
+                                    <label
+                                      style={{ float: "left", color: "grey" }}
+                                    >
+                                      Middle Name*
+                                    </label>
+                                    <br />
+                                    <input
+                                      style={{
+                                        width: "100%",
+                                        height: "34px",
+                                        border: "0.5px solid gray",
+                                        borderRadius: "3px",
+                                        fontSize: "14px",
+                                        padding: "5px",
+                                        // textAlign: "center",
+                                        float: "left",
+                                      }}
+                                      onChange={handleChange}
+                                      type="text"
+                                      name="middleName"
+                                      id=""
+                                      value={userEditeData?.middleName}
+                                      placeholder="Middle Name"
+                                    />
+                                    <br />
+
+                                    <label
+                                      style={{
+                                        float: "left",
+                                        color: "grey",
+                                        marginTop: "5px",
+                                      }}
+                                    >
+                                      Gender*
+                                    </label>
+                                    <br />
+                                    <br />
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        display: "flex",
+                                        gap: "20px",
+                                        borderRadius: "5px",
+                                      }}
+                                      // name="gender"
+                                      // value={data.gender}
+                                      // onChange={handleChange}
+                                    >
+                                      <button
+                                        onClick={() => {
+                                          userEditeData.gender = "MALE";
+                                        }}
+                                        style={{
+                                          width: "150px",
+                                          height: "41px",
+
+                                          // borderRadius: "1px",
+                                          // border: "1px solid grey",
+                                        }}
+                                      >
+                                        Male
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          userEditeData.gender = "FEMALE";
+                                        }}
+                                        style={{
+                                          width: "150px",
+                                          height: "41px",
+                                          // borderRadius: "1px",
+                                          // border: "1px solid grey",
+                                        }}
+                                      >
+                                        Female
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          userEditeData.gender = "OTHER";
+                                        }}
+                                        style={{
+                                          width: "150px",
+                                          height: "41px",
+                                          marginBottom: "1px",
+                                          // borderRadius: "1px",
+                                          // border: "1px solid grey",
+                                        }}
+                                      >
+                                        Other
+                                      </button>
+                                    </div>
+
+                                    <label
+                                      style={{ float: "left", color: "grey" }}
+                                    >
+                                      Landline Number*
+                                    </label>
+                                    <br />
+                                    <input
+                                      style={{
+                                        // width: "100%",
+                                        height: "34px",
+                                        border: "0.5px solid gray",
+                                        borderRadius: "3px",
+                                        fontSize: "14px",
+                                        // textAlign: "center",
+                                        float: "left",
+                                      }}
+                                      onChange={handleChange}
+                                      type="number"
+                                      name="landline"
+                                      id=""
+                                      value={userEditeData?.landline}
+                                      placeholder="Landline Number"
+                                    />
+                                    <br />
+                                  </div>
+                                </div>
+                                <div style={{ width: "55%" }}>
+                                  <div
+                                    style={{
+                                      width: "100%",
+                                      borderLeft: "1px solid black",
+                                      borderTop: "1px solid black",
+                                      borderStyle: "dashed",
+                                      // height:"100%",
+                                    }}
+                                  >
+                                    <Tabs
+                                      variant="soft-rounded"
+                                      colorScheme="yellow"
+                                    >
+                                      <TabList>
+                                        <Tab
+                                          display={"flex"}
+                                          flexDirection={"column"}
+                                        >
+                                          <BiSolidUser></BiSolidUser>{" "}
+                                          <Text>Details</Text>
+                                        </Tab>
+                                        <Tab
+                                          display={"flex"}
+                                          flexDirection={"column"}
+                                        >
+                                          {" "}
+                                          <BiSolidUser></BiSolidUser>
+                                          <Text> Other Details</Text>
+                                        </Tab>
+                                        <Tab
+                                          display={"flex"}
+                                          flexDirection={"column"}
+                                        >
+                                          {" "}
+                                          <ImHome></ImHome>
+                                          <Text> Address Details</Text>
+                                        </Tab>
+                                        <Tab
+                                          display={"flex"}
+                                          flexDirection={"column"}
+                                        >
+                                          {" "}
+                                          <BiSolidUserPlus></BiSolidUserPlus>
+                                          <Text> Voter Details</Text>
+                                        </Tab>
+                                        <Tab
+                                          display={"flex"}
+                                          flexDirection={"column"}
+                                        >
+                                          {" "}
+                                          <BiSolidUserPlus></BiSolidUserPlus>
+                                          <Text>Photo</Text>
+                                        </Tab>
+                                      </TabList>
+                                      <TabPanels>
+                                        <TabPanel>
+                                          {/* <div style={{width:"100%"}}> */}
+                                          <div style={{ width: "100%" }}>
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                gap: "10px",
+                                              }}
+                                            >
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Date Of Birth*
+                                                </label>
+                                                <br />
+                                                <input
+                                                  style={{
+                                                    // width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    // textAlign: "center",
+                                                    float: "left",
+                                                  }}
+                                                  onChange={handleChange}
+                                                  type="date"
+                                                  name="dob"
+                                                  id=""
+                                                  value={userEditeData?.dob}
+                                                  placeholder="DOB"
+                                                />
+                                              </div>
+
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Age *
+                                                </label>
+                                                <br />
+                                                <input
+                                                  style={{
+                                                    // width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    // textAlign: "center",
+                                                    float: "left",
+                                                  }}
+                                                  onChange={handleChange}
+                                                  type="text"
+                                                  name="age"
+                                                  id=""
+                                                  value={userEditeData?.age}
+                                                  placeholder=" Enter Your Age"
+                                                />
+                                              </div>
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Education*
+                                                </label>
+                                                <br />
+                                                <select
+                                                  name="education"
+                                                  id=""
+                                                  value={userEditeData?.education}
+                                                  onChange={handleChange}
+                                                  style={{
+                                                    width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <option value="">
+                                                    Select Education
+                                                  </option>
+                                                  <option value="10th">
+                                                    10th
+                                                  </option>
+                                                  <option value="12th">
+                                                    12th
+                                                  </option>
+                                                </select>
+                                              </div>
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Occupation*
+                                                </label>
+                                                <br />
+                                                <input
+                                                  style={{
+                                                    // width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    // textAlign: "center",
+                                                    float: "left",
+                                                  }}
+                                                  onChange={handleChange}
+                                                  type="text"
+                                                  name="occupation"
+                                                  id=""
+                                                  value={userEditeData?.occupation}
+                                                  placeholder="Occupation"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div
+                                              style={{
+                                                display: "flex",
+                                                gap: "10px",
+                                              }}
+                                            >
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Aadhar Card*
+                                                </label>
+                                                <br />
+                                                <input
+                                                  style={{
+                                                    // width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    // textAlign: "center",
+                                                    float: "left",
+                                                  }}
+                                                  onChange={handleChange}
+                                                  type="text"
+                                                  name="aadhar"
+                                                  id=""
+                                                  value={userEditeData?.aadhar}
+                                                  placeholder="Aadhar Card"
+                                                />
+                                              </div>
+
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  PAN Card*
+                                                </label>
+                                                <br />
+                                                <input
+                                                  style={{
+                                                    // width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    // textAlign: "center",
+                                                    float: "left",
+                                                  }}
+                                                  onChange={handleChange}
+                                                  type="text"
+                                                  name="pancard"
+                                                  id=""
+                                                  value={userEditeData?.pancard}
+                                                  placeholder="PAN Card"
+                                                />
+                                              </div>
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Voter ID*
+                                                </label>
+                                                <br />
+                                                <input
+                                                  style={{
+                                                    // width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    // textAlign: "center",
+                                                    float: "left",
+                                                  }}
+                                                  onChange={handleChange}
+                                                  type="text"
+                                                  name="voterId"
+                                                  id=""
+                                                  value={userEditeData?.voterID}
+                                                  placeholder="Voter ID"
+                                                />
+                                              </div>
+                                              <div>
+                                                <label
+                                                  style={{
+                                                    float: "left",
+                                                    color: "grey",
+                                                  }}
+                                                >
+                                                  Ration Card*
+                                                </label>
+                                                <br />
+                                                <select
+                                                  name="rationCard"
+                                                  id=""
+                                                  value={userEditeData?.rationCard}
+                                                  onChange={handleChange}
+                                                  style={{
+                                                    width: "100%",
+                                                    height: "34px",
+                                                    border: "0.5px solid gray",
+                                                    borderRadius: "3px",
+                                                    fontSize: "14px",
+                                                    textAlign: "center",
+                                                  }}
+                                                >
+                                                  <option value="">
+                                                    Select Card
+                                                  </option>
+                                                  <option value="white">
+                                                    White
+                                                  </option>
+                                                  <option value="yellow">
+                                                    Yellow
+                                                  </option>
+                                                </select>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          {/* </div> */}
+                                        </TabPanel>
+                                        <TabPanel>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Cast*
+                                              </label>
+                                              <br />
+                                              <select
+                                                name="cast"
+                                                id=""
+                                                value={userEditeData?.cast}
+                                                style={{
+                                                  width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  textAlign: "center",
+                                                }}
+                                                onChange={handleChange}
+                                              >
+                                                <option value="">
+                                                  Select Cast
+                                                </option>
+                                                <option value="obc">Obc</option>
+                                                <option value="sc">Sc</option>
+                                              </select>
+                                            </div>
+
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                SubCast*
+                                              </label>
+                                              <br />
+                                              <select
+                                                name="subcast"
+                                                id=""
+                                                value={userEditeData?.subcast}
+                                                onChange={handleChange}
+                                                style={{
+                                                  width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  textAlign: "center",
+                                                }}
+                                              >
+                                                <option value="">
+                                                  Select SubCast
+                                                </option>
+                                                <option value="sc">Sc</option>
+                                                <option value="st">St</option>
+                                              </select>
+                                            </div>
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                E-Mail Address*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="email"
+                                                id=""
+                                                value={userEditeData?.email}
+                                                placeholder="Email"
+                                              />
+                                            </div>
+                                            <div></div>
+                                          </div>
+                                        </TabPanel>
+                                        <TabPanel>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Flate Number*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="flatNo"
+                                                id=""
+                                                value={userEditeData?.addressFields?.flatNo}
+                                                placeholder="Flate Number"
+                                              />
+                                            </div>
+
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Address Line 1*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="addressLine1"
+                                                id=""
+                                                value={userEditeData?.addressFields?.addressLine1}
+                                                placeholder="Address Line 1"
+                                              />
+                                            </div>
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Address Line 2*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="addressLine2"
+                                                id=""
+                                                value={userEditeData?.addressFields?.addressLine2}
+                                                placeholder="Address Line 2"
+                                              />
+                                            </div>
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                City*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="city"
+                                                id=""
+                                                value={userEditeData?.addressFields?.city}
+                                                placeholder="City"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                District*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="district"
+                                                id=""
+                                                value={userEditeData?.addressFields?.district}
+                                                placeholder="District"
+                                              />
+                                            </div>
+
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Native Place*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="native"
+                                                id=""
+                                                value={userEditeData?.addressFields?.native}
+                                                placeholder="Native Place"
+                                              />
+                                            </div>
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Pincode*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange1}
+                                                type="text"
+                                                name="pincode"
+                                                id=""
+                                                value={userEditeData?.addressFields?.pincode}
+                                                placeholder="Pincode"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Assembly*
+                                              </label>
+                                              <br />
+                                              <select
+                                                name="assembly"
+                                                id=""
+                                                value={userEditeData?.assembly}
+                                                onChange={handleChange1}
+                                                style={{
+                                                  width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  textAlign: "center",
+                                                }}
+                                              >
+                                                <option value="">
+                                                  Select Assembly
+                                                </option>
+                                                <option value="burhanpur">
+                                                  burhnapur
+                                                </option>
+                                                <option value="burhanpur">
+                                                  Pune
+                                                </option>
+                                              </select>
+                                            </div>
+
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                City Type*
+                                              </label>
+                                              <br />
+                                              <select
+                                                name="city"
+                                                id=""
+                                                value={userEditeData?.city}
+                                                style={{
+                                                  width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  textAlign: "center",
+                                                }}
+                                                onChange={handleChange}
+                                              >
+                                                <option value="">
+                                                  Select City
+                                                </option>
+                                                <option value="">
+                                                  burhnapur
+                                                </option>
+                                                <option value="">Pune</option>
+                                              </select>
+                                            </div>
+                                            <div></div>
+                                          </div>
+                                        </TabPanel>
+                                        <TabPanel>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Account Number*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="acNumber"
+                                                id=""
+                                                value={userEditeData?.acNumber}
+                                                placeholder="Account Number"
+                                              />
+                                            </div>
+
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Part Number*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="partNumber"
+                                                id=""
+                                                value={userEditeData?.partNumber}
+                                                placeholder="Part Number"
+                                              />
+                                            </div>
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                Section Number*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="sectionNumber"
+                                                id=""
+                                                value={userEditeData?.sectionNumber}
+                                                placeholder="Section Number"
+                                              />
+                                            </div>
+                                            <div>
+                                              <label
+                                                style={{
+                                                  float: "left",
+                                                  color: "grey",
+                                                }}
+                                              >
+                                                SLN-Number-In-Part*
+                                              </label>
+                                              <br />
+                                              <input
+                                                style={{
+                                                  // width: "100%",
+                                                  height: "34px",
+                                                  border: "0.5px solid gray",
+                                                  borderRadius: "3px",
+                                                  fontSize: "14px",
+                                                  // textAlign: "center",
+                                                  float: "left",
+                                                }}
+                                                onChange={handleChange}
+                                                type="text"
+                                                name="slnNumberInPart"
+                                                id=""
+                                                value={userEditeData?.slnNumberInPart}
+                                                placeholder="SLN-Number-In-Part"
+                                              />
+                                            </div>
+                                          </div>
+                                        </TabPanel>
+                                        <TabPanel>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              gap: "20px",
+                                            }}
+                                          >
+                                            <div
+                                              style={{
+                                                width: "80px",
+                                                height: "30px",
+                                              }}
+                                            >
+                                              <img
+                                                src={photo}
+                                                alt=""
+                                                name="ProfileImage"
+                                                value={userEditeData?.ProfileImage}
+                                                onChange={handleChange}
+                                              />
+                                            </div>
+                                            <div
+                                              style={{
+                                                marginTop: "20px",
+                                                paddingTop: "8px",
+                                              }}
+                                            >
+                                              <input
+                                                type="file"
+                                                id="file-input"
+                                                name="file-input"
+                                              />
+
+                                              <label
+                                                id="file-input-label"
+                                                for="file-input"
+                                              >
+                                                +Choose File
+                                              </label>
+                                            </div>
+                                            <div
+                                              style={{
+                                                width: "80px",
+                                                height: "30px",
+                                                border: "1px solid grey",
+                                                marginTop: "25px",
+                                                textAlign: "center",
+                                                // paddingTop:"8px"
+                                              }}
+                                            >
+                                              Cancel
+                                            </div>
+                                          </div>
+                                        </TabPanel>
+                                      </TabPanels>
+                                    </Tabs>
+                                  </div>
+                                  <FormControl
+                                    display="flex"
+                                    alignItems="center"
+                                    marginLeft="10px"
+                                  >
+                                    <FormLabel
+                                      htmlFor="email-alerts"
+                                      mb="0"
+                                      name="isVoter"
+                                      value={userEditeData?.isVoter}
+                                      onChange={handleChange}
+                                    >
+                                      Our Voter
+                                    </FormLabel>
+                                    <Switch id="email-alerts" />
+                                  </FormControl>
+                                </div>
+                              </div>
+
+                              <div
+                                style={{
+                                  float: "left",
+                                  marginTop: "20px",
+                                  // width:"100%",
+                                  // display:"block",
+                                  // gap:"100px"
+                                }}
+                              >
+                                <Button
+                                  onClick={() => {
+                                    handleSub();
+                                    onClose();
+                                  }}
+                                  backgroundColor={"#fdc356"}
+                                >
+                                  Add
+                                </Button>
+                                <Button variant="ghost" marginLeft="20px">
+                                  Clear
+                                </Button>
+                                <Button onClick={onClose} marginLeft="20px">
+                                  Cancel
+                                </Button>
+                              </div>
+                            </ModalBody>
+                            <ModalFooter></ModalFooter>
+                          </ModalContent>
+                        </Modal>
                               </Td>
                             </Tr>
                                 );

@@ -23,75 +23,6 @@ import {
   Portal,
 } from '@chakra-ui/react'
 
-// {
-//   "category": {
-//       "id": 1,
-//       "name": "वीज",
-//       "prefix": "VZ",
-//       "createdDate": "2019-12-03T07:07:12.376Z",
-//       "updatedDate": "2023-03-28T10:34:25.000Z",
-//       "createdBy": 1,
-//       "updatedBy": 1,
-//       "types": [
-//           {
-//               "id": 1,
-//               "name": "वीज बिल",
-//               "createdDate": "2019-12-03T07:07:12.406Z",
-//               "updatedDate": "2023-03-28T10:36:03.000Z",
-//               "createdBy": 1,
-//               "updatedBy": 1
-//           },
-//           {
-//               "id": 2,
-//               "name": "वीज पुरवठा",
-//               "createdDate": "2019-12-03T07:07:12.406Z",
-//               "updatedDate": "2023-03-28T10:36:23.000Z",
-//               "createdBy": 1,
-//               "updatedBy": 1
-//           },
-//           {
-//               "id": 3,
-//               "name": "नवीन कनेक्शन",
-//               "createdDate": "2019-12-03T07:07:12.406Z",
-//               "updatedDate": "2019-12-03T07:07:12.406Z",
-//               "createdBy": 0,
-//               "updatedBy": 0
-//           }
-//       ]
-//   },
-//   "type": {
-//       "id": 1,
-//       "name": "वीज बिल",
-//       "createdDate": "2019-12-03T07:07:12.406Z",
-//       "updatedDate": "2023-03-28T10:36:03.000Z",
-//       "createdBy": 1,
-//       "updatedBy": 1
-//   },
-//   "dateFrom": "",
-//   "dateTo": "",
-//   "kiosk": false,
-//   "page": {
-//       "number": 0,
-//       "size": 10
-//   },
-//   "flag": null,
-//   "assembly": {
-//       "id": 4,
-//       "name": "Bhusawal",
-//       "createdDate": "2021-11-29T07:29:31.892Z",
-//       "updatedDate": "2021-11-29T07:29:31.892Z",
-//       "createdBy": 2,
-//       "updatedBy": 2
-//   },
-//   "cityType": {
-//      label
-
-// "Village"
-// value
-
-// "VILLAGE"
-//   }
-// }
 const mainObj = {
 
   
@@ -110,6 +41,7 @@ const Complaints = () => {
  
 
   const { products, serchMainData ,CategoriesData,assembliesData} = useSelector((store) => store.productReducer);
+  console.log(products)
   const dispatch = useDispatch();
   const [mainpage, setPage] = useState(0);
   const [mainsize, setPagesize] = useState(10);
