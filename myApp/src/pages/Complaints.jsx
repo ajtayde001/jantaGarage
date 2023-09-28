@@ -215,7 +215,8 @@ const Complaints = () => {
     <>
     
       <div
-        style={{
+        style={
+          {
           width: "100%",
           height: "2800px",
           margin: "auto",
@@ -224,7 +225,8 @@ const Complaints = () => {
           marginTop:"50px",
           backgroundImage: `url("https://staging.digitaloms.in/Image6.e195202fd0acbdc8b0f9.png")`,
           opacity: "10",
-        }}
+        }
+      }
       >
         <div
           style={{
