@@ -456,7 +456,7 @@ function AddPage() {
                       </span>
                     </div>
                     <p>Complainer Detail</p>
-                    <div style={{width:'100%',border:"2px solid red" ,margin:"auto", marginLeft:"20px" ,alignItems:"center" }}>
+                    <div style={{width:'100%' ,margin:"auto", marginLeft:"20px" ,alignItems:"center" }}>
                     <p>{srchData ? srchData.firstName : ""}</p>
                      <p>{srchData ? srchData.phone : ""}</p>
                     </div>
