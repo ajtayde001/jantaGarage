@@ -109,13 +109,13 @@ export const postCommentData =(prop,yourConfig) => (dispatch) => {
 /////////////////////////////////////////////////
 
 export const postCOMPLAINERdata =(prop,yourConfig) => (dispatch) => {
-    console.log(prop)
+    // console.log(prop)
     dispatch({type:PRODUCT_REQUEST})
 
     return axios.post(`
     https://staging-api.digitaloms.in/visitor`,prop,yourConfig)
     .then((res) => {
-        console.log(res)
+        console.log(res.data)
         return (
         dispatch({type:POST_COMPLAINER_SUCCESS,payload:res.data})
         )
