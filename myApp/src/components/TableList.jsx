@@ -3,6 +3,7 @@ import { MdModeEdit } from "react-icons/md";
 import { GrDocument, GrDocumentDownload } from "react-icons/gr";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiPlusMedical } from "react-icons/bi";
+import { BsBookmark,BsFillBookmarkFill } from "react-icons/bs";
 import { FaComments } from "react-icons/fa";
 import { IoIosDocument } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
@@ -34,7 +35,8 @@ import {
   Tbody,
   Text,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { Complainerdata } from "./Complainerdata";
 const TableList = ({
   id,
   tokenNumber,
@@ -48,15 +50,22 @@ const TableList = ({
   hnadleDelete,
   deleteItem,
   recordStatus,
-  hnadleComment
+  hnadleComment,
+  description,
+  comments,
+  karyaKarta
 }) => {
-  const assemblyName = address.assembly ? address.assembly.name : "";
+ 
+  const assemblyName = address.assembly ? address.assembly.name : "_ _";
   const newuserName = registeredBy ? registeredBy.username : "";
   const newComplainDate = actualComplainDate
     ? actualComplainDate.split("T")[0]
     : "";
   const newcreatedDate = createdDate ? createdDate.split("T")[0] : "";
-  
+  const karykrtaMaleFemal=karyaKarta?.gender=="MALE"? <img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/man@2x.png" alt="" />:<img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/woman@2x.png" alt="" />
+  const karykrtaData= (karyaKarta[0]?`${karyaKarta[0]?.firstName}  ${karyaKarta[0]?.lastName}`:"_ _")
+  const karykartaPhone=karyaKarta?karyaKarta[0]?.phone:"_ _"
+  const commentsData=comments?comments[0]:"_ _"
   const {
     isOpen: deletOpen,
     onOpen: deletOnOpen,
@@ -128,7 +137,7 @@ const TableList = ({
             ></FaChevronDown>
           )}
         </td>
-        <td>{tokenNumber ? tokenNumber : ""}</td>
+        <td><BsFillBookmarkFill color="gray" style = {{transform: 'rotate(270deg)',display:'inline-block' }}></BsFillBookmarkFill> {tokenNumber ? tokenNumber : ""}</td>
         <td>
           {" "}
           {category?.name ? category?.name : ""} <br />
@@ -138,11 +147,7 @@ const TableList = ({
         <td>{address.line1 ? address.line1 : ""}</td>
         <td>{assemblyName}</td>
         <td>
-          {complainer.firstName
-            ? complainer.firstName
-            : "" + " " + complainer.lastName
-            ? complainer.lastName
-            : ""}
+        <Complainerdata complainer={complainer}/>
         </td>
         <td>{newComplainDate}</td>
         <td>{newcreatedDate}</td>
@@ -403,6 +408,7 @@ const TableList = ({
                 // border: "2px solid red",
                 backgroundColor: "#f5f6fa",
               }}
+              
             >
               <div
                 style={{
@@ -415,8 +421,9 @@ const TableList = ({
                   // border: "1px solid blue",
                   backgroundColor: "#f5f6fa",
                 }}
+                
               >
-                <h1 style={{ display: "inline-block" }}>Description</h1>
+                <h1 style={{ display: "inline-block" }} >Description</h1>
 
                 <div
                   style={{
@@ -429,7 +436,8 @@ const TableList = ({
                     // border: "1px solid black",
                     backgroundColor: "white",
                   }}
-                ></div>
+                  
+                >{description?description:"_ _"}</div>
               </div>
               <div
                 style={{
@@ -457,7 +465,7 @@ const TableList = ({
                     height: "50px",
                     backgroundColor: "white",
                   }}
-                ></div>
+                >{commentsData}</div>
               </div>
               <div
                 style={{
@@ -480,7 +488,7 @@ const TableList = ({
                     height: "50px",
                     backgroundColor: "white",
                   }}
-                ></div>
+                >{assemblyName}</div>
               </div>
 
               <div
@@ -508,8 +516,20 @@ const TableList = ({
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
                     height: "50px",
                     backgroundColor: "white",
+                    display:"flex",
+                    maxHeight: "300px", overflowY: "auto"
                   }}
-                ></div>
+                >
+                  <div >
+                  {karykrtaMaleFemal}
+                  </div>
+                  <div style={{marginTop:"-10px"}}>
+                    <td>
+                    {karykrtaData} {karykartaPhone}
+                    </td>
+                  
+                  </div>
+                  </div>
               </div>
             </div>
           </td>
