@@ -455,7 +455,12 @@ function AddPage() {
                         1
                       </span>
                     </div>
-                    Complainer Detail
+                    <p>Complainer Detail</p>
+                    <div style={{width:'100%',border:"2px solid red" ,margin:"auto", marginLeft:"20px" ,alignItems:"center" }}>
+                    <p>{srchData ? srchData.firstName : ""}</p>
+                     <p>{srchData ? srchData.phone : ""}</p>
+                    </div>
+                  
                   </Box>
                   {/* <AccordionIcon /> */}
                 </AccordionButton>
@@ -535,7 +540,7 @@ function AddPage() {
                             marginTop={"150px"}
                             id="BoxShedow"
                           >
-                            <ModalHeader>New Complainer</ModalHeader>
+                            <ModalHeader>New Complainer </ModalHeader>
                             <ModalCloseButton />
                             <ModalBody>
                               <div
@@ -3226,7 +3231,8 @@ function AddPage() {
                           </Tbody>
                         </Table>
                       </TableContainer>
-                      <div
+                      {/* {(Object.keys(srchData).length >0) ? */}
+                        <div
                         style={{
                           marginTop: "20px",
                           display: "flex",
@@ -3240,6 +3246,7 @@ function AddPage() {
                         </AccordionButton>
                         {/* <Button onChange={(expandedIndex: expandedIndex) => void} >Cancel</Button > */}
                       </div>
+                      {/* :<span></span>} */}
                     </div>
                   </div>
                   <div

@@ -275,7 +275,7 @@ const Complaints = () => {
     setStatus(false);
     setOnhold(false);
     setQueue(false);
-    setInprog(false);
+    setSolve(false);
   };
   const handleSolved = () => {
     setSolve(true);
