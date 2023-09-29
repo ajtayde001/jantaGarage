@@ -1,11 +1,10 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_KARYKARTA_SUCCESS, GET_PRODUCT_SUCCESS, GET_SEARCH_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST} from "./actiontype";
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST} from "./actiontype";
 
 const initialstate = {
     isLoading : false,
     isError : false,
     deleteItem : [],
     serchMainData : [],
-    products : [],
     CategoriesData:[],
     assembliesData:[],
     karykarta:[],
@@ -13,7 +12,13 @@ const initialstate = {
     complainerSinleData:{},
     complaintPostData:{},
     srch:[],
-    isSubmitted : false
+    isSubmitted : false,
+    products : [],
+    inprogressdata:[],
+    solvedata:[],
+    onholddata:[],
+    queuedata:[],
+    statusupdatedata:[]
 }
 export const reducer = (state=initialstate, {type, payload}) =>{
     switch(type){
@@ -25,6 +30,16 @@ export const reducer = (state=initialstate, {type, payload}) =>{
             return {...state, isError : true}
         case GET_PRODUCT_SUCCESS :
             return {...state, isLoading : true, products:payload}
+        case GET_INPROGRESSDATA_SUCCESS :
+            return {...state, isLoading : true, inprogressdata:payload}
+        case GET_SOLVEDDATA_SUCCESS :
+            return {...state, isLoading : true, solvedata:payload}
+        case GET_ONHOLDDATA_SUCCESS :
+            return {...state, isLoading : true, onholddata:payload}
+        case GET_QUEUEDATA_SUCCESS :
+            return {...state, isLoading : true, queuedata:payload}
+        case GET_STATUSUPDATEDATA_SUCCESS :
+            return {...state, isLoading : true, statusupdatedata:payload}
         case POST_COMPLAINER_SUCCESS :
             return {...state, isLoading : true,     complainerSinleData
             :payload}

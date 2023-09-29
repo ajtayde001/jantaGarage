@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_KARYKARTA_SUCCESS, GET_PRODUCT_SUCCESS, GET_SEARCH_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
 import axios from "axios";
 
 
@@ -18,7 +18,90 @@ export const getProductDAta =(data,yourConfig) => (dispatch) => {
         dispatch({type:PRODUCT_FAILURE})
     });
 }
+//////////////////////////////////////////////////////
+export const getInProgressDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
 
+    // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
+    axios.post("https://staging-api.digitaloms.in/complainbox/list/INPROGRESS",data, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_INPROGRESSDATA_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+export const getSolvedDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
+    axios.post("https://staging-api.digitaloms.in/complainbox/list/SOLVED",data, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_SOLVEDDATA_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+export const getOnHoldDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
+    axios.post("https://staging-api.digitaloms.in/complainbox/list/HOLD",data, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_ONHOLDDATA_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+export const getQueueDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
+    axios.post("https://staging-api.digitaloms.in/complainbox/list/QUEUE",data, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_QUEUEDATA_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+export const getStatusUpdateDAta =(data,yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
+    axios.post("https://staging-api.digitaloms.in/complainbox/list/STATUSUPDATEREQUESTED",data, yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_STATUSUPDATEDATA_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+//////////GETSERACH////////////
 export const getSearchDAta =(data,yourConfig) => (dispatch) => {
     dispatch({type:PRODUCT_REQUEST})
 
