@@ -263,10 +263,7 @@ const TableList = ({
                       {status!="INPROGRESS"?<option value="option2">Inprogress</option>:null}
                       {status!="INPROGRESS"  && (status!="QUEUE")?<option value="option3">Unsolved</option>:null}
                       {(status!="INPROGRESS") && (status!="HOLD")  && (status!="QUEUE") ?<option value="option3">Queue</option>:null}
-                      
-                      
-                    
-                    </Select>
+                       </Select>
                     <br />
                     <br />
                     <br />
