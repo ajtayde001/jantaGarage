@@ -3,7 +3,7 @@ import { MdModeEdit } from "react-icons/md";
 import { GrDocument, GrDocumentDownload } from "react-icons/gr";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiPlusMedical } from "react-icons/bi";
-import { BsBookmark,BsFillBookmarkFill } from "react-icons/bs";
+import { BsBookmark,BsFillBookmarkFill, BsFillCheckCircleFill,} from "react-icons/bs";
 import { FaComments } from "react-icons/fa";
 import { IoIosDocument } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
@@ -54,7 +54,9 @@ const TableList = ({
   description,
   comments,
   karyaKarta,
-  complainDueDate
+  complainDueDate,
+  status,
+  requestedStatus
 }) => {
  
   const assemblyName = address.assembly ? address.assembly.name : "_ _";
@@ -65,8 +67,7 @@ const TableList = ({
   const newComplainDate123 = actualComplainDate
     ? actualComplainDate
     : null;
-    // const date=Date.now()
-    // const date1=new Date()
+   
     const currentDate = new Date();
     // const day = currentDate.getDate();
     // const month = currentDate.getMonth() + 1;
@@ -76,10 +77,7 @@ const TableList = ({
     // console.log(date)
     const newcreatedDate = createdDate ? createdDate.split("T")[0] : null;
     const complainDueData = complainDueDate ? complainDueDate.split("T")[0] : "";
-    // console.log(formattedDate>newComplainDate123)
-  // console.log(formattedDate,"--------------------")
-  console.log(complainDueData,"+++++++++++++++++++")
-  const newDate=new Date(complainDueData)
+    const newDate=new Date(complainDueData)
   console.log(currentDate<complainDueData)
   const karykrtaMaleFemal=karyaKarta?.gender=="MALE"? <img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/man@2x.png" alt="" />:<img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/woman@2x.png" alt="" />
   const karykrtaData= (karyaKarta[0]?`${karyaKarta[0]?.firstName}  ${karyaKarta[0]?.lastName}`:"_ _")
@@ -156,7 +154,7 @@ const TableList = ({
             ></FaChevronDown>
           )}
         </td>
-        <td><BsFillBookmarkFill  color={(currentDate<=newDate)||(newComplainDate123==null)?"gray":"red" }style = {{transform: 'rotate(270deg)',display:'inline-block' ,marginRight:"6px",marginBottom:"-2px"}}></BsFillBookmarkFill> {tokenNumber ? tokenNumber : ""}</td>
+        <td><BsFillBookmarkFill  color={(currentDate<=newDate)||(newComplainDate123==null)?"gray":status=="SOLVED"?"green":"red" }style = {{transform: 'rotate(270deg)',display:'inline-block' ,marginRight:"6px",marginBottom:"-2px"}}></BsFillBookmarkFill> {tokenNumber ? tokenNumber : ""}</td>
         <td>
           {" "}
           {category?.name ? category?.name : ""} <br />
@@ -185,7 +183,8 @@ const TableList = ({
                 flexDirection: "column",
               }}
             >
-             <Link to={`/complaint/edit/${id}`}><MdModeEdit color="orange" type="button"></MdModeEdit></Link>
+             <Link to={`/complaint/edit/${id}`}><MdModeEdit color="orange" type="button" ></MdModeEdit></Link>
+
               <RiDeleteBin5Line
                 color="orange"
                 type="button"
@@ -231,11 +230,11 @@ const TableList = ({
                 </AlertDialogOverlay>
               </AlertDialog>
 
-              <BiPlusMedical
+             {status!="SOLVED"? <BiPlusMedical
                 onClick={statusOnOpen}
                 color="orange"
                 type="button"
-              ></BiPlusMedical>
+              ></BiPlusMedical>:null}
               <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
@@ -256,14 +255,17 @@ const TableList = ({
                   <ModalCloseButton />
                   <ModalBody pb={6}>
                     {/* <Box border={"1px solid gray"} marginTop={"10px"}> */}
-                    <Text>Current Status:Un Solve</Text>
+                    <Text>Current Status:{status}</Text>
                     <br />
                     <Select placeholder="Select Status">
-                      <option value="option1">Solved</option>
-                      <option value="option2">Inprogress</option>
-                      <option value="option3">Hold</option>
-                      <option value="option3">Unsolved</option>
-                      <option value="option3">Queue</option>
+                      {status!="HOLD"  && (status!="QUEUE")?<option value="option1">Solved</option>:null}
+                      {status!="HOLD"?<option value="option3">Hold</option>:null}
+                      {status!="INPROGRESS"?<option value="option2">Inprogress</option>:null}
+                      {status!="INPROGRESS"  && (status!="QUEUE")?<option value="option3">Unsolved</option>:null}
+                      {(status!="INPROGRESS") && (status!="HOLD")  && (status!="QUEUE") ?<option value="option3">Queue</option>:null}
+                      
+                      
+                    
                     </Select>
                     <br />
                     <br />
@@ -393,6 +395,8 @@ const TableList = ({
                   </ModalBody>
                 </ModalContent>
               </Modal>
+             {requestedStatus=="SOLVED"? <BsFillCheckCircleFill  color="orange"
+                type="button"></BsFillCheckCircleFill>:null}
             </div>
           )}
         </td>
