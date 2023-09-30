@@ -369,7 +369,7 @@ function AddPage() {
 
   const handleCompSub = () => {
     const validationErrors = {};
-    if (mainData.description === "") {
+    if (mainData.description?.trim() == "") {
       validationErrors.description = "This field is mandatory.";
     }
     // if (mainData?.category.trim() === "") {
@@ -406,7 +406,7 @@ function AddPage() {
       return;
     }
 
-    alert("show")
+    // alert("show")
     mainData.assembly = assembleOne;
 
     mainData.category = caterf;
@@ -1800,6 +1800,7 @@ function AddPage() {
                             >
                               <Th>
                                 {" "}
+                                
                                 <BsCircle></BsCircle>
                               </Th>
                               <Th>Full Name</Th>
