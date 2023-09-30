@@ -183,7 +183,7 @@ function AddPage() {
     onClose: docoClose,
   } = useDisclosure();
   const [errors, setErrors] = useState({});
-
+  const [error2,setError2]=useState({})
   // if(isSubmitted){
 
   // }
@@ -362,13 +362,57 @@ function AddPage() {
       return { ...pre, [name]: value };
     });
   };
+
+  
+
+ 
+
   const handleCompSub = () => {
-    // alert("show")
+    const validationErrors = {};
+    if (mainData.description === "") {
+      validationErrors.description = "This field is mandatory.";
+    }
+    // if (mainData?.category.trim() === "") {
+    //   validationErrors.category = "This field is mandatory.";
+    // }
+    if (mainData.pincode === "") {
+      validationErrors.pincode = "This field is mandatory.";
+    }
+    if (mainData.actualComplainDate === "") {
+      validationErrors.actualComplainDate = "This field is mandatory.";
+    }
+    if (mainData.complainDueDate === "") {
+      validationErrors.complainDueDate = "This field is mandatory.";
+    }
+    // if (mainData?.type === "") {
+    //   validationErrors.type = "This field is mandatory.";
+    // }
+    if (mainData.actualComplainDate === "") {
+      validationErrors.phone = "This field is mandatory.";
+    }
+    if (mainData.addressComp === "") {
+      validationErrors.addressComp = "This field is mandatory.";
+    }
+    // if (mainData?.assembly === "") {
+    //   validationErrors.assembly = "This field is mandatory.";
+    // }
+    if (mainData.cityType === "") {
+      validationErrors.cityType = "This field is mandatory.";
+    }
+    
+
+    if (Object.keys(validationErrors).length > 0) {
+      setError2(validationErrors);
+      return;
+    }
+
+    alert("show")
     mainData.assembly = assembleOne;
 
     mainData.category = caterf;
     mainData.type = typKaObj;
   };
+  console.log(error2)
   const handleMainObj = () => {
     mainData.complainer = srchData ? srchData : complainerSinleData;
     mainData.karyaKarta = karyaKartaData;
@@ -3377,6 +3421,17 @@ function AddPage() {
                             type="text"
                             placeholder="Please add description"
                           />
+                          {error2.description && (
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          textAlign: "left",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {error2.description}
+                                      </span>
+                                    )}
                           <br />
                           <label style={{ float: "left" }}>
                             Complaint Category
@@ -3414,6 +3469,17 @@ function AddPage() {
                                 );
                               })}
                           </select>
+                          {error2.category && (
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          textAlign: "left",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {error2.category}
+                                      </span>
+                                    )}
                           <br />
                           <label style={{ float: "left" }}>Pincode</label>
                           <br />
@@ -3434,6 +3500,17 @@ function AddPage() {
                             type="number"
                             placeholder="1234"
                           />
+                          {error2.pincode && (
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          textAlign: "left",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {error2.pincode}
+                                      </span>
+                                    )}
                           <br />
                           <label style={{ float: "left" }}>
                             Complaint Due Date
@@ -3456,6 +3533,17 @@ function AddPage() {
                               handleComp(e);
                             }}
                           />
+                           {error2.complainDueDate && (
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          textAlign: "left",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {error2.complainDueDate}
+                                      </span>
+                                    )}
 
                           <div style={{ display: "flex", gap: "20px" }}>
                             <div>
@@ -3542,6 +3630,17 @@ function AddPage() {
                               handleComp(e);
                             }}
                           />
+                           {error2.actualComplainDate && (
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          textAlign: "left",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {error2.actualComplainDate}
+                                      </span>
+                                    )}
                           <br />
                           <label style={{ float: "left" }}>
                             Complaint Type*
@@ -3599,6 +3698,17 @@ function AddPage() {
                             type="text"
                             placeholder="Please add address here"
                           />
+                           {error2.addressComp && (
+                                      <span
+                                        style={{
+                                          color: "red",
+                                          textAlign: "left",
+                                          fontSize: "12px",
+                                        }}
+                                      >
+                                        {error2.addressComp}
+                                      </span>
+                                    )}
                           <br />
                         </div>
                       </div>
