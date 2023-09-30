@@ -53,15 +53,34 @@ const TableList = ({
   hnadleComment,
   description,
   comments,
-  karyaKarta
+  karyaKarta,
+  complainDueDate
 }) => {
  
   const assemblyName = address.assembly ? address.assembly.name : "_ _";
   const newuserName = registeredBy ? registeredBy.username : "";
   const newComplainDate = actualComplainDate
     ? actualComplainDate.split("T")[0]
-    : "";
-  const newcreatedDate = createdDate ? createdDate.split("T")[0] : "";
+    : null;
+  const newComplainDate123 = actualComplainDate
+    ? actualComplainDate
+    : null;
+    // const date=Date.now()
+    // const date1=new Date()
+    const currentDate = new Date();
+    // const day = currentDate.getDate();
+    // const month = currentDate.getMonth() + 1;
+    // const year = currentDate.getFullYear();
+    
+    // const formattedDate = `${year}-${month}-${day}`;
+    // console.log(date)
+    const newcreatedDate = createdDate ? createdDate.split("T")[0] : null;
+    const complainDueData = complainDueDate ? complainDueDate.split("T")[0] : "";
+    // console.log(formattedDate>newComplainDate123)
+  // console.log(formattedDate,"--------------------")
+  console.log(complainDueData,"+++++++++++++++++++")
+  const newDate=new Date(complainDueData)
+  console.log(currentDate<complainDueData)
   const karykrtaMaleFemal=karyaKarta?.gender=="MALE"? <img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/man@2x.png" alt="" />:<img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/woman@2x.png" alt="" />
   const karykrtaData= (karyaKarta[0]?`${karyaKarta[0]?.firstName}  ${karyaKarta[0]?.lastName}`:"_ _")
   const karykartaPhone=karyaKarta?karyaKarta[0]?.phone:"_ _"
@@ -137,7 +156,7 @@ const TableList = ({
             ></FaChevronDown>
           )}
         </td>
-        <td><BsFillBookmarkFill color="gray" style = {{transform: 'rotate(270deg)',display:'inline-block' }}></BsFillBookmarkFill> {tokenNumber ? tokenNumber : ""}</td>
+        <td><BsFillBookmarkFill  color={(currentDate<=newDate)||(newComplainDate123==null)?"gray":"red" }style = {{transform: 'rotate(270deg)',display:'inline-block' ,marginRight:"6px",marginBottom:"-2px"}}></BsFillBookmarkFill> {tokenNumber ? tokenNumber : ""}</td>
         <td>
           {" "}
           {category?.name ? category?.name : ""} <br />
