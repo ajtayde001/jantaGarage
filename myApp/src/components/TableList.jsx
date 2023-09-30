@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 import { GrDocument, GrDocumentDownload } from "react-icons/gr";
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -8,7 +8,7 @@ import { FaComments } from "react-icons/fa";
 import { IoIosDocument } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Badge, Box, useDisclosure } from "@chakra-ui/react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -56,9 +56,11 @@ const TableList = ({
   karyaKarta,
   complainDueDate,
   status,
-  requestedStatus
+  requestedStatus,
+  documents
 }) => {
  
+  const mainDataComent = comments ? comments.reverse() : null;
   const assemblyName = address.assembly ? address.assembly.name : "_ _";
   const newuserName = registeredBy ? registeredBy.username : "";
   const newComplainDate = actualComplainDate
@@ -68,6 +70,10 @@ const TableList = ({
     ? actualComplainDate
     : null;
    
+    // const commenttextData=comments[0]?comments[0]?.text:"";
+    const MaleFemalData=
+      comments?.createdBy?.gender=="MALE"? <img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/man@2x.png" alt="" />:<img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/woman@2x.png" alt="" />
+  
     const currentDate = new Date();
     // const day = currentDate.getDate();
     // const month = currentDate.getMonth() + 1;
@@ -284,12 +290,90 @@ const TableList = ({
                   </ModalBody>
                 </ModalContent>
               </Modal>
+             
 
-              <IoIosDocument
+              <FaComments
+                onClick={comentOnOpen}
+                color="orange"
+                type="button"
+              ></FaComments>
+              <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={comentOpen}
+                onClose={comentClose}
+              >
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader
+                    fontSize="lg"
+                    fontWeight="bold"
+                    border="1px"
+                    borderColor="gray.200"
+                    bg={"#ffda83"}
+                  >
+                    Add Comment
+                  </ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody pb={6}>
+                    <Flex gap={5}>
+                      <Input  type="text"
+              placeholder="comment"
+              onChange={(e) => {
+                setTextdata(e.target.value);
+              }}
+              value={textdata}/>
+
+                      <Button bg="#ffda83" mr={3} onClick={()=>{hnadleComment(id,textdata);comentClose()}}>
+                        Save
+                      </Button >
+                    </Flex>
+                    <Box  marginTop={"10px"} maxHeight={"100px"} overflowY={"auto"}>
+                    {mainDataComent?.length > 0 &&
+                            mainDataComent?.map((item) => {
+                              return (
+                                <>
+                                 <hr />
+                                <div
+                                style={{
+                                  padding: "5px",
+                                  marginBottom: "10px",
+                                  
+                                }}
+                              >
+                                <div style={{display:"flex",gap:'5px'}}>
+                                  {MaleFemalData}
+                                  <h2 style={{fontSize:"12px",fontWeight:"bold"}}>Super Admin</h2>
+                                  <p style={{fontSize:"12px"}}>{newcreatedDate}</p>  
+                                </div>
+                                <p style={{fontSize:"12px",fontWeight:"bold",marginLeft:"30px"}}>{item.text}</p>
+                              </div>
+                              <hr /></>
+                              
+                            
+                              );
+                            })}
+                     
+                    </Box>
+                  </ModalBody>
+                </ModalContent>
+              </Modal>
+             {requestedStatus=="SOLVED"? <BsFillCheckCircleFill  color="orange"
+                type="button"></BsFillCheckCircleFill>:null}
+                 <Flex >
+  <Box ml='1'  >
+    <IoIosDocument
                 onClick={docoOnOpen}
                 color="orange"
                 type="button"
+                overflow={"hidden"}
               ></IoIosDocument>
+      <Badge ml='2'  marginTop="-60px" bg={"transparent"} color={"blue"}>
+        {documents?documents[0].length:0}
+      </Badge>
+  </Box>
+</Flex>
+              
               <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
@@ -340,60 +424,6 @@ const TableList = ({
                   </ModalBody>
                 </ModalContent>
               </Modal>
-
-              <FaComments
-                onClick={comentOnOpen}
-                color="orange"
-                type="button"
-              ></FaComments>
-              <Modal
-                initialFocusRef={initialRef}
-                finalFocusRef={finalRef}
-                isOpen={comentOpen}
-                onClose={comentClose}
-              >
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalHeader
-                    fontSize="lg"
-                    fontWeight="bold"
-                    border="1px"
-                    borderColor="gray.200"
-                    bg={"#ffda83"}
-                  >
-                    Add Comment
-                  </ModalHeader>
-                  <ModalCloseButton />
-                  <ModalBody pb={6}>
-                    <Flex gap={5}>
-                      <Input  type="text"
-              placeholder="comment"
-              onChange={(e) => {
-                setTextdata(e.target.value);
-              }}
-              value={textdata}/>
-
-                      <Button bg="#ffda83" mr={3} onClick={()=>{hnadleComment(id,textdata);comentClose()}}>
-                        Save
-                      </Button >
-                    </Flex>
-                    <Box border={"1px solid gray"} marginTop={"10px"}>
-                      <div
-                        style={{
-                          padding: "5px",
-                          marginBottom: "10px",
-                        }}
-                      >
-                        <h2>Super Admin</h2>
-                        <p>{"swbwiudnwiundiunwdiunw"}</p>
-                      </div>
-                      <hr />
-                    </Box>
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
-             {requestedStatus=="SOLVED"? <BsFillCheckCircleFill  color="orange"
-                type="button"></BsFillCheckCircleFill>:null}
             </div>
           )}
         </td>
