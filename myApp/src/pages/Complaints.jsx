@@ -43,6 +43,7 @@ import {
 } from "@chakra-ui/react";
 import { color } from "framer-motion";
 import styled from "@emotion/styled";
+import axios from "axios";
 
 const mainObj = {
   dateFrom: "",
@@ -68,14 +69,10 @@ const Complaints = () => {
     statusupdatedata,
   } = useSelector((store) => store.productReducer);
   console.log(products);
-  const updatesum= statusupdatedata[1]? statusupdatedata[1] : 0
-  const productssum= products[1]? products[1] : 0
-  const inprogressdatasum= inprogressdata[1]? inprogressdata[1] : 0
-  const solvedatasum= solvedata[1]? solvedata[1] : 0
-  const onholddatasum= onholddata[1]? onholddata[1] : 0
-  const queuedatasum= queuedata[1]? queuedata[1] : 0
-  const total=(updatesum+productssum+inprogressdatasum+solvedatasum+onholddatasum+queuedatasum)
-  console.log(total)
+ 
+  const [total,setTotal]=useState(0)
+
+
   const dispatch = useDispatch();
   const [mainpage, setPage] = useState(0);
   const [mainsize, setPagesize] = useState(10);
@@ -106,6 +103,14 @@ const Complaints = () => {
     },
   };
 
+
+  useEffect(()=>{
+
+    axios.get("https://staging-api.digitaloms.in/complainbox/count",yourConfig)
+    .then((res)=>setTotal(res.data))
+  
+  
+  },[])
   //  console.log(assembliesData);
   //  console.log(CategoriesData);
   //////////////////////////////////
@@ -347,7 +352,7 @@ const Complaints = () => {
               margin: "10px",
             }}
           >
-            Complaints and Demands({total-1})
+            Complaints and Demands({total})
           </h3>
           <div>
             <button
@@ -731,6 +736,7 @@ const Complaints = () => {
                 style={{
                   border: "1px solid black",
                   borderRadius: "8px",
+                  
                   display: "flex",
                   flexDirection: "column",
                 }}

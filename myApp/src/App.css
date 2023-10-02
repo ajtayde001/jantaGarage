@@ -136,24 +136,37 @@ input.nosubmit {
 	padding: 8px;
 }
 
-thead th {
-  width: 25%;
-} */
+
 
 /* table{
   border-collapse: collapse;
   width: 95%;
   margin: auto;
   /* height: 50%; */
-   
-  th,td{
-    width: 44px;
+  thead th {
+    width: auto
+  } 
+  th{
+    width: auto;
       height: 20px;
-      /* gap: 20px; */
+      
       padding: 5px;
-      /* text-align: center; */
-      margin: auto;
-    text-align: left;
+      text-align: center;
+      /* margin: auto; */
+    text-align: center;
+    
+      /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+      
+  }
+  td{
+    width: auto;
+      height: 20px;
+      padding: 5px;
+      /* gap: 20px;
+      padding: 5px; */
+      text-align: left;
+      /* margin: auto; */
+    /* text-align: center; */
     
       /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
       

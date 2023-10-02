@@ -3,12 +3,23 @@ import { MdModeEdit } from "react-icons/md";
 import { GrDocument, GrDocumentDownload } from "react-icons/gr";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiPlusMedical } from "react-icons/bi";
-import { BsBookmark,BsFillBookmarkFill, BsFillCheckCircleFill,} from "react-icons/bs";
+import {
+  BsBookmark,
+  BsFillBookmarkFill,
+  BsFillCheckCircleFill,
+} from "react-icons/bs";
 import { FaComments } from "react-icons/fa";
 import { IoIosDocument } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
-import { Badge, Box, useDisclosure } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Tag,
+  Tooltip,
+  WrapItem,
+  useDisclosure,
+} from "@chakra-ui/react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -57,38 +68,82 @@ const TableList = ({
   complainDueDate,
   status,
   requestedStatus,
-  documents
+  documents,
 }) => {
- 
   const mainDataComent = comments ? comments.reverse() : null;
   const assemblyName = address.assembly ? address.assembly.name : "_ _";
   const newuserName = registeredBy ? registeredBy.username : "";
   const newComplainDate = actualComplainDate
     ? actualComplainDate.split("T")[0]
     : null;
-  const newComplainDate123 = actualComplainDate
-    ? actualComplainDate
-    : null;
-   
-    // const commenttextData=comments[0]?comments[0]?.text:"";
-    const MaleFemalData=
-      comments?.createdBy?.gender=="MALE"? <img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/man@2x.png" alt="" />:<img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/woman@2x.png" alt="" />
-  
-    const currentDate = new Date();
-    // const day = currentDate.getDate();
-    // const month = currentDate.getMonth() + 1;
-    // const year = currentDate.getFullYear();
-    
-    // const formattedDate = `${year}-${month}-${day}`;
-    // console.log(date)
-    const newcreatedDate = createdDate ? createdDate.split("T")[0] : null;
-    const complainDueData = complainDueDate ? complainDueDate.split("T")[0] : "";
-    const newDate=new Date(complainDueData)
-  console.log(currentDate<complainDueData)
-  const karykrtaMaleFemal=karyaKarta?.gender=="MALE"? <img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/man@2x.png" alt="" />:<img style={{ width:"35px",border:"1px solid orange",borderRadius:"20px",padding:"5px"}} src="https://staging.digitaloms.in/assets/icons/woman@2x.png" alt="" />
-  const karykrtaData= (karyaKarta[0]?`${karyaKarta[0]?.firstName}  ${karyaKarta[0]?.lastName}`:"_ _")
-  const karykartaPhone=karyaKarta?karyaKarta[0]?.phone:"_ _"
-  const commentsData=comments?comments[0]:"_ _"
+  const newComplainDate123 = actualComplainDate ? actualComplainDate : null;
+
+  // const commenttextData=comments[0]?comments[0]?.text:"";
+  const MaleFemalData =
+    comments?.createdBy?.gender == "MALE" ? (
+      <img
+        style={{
+          width: "35px",
+          border: "1px solid orange",
+          borderRadius: "20px",
+          padding: "5px",
+        }}
+        src="https://staging.digitaloms.in/assets/icons/man@2x.png"
+        alt=""
+      />
+    ) : (
+      <img
+        style={{
+          width: "35px",
+          border: "1px solid orange",
+          borderRadius: "20px",
+          padding: "5px",
+        }}
+        src="https://staging.digitaloms.in/assets/icons/woman@2x.png"
+        alt=""
+      />
+    );
+
+  const currentDate = new Date();
+  // const day = currentDate.getDate();
+  // const month = currentDate.getMonth() + 1;
+  // const year = currentDate.getFullYear();
+
+  // const formattedDate = `${year}-${month}-${day}`;
+  // console.log(date)
+  const newcreatedDate = createdDate ? createdDate.split("T")[0] : null;
+  const complainDueData = complainDueDate ? complainDueDate.split("T")[0] : "";
+  const newDate = new Date(complainDueData);
+  console.log(currentDate < complainDueData);
+  const karykrtaMaleFemal =
+    karyaKarta?.gender == "MALE" ? (
+      <img
+        style={{
+          width: "35px",
+          border: "1px solid orange",
+          borderRadius: "20px",
+          padding: "5px",
+        }}
+        src="https://staging.digitaloms.in/assets/icons/man@2x.png"
+        alt=""
+      />
+    ) : (
+      <img
+        style={{
+          width: "35px",
+          border: "1px solid orange",
+          borderRadius: "20px",
+          padding: "5px",
+        }}
+        src="https://staging.digitaloms.in/assets/icons/woman@2x.png"
+        alt=""
+      />
+    );
+  const karykrtaData = karyaKarta[0]
+    ? `${karyaKarta[0]?.firstName}  ${karyaKarta[0]?.lastName}`
+    : "_ _";
+  const karykartaPhone = karyaKarta ? karyaKarta[0]?.phone : "_ _";
+  const commentsData = comments ? comments[0] : "_ _";
   const {
     isOpen: deletOpen,
     onOpen: deletOnOpen,
@@ -118,7 +173,16 @@ const TableList = ({
   const [btn, setBtn] = useState(true);
   const [deletbtn, setdeleteBtn] = useState(false);
   const [comentbtn, setcomentBtn] = useState(false);
-// console.log(textdata)
+  const CustomCard = React.forwardRef(({ children, ...rest }, ref) => (
+    <Flex>
+      <Box>
+        <Tag bg={"white"}  ref={ref} {...rest}>
+          {children}
+        </Tag>
+      </Box>
+    </Flex>
+  ));
+  // console.log(textdata)
   const hidehaddele = () => {
     setHide(true);
     setBtn(false);
@@ -160,7 +224,32 @@ const TableList = ({
             ></FaChevronDown>
           )}
         </td>
-        <td><BsFillBookmarkFill  color={(currentDate<=newDate)||(newComplainDate123==null)?"gray":status=="SOLVED"?"green":"red" }style = {{transform: 'rotate(270deg)',display:'inline-block' ,marginRight:"6px",marginBottom:"-2px"}}></BsFillBookmarkFill> {tokenNumber ? tokenNumber : ""}</td>
+        <td>
+          <Flex>
+            <Tooltip label={newComplainDate} placement="right">
+              <CustomCard>
+                <BsFillBookmarkFill
+                  color={
+                     status == "SOLVED"  ? "green":
+                    currentDate <= newDate || newComplainDate123 == null
+                      ? "gray"
+                      
+                    
+                      : "red"
+                  }
+                  style={{
+                    transform: "rotate(270deg)",
+                    display: "inline-block",
+                    marginRight: "6px",
+                    marginBottom: "5px",
+                  }}
+                ></BsFillBookmarkFill>
+              </CustomCard>
+            </Tooltip>
+
+            {tokenNumber ? tokenNumber : ""}
+          </Flex>
+        </td>
         <td>
           {" "}
           {category?.name ? category?.name : ""} <br />
@@ -170,7 +259,7 @@ const TableList = ({
         <td>{address.line1 ? address.line1 : ""}</td>
         <td>{assemblyName}</td>
         <td>
-        <Complainerdata complainer={complainer}/>
+          <Complainerdata complainer={complainer} />
         </td>
         <td>{newComplainDate}</td>
         <td>{newcreatedDate}</td>
@@ -189,13 +278,24 @@ const TableList = ({
                 flexDirection: "column",
               }}
             >
-             <Link to={`/complaint/edit/${id}`}><MdModeEdit color="orange" type="button" ></MdModeEdit></Link>
-
-              <RiDeleteBin5Line
-                color="orange"
-                type="button"
-                onClick={deletOnOpen}
-              ></RiDeleteBin5Line>
+              <Tooltip label={"Edit"} placement="left">
+                <Link to={`/complaint/edit/${id}`}>
+                  <CustomCard>
+                    <MdModeEdit 
+                    size="18px"color="orange" type="button"></MdModeEdit>
+                  </CustomCard>
+                </Link>
+              </Tooltip>
+              <Tooltip label={"Delete"} placement="left">
+                <CustomCard>
+                  <RiDeleteBin5Line
+                   size="18px"
+                    color="orange"
+                    type="button"
+                    onClick={deletOnOpen}
+                  ></RiDeleteBin5Line>
+                </CustomCard>
+              </Tooltip>
               <AlertDialog
                 isOpen={deletOpen}
                 leastDestructiveRef={cancelRef}
@@ -221,6 +321,7 @@ const TableList = ({
                       <Button ref={cancelRef} onClick={deletClose}>
                         Cancel
                       </Button>
+
                       <Button
                         colorScheme="red"
                         onClick={() => {
@@ -236,11 +337,18 @@ const TableList = ({
                 </AlertDialogOverlay>
               </AlertDialog>
 
-             {status!="SOLVED"? <BiPlusMedical
-                onClick={statusOnOpen}
-                color="orange"
-                type="button"
-              ></BiPlusMedical>:null}
+              {status != "SOLVED" ? (
+                <Tooltip label={"Update Status"} placement="left">
+                  <CustomCard>
+                    <BiPlusMedical
+                     size="18px"
+                      onClick={statusOnOpen}
+                      color="orange"
+                      type="button"
+                    ></BiPlusMedical>
+                  </CustomCard>
+                </Tooltip>
+              ) : null}
               <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
@@ -269,7 +377,10 @@ const TableList = ({
                       {status!="INPROGRESS"?<option value="option2">Inprogress</option>:null}
                       {status!="INPROGRESS"  && (status!="QUEUE")?<option value="option3">Unsolved</option>:null}
                       {(status!="INPROGRESS") && (status!="HOLD")  && (status!="QUEUE") ?<option value="option3">Queue</option>:null}
-                       </Select>
+                      
+                      
+                    
+                    </Select>
                     <br />
                     <br />
                     <br />
@@ -290,13 +401,17 @@ const TableList = ({
                   </ModalBody>
                 </ModalContent>
               </Modal>
-             
 
-              <FaComments
-                onClick={comentOnOpen}
-                color="orange"
-                type="button"
-              ></FaComments>
+              <Tooltip label={"Add Comments"} placement="left">
+                <CustomCard>
+                  <FaComments
+                   size="18px"
+                    onClick={comentOnOpen}
+                    color="orange"
+                    type="button"
+                  ></FaComments>
+                </CustomCard>
+              </Tooltip>
               <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
@@ -317,77 +432,120 @@ const TableList = ({
                   <ModalCloseButton />
                   <ModalBody pb={6}>
                     <Flex gap={5}>
-                      <Input  type="text"
-              placeholder="comment"
-              onChange={(e) => {
-                setTextdata(e.target.value);
-              }}
-              value={textdata}/>
+                      <Input
+                        type="text"
+                        placeholder="comment"
+                        onChange={(e) => {
+                          setTextdata(e.target.value);
+                        }}
+                        value={textdata}
+                      />
 
-                      <Button bg="#ffda83" mr={3} onClick={()=>{hnadleComment(id,textdata);comentClose()}}>
+                      <Button
+                        bg="#ffda83"
+                        mr={3}
+                        onClick={() => {
+                          hnadleComment(id, textdata);
+                          comentClose();
+                        }}
+                      >
                         Save
-                      </Button >
+                      </Button>
                     </Flex>
-                    <Box  marginTop={"10px"} maxHeight={"100px"} overflowY={"auto"}>
-                    {mainDataComent?.length > 0 &&
-                            mainDataComent?.map((item) => {
-                              return (
-                                <>
-                                 <hr />
-                                <div
+                    <Box
+                      marginTop={"10px"}
+                      maxHeight={"100px"}
+                      overflowY={"auto"}
+                    >
+                      {mainDataComent?.length > 0 &&
+                        mainDataComent?.map((item) => {
+                          return (
+                            <>
+                              <hr />
+                              <div
                                 style={{
                                   padding: "5px",
                                   marginBottom: "10px",
-                                  
                                 }}
                               >
-                                <div style={{display:"flex",gap:'5px'}}>
+                                <div style={{ display: "flex", gap: "5px" }}>
                                   {MaleFemalData}
-                                  <h2 style={{fontSize:"12px",fontWeight:"bold"}}>Super Admin</h2>
-                                  <p style={{fontSize:"12px"}}>{newcreatedDate}</p>  
+                                  <h2
+                                    style={{
+                                      fontSize: "12px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    Super Admin
+                                  </h2>
+                                  <p style={{ fontSize: "12px" }}>
+                                    {newcreatedDate}
+                                  </p>
                                 </div>
-                                <p style={{fontSize:"12px",fontWeight:"bold",marginLeft:"30px"}}>{item.text}</p>
+                                <p
+                                  style={{
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    marginLeft: "30px",
+                                  }}
+                                >
+                                  {item.text}
+                                </p>
                               </div>
-                              <hr /></>
-                              
-                            
-                              );
-                            })}
-                     
+                              <hr />
+                            </>
+                          );
+                        })}
                     </Box>
                   </ModalBody>
                 </ModalContent>
               </Modal>
-             {requestedStatus=="SOLVED"? <BsFillCheckCircleFill  color="orange"
-                type="button"></BsFillCheckCircleFill>:null}
-                 <Flex >
-  <Box ml='1'  >
-    <IoIosDocument
-                onClick={docoOnOpen}
-                color="orange"
-                type="button"
-                overflow={"hidden"}
-              ></IoIosDocument>
-      <Badge ml='2'  marginTop="-60px" bg={"transparent"} color={"blue"}>
-        {documents?documents[0].length:0}
-      </Badge>
-  </Box>
-</Flex>
+              {requestedStatus == "SOLVED" ? (
+                <BsFillCheckCircleFill
+                  color="orange"
+                  type="button"
+                ></BsFillCheckCircleFill>
+              ) : null}
+              <Flex>
+              <Tooltip label={"Documents"} placement="left">
+                <Box ml="1">
+                  
+                   
+                      <IoIosDocument
+                        onClick={docoOnOpen}
+                        color="orange"
+                        type="button"
+                        size="18px"
+                        overflow={"hidden"}
+                      ></IoIosDocument>
+                    
               
+                  <Badge
+                    ml="2"
+                    marginTop="-60px"
+                    bg={"transparent"}
+                    color={"blue"}
+                  >
+                    {documents ? documents[0].length : 0}
+                  </Badge>
+                  
+                </Box>
+                </Tooltip>
+              </Flex>
+
               <Modal
                 initialFocusRef={initialRef}
                 finalFocusRef={finalRef}
                 isOpen={docoOpen}
                 onClose={docoClose}
-                // w="1000px" h="320px" 
+                // w="1000px" h="320px"
 
                 size={"min"}
 
                 // width="2000px"
               >
                 <ModalOverlay />
-                <ModalContent 
-                w="1200px" h="300px" >
+                <ModalContent w="1200px" h="300px">
                   <ModalHeader
                     fontSize="lg"
                     fontWeight="bold"
@@ -458,7 +616,6 @@ const TableList = ({
                 // border: "2px solid red",
                 backgroundColor: "#f5f6fa",
               }}
-              
             >
               <div
                 style={{
@@ -471,9 +628,8 @@ const TableList = ({
                   // border: "1px solid blue",
                   backgroundColor: "#f5f6fa",
                 }}
-                
               >
-                <h1 style={{ display: "inline-block" }} >Description</h1>
+                <h1 style={{ display: "inline-block" }}>Description</h1>
 
                 <div
                   style={{
@@ -486,8 +642,9 @@ const TableList = ({
                     // border: "1px solid black",
                     backgroundColor: "white",
                   }}
-                  
-                >{description?description:"_ _"}</div>
+                >
+                  {description ? description : "_ _"}
+                </div>
               </div>
               <div
                 style={{
@@ -515,7 +672,9 @@ const TableList = ({
                     height: "50px",
                     backgroundColor: "white",
                   }}
-                >{commentsData}</div>
+                >
+                  {commentsData}
+                </div>
               </div>
               <div
                 style={{
@@ -538,7 +697,9 @@ const TableList = ({
                     height: "50px",
                     backgroundColor: "white",
                   }}
-                >{assemblyName}</div>
+                >
+                  {assemblyName}
+                </div>
               </div>
 
               <div
@@ -566,20 +727,18 @@ const TableList = ({
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
                     height: "50px",
                     backgroundColor: "white",
-                    display:"flex",
-                    maxHeight: "300px", overflowY: "auto"
+                    display: "flex",
+                    maxHeight: "300px",
+                    overflowY: "auto",
                   }}
                 >
-                  <div >
-                  {karykrtaMaleFemal}
-                  </div>
-                  <div style={{marginTop:"-10px"}}>
+                  <div>{karykrtaMaleFemal}</div>
+                  <div style={{ marginTop: "-10px" }}>
                     <td>
-                    {karykrtaData} {karykartaPhone}
+                      {karykrtaData} {karykartaPhone}
                     </td>
-                  
                   </div>
-                  </div>
+                </div>
               </div>
             </div>
           </td>
