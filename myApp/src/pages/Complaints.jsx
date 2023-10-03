@@ -4,11 +4,21 @@ import {
   getAssembliesData,
   getCategoriesData,
   getFilterDAta,
+  getFilterInprogress,
+  getFilterOnHold,
+  getFilterQueue,
+  getFilterSolved,
+  getFilterStatusupdate,
   getInProgressDAta,
   getOnHoldDAta,
   getProductDAta,
   getQueueDAta,
   getSearchDAta,
+  getSearchInprogress,
+  getSearchOnHold,
+  getSearchQueue,
+  getSearchSolved,
+  getSearchsStatusUpdate,
   getSolvedDAta,
   getStatusUpdateDAta,
   postCommentData,
@@ -189,9 +199,14 @@ const Complaints = () => {
       page: { number: 0, size: mainsize },
       flag: null,
     };
-
     dispatch(getSearchDAta(pros, yourConfig));
-    // console.log(searchdata)
+    dispatch(getSearchInprogress(pros, yourConfig));
+    dispatch(getSearchSolved(pros, yourConfig));
+    dispatch(getSearchOnHold(pros, yourConfig));
+    dispatch(getSearchQueue(pros, yourConfig));
+    dispatch(getSearchsStatusUpdate(pros, yourConfig));
+    // setSearchdata("")
+
   };
 
   const hnadleComment = (id, textdata) => {
@@ -235,7 +250,17 @@ const Complaints = () => {
     // console.log(mainData1)
 
     dispatch(getFilterDAta(mainData1, yourConfig));
-    // setMainData1(mainObj)
+    
+    dispatch(getFilterInprogress(mainData1, yourConfig));
+    
+    dispatch(getFilterSolved(mainData1, yourConfig));
+    
+    dispatch(getFilterOnHold(mainData1, yourConfig));
+    
+    dispatch(getFilterQueue(mainData1, yourConfig));
+    
+    dispatch(getFilterStatusupdate(mainData1, yourConfig));
+    
   };
 
   useEffect(() => {
@@ -248,7 +273,7 @@ const Complaints = () => {
     dispatch(getCategoriesData(yourConfig));
     dispatch(getAssembliesData(yourConfig));
    
-  }, [JWTToken, mainpage, mainsize, cm, searchdata]);
+  }, [JWTToken, mainpage, mainsize, cm]);
 
   const [bgun, setBgun] = useState(true);
   const [bgInprog, setInprog] = useState(false);
@@ -755,7 +780,7 @@ const Complaints = () => {
               >
                 <Text color={bgInprog ? "white" : "gray"}>
                   {" "}
-                  In-Progress({inprogressdata[1] ? inprogressdata[1] : ""})
+                  In-Progress({inprogressdata[1] ? inprogressdata[1] : 0})
                 </Text>
               </Tab>
               <Tab
@@ -767,7 +792,7 @@ const Complaints = () => {
               >
                 <Text color={bgSolve ? "white" : "gray"}>
                   {" "}
-                  Solved({solvedata[1] ? solvedata[1] : ""})
+                  Solved({solvedata[1] ? solvedata[1] : 0})
                 </Text>
               </Tab>
               <Tab
@@ -779,7 +804,7 @@ const Complaints = () => {
               >
                 <Text color={bgOnhold ? "white" : "gray"}>
                   {" "}
-                  On-Hold({onholddata[1] ? onholddata[1] : ""})
+                  On-Hold({onholddata[1] ? onholddata[1] : 0})
                 </Text>
               </Tab>
               <Tab
@@ -790,7 +815,7 @@ const Complaints = () => {
                 onClick={handleQueue}
               >
                 <Text color={bgQueue ? "white" : "gray"}>
-                  Queue({queuedata[1] ? queuedata[1] : ""})
+                  Queue({queuedata[1] ? queuedata[1] : 0})
                 </Text>
               </Tab>
               <Tab
@@ -801,7 +826,7 @@ const Complaints = () => {
                 onClick={handleStatus}
               >
                 <Text color={bgStatus ? "white" : "gray"}>
-                  Status Update({statusupdatedata[1] ? statusupdatedata[1] : ""}
+                  Status Update({statusupdatedata[1] ? statusupdatedata[1] : 0}
                   )
                 </Text>
               </Tab>
@@ -1101,7 +1126,7 @@ const Complaints = () => {
                           }}
                         >
                           {inprogressdata[0]?.length > 0 &&
-                            inprogressdata[0]?.reverse().map((item) => {
+                            inprogressdata[0]?.map((item) => {
                               return (
                                 <TableList
                                   key={item.id}
@@ -1255,7 +1280,7 @@ const Complaints = () => {
                           }}
                         >
                           {solvedata[0]?.length > 0 &&
-                            solvedata[0]?.reverse().map((item) => {
+                            solvedata[0]?.map((item) => {
                               return (
                                 <TableList
                                   key={item.id}
@@ -1409,7 +1434,7 @@ const Complaints = () => {
                           }}
                         >
                           {onholddata[0]?.length > 0 &&
-                            onholddata[0]?.reverse().map((item) => {
+                            onholddata[0]?.map((item) => {
                               return (
                                 <TableList
                                   key={item.id}
@@ -1563,7 +1588,7 @@ const Complaints = () => {
                           }}
                         >
                           {queuedata[0]?.length > 0 &&
-                            queuedata[0]?.reverse().map((item) => {
+                            queuedata[0]?.map((item) => {
                               return (
                                 <TableList
                                   key={item.id}
@@ -1717,7 +1742,7 @@ const Complaints = () => {
                           }}
                         >
                           {statusupdatedata[0]?.length > 0 &&
-                            statusupdatedata[0]?.reverse().map((item) => {
+                            statusupdatedata[0]?.map((item) => {
                               return (
                                 <TableList
                                   key={item.id}

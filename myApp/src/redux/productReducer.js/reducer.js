@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST} from "./actiontype";
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_INPROGRESS_SUCCESS, GET_FILTER_ONHOLD_SUCCESS, GET_FILTER_QUEUE_SUCCESS, GET_FILTER_SOLVED_SUCCESS, GET_FILTER_STATUSUPDATE_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_INPROGRESS_SUCCESS, GET_SEARCH_ONHOLD_SUCCESS, GET_SEARCH_QUEUE_SUCCESS, GET_SEARCH_SOLVED_SUCCESS, GET_SEARCH_STATUSUPDATE_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST} from "./actiontype";
 
 const initialstate = {
     isLoading : false,
@@ -45,8 +45,28 @@ export const reducer = (state=initialstate, {type, payload}) =>{
             :payload}
         case GET_SEARCH_SUCCESS :
             return {...state, isLoading : true, products:payload}
+        case GET_SEARCH_INPROGRESS_SUCCESS :
+            return {...state, isLoading : true, inprogressdata:payload}
+        case GET_SEARCH_SOLVED_SUCCESS :
+            return {...state, isLoading : true, solvedata:payload}
+        case GET_SEARCH_ONHOLD_SUCCESS :
+            return {...state, isLoading : true, onholddata:payload}
+        case GET_SEARCH_QUEUE_SUCCESS :
+            return {...state, isLoading : true, queuedata:payload}
+        case GET_SEARCH_STATUSUPDATE_SUCCESS :
+            return {...state, isLoading : true, statusupdatedata:payload}
         case GET_FILTER_SUCCESS :
             return {...state, isLoading : true, products:payload}
+        case GET_FILTER_INPROGRESS_SUCCESS :
+            return {...state, isLoading : true, inprogressdata:payload}
+        case GET_FILTER_SOLVED_SUCCESS :
+            return {...state, isLoading : true, solvedata:payload}
+        case GET_FILTER_ONHOLD_SUCCESS :
+            return {...state, isLoading : true, onholddata:payload}
+        case GET_FILTER_QUEUE_SUCCESS :
+            return {...state, isLoading : true, queuedata:payload}
+        case GET_FILTER_STATUSUPDATE_SUCCESS :
+            return {...state, isLoading : true, statusupdatedata:payload}
         case GET_USERSEARCH_SUCCESS :
             return {...state, isLoading : true, srch:payload}
         case GET_Categories_SUCCESS :
