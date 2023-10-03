@@ -372,23 +372,14 @@ const TableList = ({
                     <Text>Current Status:{status}</Text>
                     <br />
                     <Select placeholder="Select Status">
-                      {status != "HOLD" && status != "QUEUE" ? (
-                        <option value="option1">Solved</option>
-                      ) : null}
-                      {status != "HOLD" ? (
-                        <option value="option3">Hold</option>
-                      ) : null}
-                      {status != "INPROGRESS" ? (
-                        <option value="option2">Inprogress</option>
-                      ) : null}
-                      {status != "INPROGRESS" && status != "QUEUE" ? (
-                        <option value="option3">Unsolved</option>
-                      ) : null}
-                      {status != "INPROGRESS" &&
-                      status != "HOLD" &&
-                      status != "QUEUE" ? (
-                        <option value="option3">Queue</option>
-                      ) : null}
+                      {status!="HOLD"  && (status!="QUEUE")?<option value="option1">Solved</option>:null}
+                      {status!="HOLD"?<option value="option3">Hold</option>:null}
+                      {status!="INPROGRESS"?<option value="option2">Inprogress</option>:null}
+                      {status!="INPROGRESS"  && (status!="QUEUE")?<option value="option3">Unsolved</option>:null}
+                      {(status!="INPROGRESS") && (status!="HOLD")  && (status!="QUEUE") ?<option value="option3">Queue</option>:null}
+                      
+                      
+                    
                     </Select>
                     <br />
                     <br />
