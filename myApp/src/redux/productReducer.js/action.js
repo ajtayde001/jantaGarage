@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_INPROGRESS_SUCCESS, GET_FILTER_ONHOLD_SUCCESS, GET_FILTER_QUEUE_SUCCESS, GET_FILTER_SOLVED_SUCCESS, GET_FILTER_STATUSUPDATE_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_INPROGRESS_SUCCESS, GET_SEARCH_ONHOLD_SUCCESS, GET_SEARCH_QUEUE_SUCCESS, GET_SEARCH_SOLVED_SUCCESS, GET_SEARCH_STATUSUPDATE_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_CatTotal_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_INPROGRESS_SUCCESS, GET_FILTER_ONHOLD_SUCCESS, GET_FILTER_QUEUE_SUCCESS, GET_FILTER_SOLVED_SUCCESS, GET_FILTER_STATUSUPDATE_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_INPROGRESS_SUCCESS, GET_SEARCH_ONHOLD_SUCCESS, GET_SEARCH_QUEUE_SUCCESS, GET_SEARCH_SOLVED_SUCCESS, GET_SEARCH_STATUSUPDATE_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
 import axios from "axios";
 
 
@@ -8,7 +8,7 @@ export const getProductDAta =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/UNSOLVED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+        // console.log(res)
         return (
         dispatch({type:GET_PRODUCT_SUCCESS, payload:res.data})
         )
@@ -41,7 +41,7 @@ export const getSolvedDAta =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/SOLVED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+        // console.log(res)
         return (
         dispatch({type:GET_SOLVEDDATA_SUCCESS, payload:res.data})
         )
@@ -57,7 +57,7 @@ export const getOnHoldDAta =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/HOLD",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_ONHOLDDATA_SUCCESS, payload:res.data})
         )
@@ -73,7 +73,7 @@ export const getQueueDAta =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/QUEUE",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_QUEUEDATA_SUCCESS, payload:res.data})
         )
@@ -89,7 +89,7 @@ export const getStatusUpdateDAta =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/STATUSUPDATEREQUESTED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_STATUSUPDATEDATA_SUCCESS, payload:res.data})
         )
@@ -108,7 +108,7 @@ export const getSearchDAta =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/UNSOLVED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_SEARCH_SUCCESS, payload:res.data})
         )
@@ -124,7 +124,7 @@ export const getSearchInprogress =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/INPROGRESS",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_SEARCH_INPROGRESS_SUCCESS, payload:res.data})
         )
@@ -140,7 +140,7 @@ export const getSearchSolved =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/SOLVED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_SEARCH_SOLVED_SUCCESS, payload:res.data})
         )
@@ -156,7 +156,7 @@ export const getSearchOnHold =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/HOLD",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_SEARCH_ONHOLD_SUCCESS, payload:res.data})
         )
@@ -172,7 +172,7 @@ export const getSearchQueue =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/QUEUE",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_SEARCH_QUEUE_SUCCESS, payload:res.data})
         )
@@ -188,7 +188,7 @@ export const getSearchsStatusUpdate =(data,yourConfig) => (dispatch) => {
     // https://staging-api.digitaloms.in/complainbox/list/UNSOLVED
     axios.post("https://staging-api.digitaloms.in/complainbox/list/STATUSUPDATEREQUESTED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+       
         return (
         dispatch({type:GET_SEARCH_STATUSUPDATE_SUCCESS, payload:res.data})
         )
@@ -198,16 +198,6 @@ export const getSearchsStatusUpdate =(data,yourConfig) => (dispatch) => {
         dispatch({type:PRODUCT_FAILURE})
     });
 }
-
-
-
-
-
-
-
-
-
-
 
 
 //////////////////////////////////////////FILTER////////////
@@ -296,7 +286,7 @@ export const getFilterStatusupdate =(data,yourConfig) => (dispatch) => {
 
     axios.post("https://staging-api.digitaloms.in/complainbox/list/STATUSUPDATEREQUESTED",data, yourConfig)
     .then((res) => {
-        console.log(res)
+        // console.log(res)
         return (
         dispatch({type:GET_FILTER_STATUSUPDATE_SUCCESS, payload:res.data})
         )
@@ -474,6 +464,26 @@ export const getAdhikariDAta =(data,yourConfig) => (dispatch) => {
         console.log(res)
         return (
         dispatch({type:GET_ADHIKARI_SUCCESS, payload:res.data[0]})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+/////////////////////////HOME PAGE//////////////////////////////
+
+// https://staging-api.digitaloms.in/dashboard/complain/count/category
+export const getCatTotal =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/dashboard/complain/count/category",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_CatTotal_SUCCESS, payload:res.data})
         )
     })
     .catch((err)=>{

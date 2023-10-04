@@ -1,34 +1,148 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import ProductList from '../components/ProductList'
 // import Sidebar from '../components/Sidebar'
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
 import { Box, Card } from '@chakra-ui/react';
+import CanvasJSReact from '@canvasjs/react-charts';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAssembliesData, getCatTotal, getCategoriesData, getInProgressDAta, getOnHoldDAta, getProductDAta, getQueueDAta, getSolvedDAta, getStatusUpdateDAta } from '../redux/productReducer.js/action';
 export const Homepage = () => {
+  var CanvasJS = CanvasJSReact.CanvasJS;
+  var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+  const [cm, setcm] = useState(false);
+  const [total,setTotal]=useState(0)
+  const [mainpage, setPage] = useState(0);
+  const [mainsize, setPagesize] = useState(10);
+
+  const {
+    products,
+    inprogressdata,
+    solvedata,
+    onholddata,
+    queuedata,
+    statusupdatedata,
+    catTotal
+  } = useSelector((store) => store.productReducer);
+  console.log(products);
+  console.log(catTotal);
+
+  let dataMain = { kiosk: false };
   const JWTToken = localStorage.getItem("token");
-  console.log(JWTToken);
-  const auth = JSON.parse(localStorage.getItem("user")) ;
-  console.log(auth)
+  const yourConfig = {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
 
-
-
-   const data = [
-    ["Task", "Hours per Day"],
-    ["Work", 11],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7], // CSS-style declaration
-  ];
-  
-  const options = {
-    // title: "M",
-    legend:"none",
-    pieHole: 0.7,
-    is3D: false,
-    pieSliceText: "none",
+      Authorization: `Bearer ${JWTToken}`,
+    },
   };
 
+
+  const dispatch=useDispatch()
+  useEffect(()=>{
+
+    axios.get("https://staging-api.digitaloms.in/complainbox/count",yourConfig)
+    .then((res)=>setTotal(res.data))
+  
+  
+  },[])
+  
+  useEffect(() => {
+    
+    dispatch(getCatTotal(yourConfig));
+    dispatch(getProductDAta(dataMain, yourConfig));
+    dispatch(getInProgressDAta(dataMain, yourConfig));
+    dispatch(getSolvedDAta(dataMain, yourConfig));
+    dispatch(getOnHoldDAta(dataMain, yourConfig));
+    dispatch(getQueueDAta(dataMain, yourConfig));
+    dispatch(getStatusUpdateDAta(dataMain, yourConfig));
+    dispatch(getCategoriesData(yourConfig));
+    dispatch(getAssembliesData(yourConfig));
+   
+  }, [JWTToken, cm]);
+  
+ const catArray= catTotal.length > 0 &&
+    catTotal?.map((item) => {
+      return (
+        { name: item.name, y: item.count }
+      );
+    })
+  console.log(catArray)
+  const options = {
+    animationEnabled: true,
+    animationDuration: 2000,
+    width:"270",
+    height:"290",
+    margin:"auto",
+    verticalAlign:"centre",
+    gap:"20",
+    borderColor: "white",
+    borderThickness: 5,
+    toolTip:{
+      borderColor: "black",
+      borderThickness: 5,
+      fontColor: "black",
+    },
+    title: {
+      // text: "Customer Satisfaction"
+    },
+    subtitles: [{
+      text: `Total:${total}`,
+      verticalAlign: "center",
+      fontSize: 16,
+      // dockInsidePlotArea: true
+    },
+  ],
+    data: [{
+      type: "doughnut",
+      margin: 10,
+      borderColor: "black",
+      lineColor: "red",
+      borderThickness: 10,
+      // lineDashType: "solid",
+      // dockInsidePlotArea: true,
+      // showInLegend: true,
+      // indexLabel: "{name}: {y}",
+      yValueFormatString: "#,###'%'",
+      dataPoints: catArray
+    }]
+   
+  }
+
+
+
+
+  const options1 = {
+    animationEnabled: true,
+    width:"180",
+    height:"230",
+    margin:"auto",
+    verticalAlign:"centre",
+    title: {
+      // text: "Customer Satisfaction"
+    },
+    subtitles: [{
+      text: `Total:${total}`,
+      verticalAlign: "center",
+      fontSize: 16,
+      // dockInsidePlotArea: true
+    },
+  ],
+    data: [{
+      type: "doughnut",
+      showInLegend: true,
+      // indexLabel: "{name}: {y}",
+      // yValueFormatString: "#,###'%'",
+      dataPoints: [
+        { name: "UNSOLVED", y: products[1] },
+        { name: "INPROGRESS", y: inprogressdata[1] },
+        { name: "ONHOLD", y: onholddata[1] },
+        { name: "QUEUE", y: queuedata[1] },
+        { name: "SOLVED", y: solvedata[1] }
+      ]
+    }]
+  }
   return (
     <DIV>
      
@@ -50,17 +164,14 @@ export const Homepage = () => {
 <div className='graphbigdiv'>
   <div className='graphcat'>
     <div className='graphcat1'>
-      <div className='chart1'> 
-        <Chart  
-        // width={500}
-        width="100%"
-        height="300px"
-      chartType="PieChart"
-      // width={"10%"}
-      data={data}
-      options={options}
-    />
+      <div className='chart1'>
+      <span style={{padding:"10px",fontSize:"12px"}}>Complain Category</span>
+    <CanvasJSChart  options = {options}
+    // width={"50%"}
+   	/>
+      
       </div>
+     
       <div className='chart2'>
         <ul>
         <li style={{display:"flex",gap:"10px"}}>
@@ -72,20 +183,19 @@ export const Homepage = () => {
       </div>
     </div>
     <div className='graphcat2'>
-    <Chart  
-      chartType="PieChart"
-      // width={"10%"}
-      data={data}
-      options={options}
-    />
+   
+    <div style={{width:"90%",marginLeft:"38px",backgroundColor:"white"}}>
+    <CanvasJSChart  options = {options1}
+    // width={"50%"}
+   	/>
+    </div>
+   
     </div>
   </div>
   <div className='lastdivgraph'>
     <h1>last</h1>
   </div>
-</div>
-
-   
+</div>  
     </DIV>
   )
 }
@@ -103,46 +213,51 @@ const DIV = styled.div`
     display: flex;
     gap: 20px;
     padding: 5px;
-    /* border-radius: 20px; */
+
    }
    .graphcat{
-   
-    padding: 5px;
-    /* background-color: white; */
-display: flex;
-height:320px;
-gap: 20px;
-width: 70%;
-/* margin: auto; */
+   padding: 5px; 
+     display: flex;
+      height:340px;
+      gap: 20px;
+    width: 70%;
+
 
    }
    .graphcat1{
    
 display: flex;
 background-color: #ffffff;
-width: 70%;
-/* border:"2px solid red"; */
+width: 73%;
+gap: 50px;
 border-radius: 20px;
 padding: 10px;
 align-items: center;
 
    }
    .chart1{
-   /* margin-left: 10px; */
-   /* margin-top: 10px; */
+  width: 50%;
+  /* border: 2px solid red; */
+  align-items: center;
+  /* margin-left: -10px; */
+  text-align: left;
+  /* margin: auto; */
+  margin-left: 30px;
    }
+  
    .chart2{
-    border:"2px solid blue";
-    /* margin: 18px 18px 0px; */
+    width: 50%;
+
    }
    .graphcat2{
     width: 30%;
-    
     border:"2px solid red";
     background-color: #ffffff;
     padding: 10px;
-    /* border: 1px solid blue; */
     border-radius: 20px;
+    /* align-items: center; */
+    align-content: center;
+    /* margin-left: 40px; */
    }
    
    .lastdivgraph{
