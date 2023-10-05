@@ -1,4 +1,4 @@
-import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_CatTotal_SUCCESS, GET_Categories_SUCCESS, GET_FILTER_INPROGRESS_SUCCESS, GET_FILTER_ONHOLD_SUCCESS, GET_FILTER_QUEUE_SUCCESS, GET_FILTER_SOLVED_SUCCESS, GET_FILTER_STATUSUPDATE_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_KARYKARTA_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_INPROGRESS_SUCCESS, GET_SEARCH_ONHOLD_SUCCESS, GET_SEARCH_QUEUE_SUCCESS, GET_SEARCH_SOLVED_SUCCESS, GET_SEARCH_STATUSUPDATE_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
+import { ADD_PRODUCT_SUCCESS, DELETE_PRODUCT_SUCCESS, GET_ADHIKARI_SUCCESS, GET_ATTEND_SUCCESS, GET_CatTotal_SUCCESS, GET_Categories_SUCCESS, GET_DEVELOPMENT_SUCCESS, GET_FILTER_INPROGRESS_SUCCESS, GET_FILTER_ONHOLD_SUCCESS, GET_FILTER_QUEUE_SUCCESS, GET_FILTER_SOLVED_SUCCESS, GET_FILTER_STATUSUPDATE_SUCCESS, GET_FILTER_SUCCESS, GET_INPROGRESSDATA_SUCCESS, GET_INWARDOUT_SUCCESS, GET_KARYKARTA_SUCCESS, GET_OFFICE_SUCCESS, GET_ONHOLDDATA_SUCCESS, GET_PRODUCT_SUCCESS, GET_QUEUEDATA_SUCCESS, GET_SEARCH_INPROGRESS_SUCCESS, GET_SEARCH_ONHOLD_SUCCESS, GET_SEARCH_QUEUE_SUCCESS, GET_SEARCH_SOLVED_SUCCESS, GET_SEARCH_STATUSUPDATE_SUCCESS, GET_SEARCH_SUCCESS, GET_SOLVEDDATA_SUCCESS, GET_STATUSUPDATEDATA_SUCCESS, GET_STATUS_SUCCESS, GET_TODAYEVENT_SUCCESS, GET_USERSEARCH_SUCCESS, GET_assemblies_SUCCESS, PATCH_PRODUCT_SUCCESS, POST_COMMENT_SUCCESS, POST_COMPLAINER_SUCCESS, POST_COMPLAINTE_SUCCESS, PRODUCT_FAILURE, PRODUCT_REQUEST } from "./actiontype"
 import axios from "axios";
 
 
@@ -484,6 +484,115 @@ export const getCatTotal =(yourConfig) => (dispatch) => {
         console.log(res)
         return (
         dispatch({type:GET_CatTotal_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+export const getAttend =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/dashboard/schedule/counts",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_ATTEND_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+export const getInwardOut =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/dashboard/register/counts",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_INWARDOUT_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+export const getDevelopmentwork =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/dashboard/vikas-kam/counts",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_DEVELOPMENT_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+
+export const getTodayEvent =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/todays-event",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_TODAYEVENT_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+export const getOffice =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/office",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_OFFICE_SUCCESS, payload:res.data})
+        )
+    })
+    .catch((err)=>{
+        console.log(err)
+        dispatch({type:PRODUCT_FAILURE})
+    });
+}
+
+
+
+
+export const getStatus =(yourConfig) => (dispatch) => {
+    dispatch({type:PRODUCT_REQUEST})
+
+    
+    axios.get("https://staging-api.digitaloms.in/dashboard/register-book/count/status",yourConfig)
+    .then((res) => {
+        console.log(res)
+        return (
+        dispatch({type:GET_STATUS_SUCCESS, payload:res.data})
         )
     })
     .catch((err)=>{
