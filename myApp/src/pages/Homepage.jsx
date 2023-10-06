@@ -3,7 +3,7 @@ import React from 'react'
 // import Sidebar from '../components/Sidebar'
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
-import { Box, Card } from '@chakra-ui/react';
+// import { Box, Card } from '@chakra-ui/react';
 export const Homepage = () => {
   const JWTToken = localStorage.getItem("token");
   console.log(JWTToken);
