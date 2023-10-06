@@ -784,8 +784,8 @@ const Complaincard = () => {
               </Tab>
               <Tab
                 display={"flex"}
-                border={"1px solid gray"}
-                borderRadius={"8px"}
+                border={"1px solid black"}
+                borderRadius={"10px"}
                 flexDirection={"column"}
                 onClick={handleSolved}
               >
