@@ -13,7 +13,6 @@ import {
   getDevelopmentwork,
   getInProgressDAta,
   getInwardOut,
-  getKarykrtaDAta,
   getOffice,
   getOnHoldDAta,
   getProductDAta,
@@ -28,8 +27,6 @@ import ReactApexChart from "react-apexcharts";
 import ApexChart3 from "../components/Barchart";
 import { BsCircle } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
-import { GrFormPrevious } from "react-icons/gr";
 import {
   Table,
   Thead,
@@ -41,10 +38,6 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-import Complaincard from "../components/Complaincard";
-import { Link, Navigate } from "react-router-dom";
-import Officecard from "../components/OfficeCard";
-import KarykrtaCard from "../components/KarykrtaCard";
 
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;

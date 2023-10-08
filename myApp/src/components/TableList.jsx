@@ -70,7 +70,7 @@ const TableList = ({
   requestedStatus,
   documents,
 }) => {
-  const mainDataComent = comments ? comments.reverse() : null;
+  const mainDataComent = comments ? comments.reverse() : [];
   const assemblyName = address.assembly ? address.assembly.name : "_ _";
   const newuserName = registeredBy ? registeredBy.username : "";
   const newComplainDate = actualComplainDate
@@ -637,7 +637,7 @@ const TableList = ({
                     padding: "10px",
                     boxShadow:
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                    height: "50px",
+                    height: "70px",
                     // gap: "20px",
                     // border: "1px solid black",
                     backgroundColor: "white",
@@ -664,16 +664,56 @@ const TableList = ({
                   style={{
                     width: "100%",
                     padding: "10px",
-
-                    height: "40px",
+ 
+                    height: "70px",
                     // gap: "20px",
                     boxShadow:
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                    height: "50px",
+                    // height: "50px",
                     backgroundColor: "white",
+                    maxHeight: "300px",
+                    overflowY: "auto",
                   }}
                 >
-                  {commentsData}
+                 {mainDataComent?.length > 0 &&
+                        mainDataComent?.map((item) => {
+                          return (
+                            <>
+                              <hr />
+                              <div
+                                style={{
+                                  padding: "5px",
+                                  marginBottom: "10px",
+                                }}
+                              >
+                                <div style={{ display: "flex", gap: "5px" }}>
+                                  {MaleFemalData}
+                                  <h2
+                                    style={{
+                                      fontSize: "12px",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    Super Admin
+                                  </h2>
+                                  <p style={{ fontSize: "12px" }}>
+                                    {newcreatedDate}
+                                  </p>
+                                </div>
+                                <p
+                                  style={{
+                                    fontSize: "12px",
+                                    fontWeight: "bold",
+                                    marginLeft: "30px",
+                                  }}
+                                >
+                                  {item.text}
+                                </p>
+                              </div>
+                              <hr />
+                            </>
+                          );
+                        })}
                 </div>
               </div>
               <div
@@ -690,11 +730,11 @@ const TableList = ({
                     width: "100%",
                     padding: "10px",
 
-                    // height: "50px",
+                    // height: "70px",
                     // gap: "20px",
                     boxShadow:
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                    height: "50px",
+                    height: "70px",
                     backgroundColor: "white",
                   }}
                 >
@@ -708,7 +748,7 @@ const TableList = ({
                   padding: "10px",
                   display: "flex",
                   flexDirection: "column",
-                  // height: "6px",
+                  // height: "70px",
                   // gap: "20px",
                   // border: "1px solid blue",
                   // backgroundColor: "#f5f6fa",
@@ -720,12 +760,12 @@ const TableList = ({
                   style={{
                     width: "100%",
                     padding: "10px",
-
+                    height: "70px",
                     // height: "50px",
                     // gap: "20px",
                     boxShadow:
                       "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                    height: "50px",
+                    // height: "50px",
                     backgroundColor: "white",
                     display: "flex",
                     maxHeight: "300px",
