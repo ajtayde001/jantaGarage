@@ -152,7 +152,7 @@ function AddPage() {
     isSubmitted,
     srch,
   } = useSelector((store) => store.productReducer);
-
+// console.log(karykarta)
   const dispatch = useDispatch();
   useEffect(() => {
     // dispatch(getProductDAta(dataMain, yourConfig));
