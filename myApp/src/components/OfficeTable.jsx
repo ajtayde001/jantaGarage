@@ -138,7 +138,7 @@ const OfficeTable = ({
           // height: "200px",
           display: "table",
           background: "white",
-          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}
       >
         <td style={{width:"100px",textAlign:"left"}}>

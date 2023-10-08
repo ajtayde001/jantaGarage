@@ -100,11 +100,11 @@ const KarykrtaCard = () => {
           width: "100%",
           // border:"2px solid red",
           padding:"10px",
-          marginTop:"15px",
+          marginTop:"25px",
           // maxHeight:"300px",
           // overflowY:"auto"
           height: "345px",
-          
+          margin:"auto",
         }}
       >       <div
           style={{
@@ -112,8 +112,9 @@ const KarykrtaCard = () => {
             margin: "auto",
             float:"left",
             backgroundColor: "white",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
-            // marginTop: "-41px",
+            margin:"auto",
+            // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            // marginTop: "41px",
           }}
         >
           <Tabs variant={"soft-rounded"} colorScheme="white">
@@ -256,7 +257,7 @@ const KarykrtaCard = () => {
                             width: "100%",
                             padding: "20px",
                             height: "50px",
-                            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                            // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                           }}
                         >
                           {mainData?.length > 0 &&
@@ -264,6 +265,7 @@ const KarykrtaCard = () => {
                                 if(index<=2){
                                     return (
                                         <KartkrtaTable
+                                        indexData={index}
                                           key={item.id}
                                           {...item}
                                          

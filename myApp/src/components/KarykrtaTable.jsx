@@ -56,10 +56,12 @@ import { Complainerdata } from "./Complainerdata";
 import ApexChart from "./Piechart";
 
 const KartkrtaTable = ({
+
     address,
     officeImage,
     users,
     name,
+    indexData,
     karyakartas,
     InProgress,
     hold,
@@ -168,7 +170,7 @@ const newcreatedDate = createdDate?createdDate.split("T")[0] : "";
           // height: "200px",
           display: "table",
           background: "white",
-          boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}
       >
         <td style={{width:"20px",textAlign:"left"}}>
@@ -190,7 +192,27 @@ const newcreatedDate = createdDate?createdDate.split("T")[0] : "";
           )}
         </td>
         <td style={{width:"50px"}}>
-            <img src="https://staging.digitaloms.in/assets/layout/icon/big-cup-svgrepo-com.svg" alt="" />
+        <Flex>
+              <Tooltip label={"Documents"} placement="left">
+                <Box ml="1" marginTop={4}>
+                  
+                   
+                <img style={{width:"30px"}} src="https://staging.digitaloms.in/assets/layout/icon/big-cup-svgrepo-com.svg" alt="" />
+                    
+              
+                  <Badge
+                    ml="2"
+                    marginTop="-69px"
+                    bg={"transparent"}
+                    color={"blue"}
+                  >
+                  {indexData+1}
+                  </Badge>
+                  
+                </Box>
+                </Tooltip>
+              </Flex>
+           
         </td>
        
         <td style={{width:"150px",textAlign:"left"}}>

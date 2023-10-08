@@ -98,7 +98,7 @@ const Officecard = () => {
           width: "100%",
           // border:"2px solid red",
           padding:"10px",
-          marginTop:"15px",
+          marginTop:"10px",
           // maxHeight:"300px",
           // overflowY:"auto"
           height: "345px",
@@ -110,7 +110,7 @@ const Officecard = () => {
             margin: "auto",
             float:"left",
             backgroundColor: "white",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
             // marginTop: "-41px",
           }}
         >
@@ -125,6 +125,7 @@ const Officecard = () => {
                     flexDirection: "column",
                     width: "95%",
                     marginTop: "-15.5px",
+                    margin:"auto",
                     // marginLeft: "30px",
                       // height:"600px",
                     // border: "3px solid black",

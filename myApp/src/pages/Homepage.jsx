@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
-import { Box, Card } from "@chakra-ui/react";
+import { Box, Card, Link } from "@chakra-ui/react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import {
   getDevelopmentwork,
   getInProgressDAta,
   getInwardOut,
+  getKarykrtaDAta,
   getOffice,
   getOnHoldDAta,
   getProductDAta,
@@ -38,7 +39,12 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-
+import { IoIosArrowForward } from "react-icons/io";
+import { GrFormPrevious } from "react-icons/gr";
+import Complaincard from "../components/Complaincard";
+// import { Link, Navigate } from "react-router-dom";
+import Officecard from "../components/OfficeCard";
+import KarykrtaCard from "../components/KarykrtaCard";
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -403,7 +409,7 @@ export const Homepage = () => {
                 <Complaincard/>
                 <div >
                  
-              <Link to={"/complaint"}>See More...</Link>
+              <Link color={"blue"} textDecoration={"none"} to={"/complaint"}>See More...</Link>
                 </div>
             </div>
             
@@ -472,7 +478,7 @@ const DIV = styled.div`
   .graphbigdiv {
     width: 95%;
     /* height: 1000px; */
-    border: 1px solid red;
+    /* border: 1px solid red; */
     margin: auto;
     margin-top: 10px;
     display: flex;
@@ -485,7 +491,7 @@ const DIV = styled.div`
     flex-direction: column;
     width: 77%;
     /* border: 2px solid pink; */
-    gap: 15px;
+    gap: 20px;
   }
   .graphcat {
     padding: 5px;
