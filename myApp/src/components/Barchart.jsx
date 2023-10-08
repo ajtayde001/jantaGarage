@@ -46,7 +46,7 @@ const ApexChart3 = () => {
   })
 
   return (
-    <div id="chart" style={{width:"300px"}}>
+    <div id="chart" style={{width:"300px",marginTop:"20px"}}>
       <ReactApexChart options={chartData.options} series={chartData.series} type="bar" />
     </div>
   );

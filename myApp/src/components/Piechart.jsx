@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ApexChart = ({ catNameArray, catCountArray, posi, legenda }) => {
-  console.log(catNameArray, catCountArray);
+const ApexChart = ({ catNameArray, catCountArray, posi, legenda ,widths,lableshow}) => {
+  // console.log(catNameArray, catCountArray);
   const [chartData] = useState({
     series: catCountArray || [],
     options: {
@@ -14,11 +14,15 @@ const ApexChart = ({ catNameArray, catCountArray, posi, legenda }) => {
           donut: {
             size: "82%",
             labels: {
-              show: true,
+              show: lableshow,
               total: {
                 showAlways: true,
+                // label:"",
                 show: true,
+                
+                // width:100
               },
+              position:"centre"
             },
           },
         },
@@ -71,13 +75,16 @@ const ApexChart = ({ catNameArray, catCountArray, posi, legenda }) => {
   // }, [catNameArray,catCountArray]);
 
   return (
-    <div id="chart" style={{ width: "400px" }}>
+    <>
+    {/* <div id="chart" style={{ width: "400px" }}> */}
       <ReactApexChart
         options={chartData.options}
         series={chartData.series}
         type="donut"
+        width={widths}
       />
-    </div>
+    {/* </div> */}
+    </>
   );
 };
 

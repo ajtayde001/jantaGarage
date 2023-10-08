@@ -13,6 +13,7 @@ import {
   getDevelopmentwork,
   getInProgressDAta,
   getInwardOut,
+  getKarykrtaDAta,
   getOffice,
   getOnHoldDAta,
   getProductDAta,
@@ -27,6 +28,8 @@ import ReactApexChart from "react-apexcharts";
 import ApexChart3 from "../components/Barchart";
 import { BsCircle } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
+import { GrFormPrevious } from "react-icons/gr";
 import {
   Table,
   Thead,
@@ -38,6 +41,10 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import Complaincard from "../components/Complaincard";
+import { Link, Navigate } from "react-router-dom";
+import Officecard from "../components/OfficeCard";
+import KarykrtaCard from "../components/KarykrtaCard";
 
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;
@@ -50,11 +57,7 @@ export const Homepage = () => {
   const {
     isLoading,
     products,
-    inprogressdata,
-    solvedata,
-    onholddata,
-    queuedata,
-    statusupdatedata,
+   
     catTotal,
     attenddata,
     inwardoutdata,
@@ -63,8 +66,8 @@ export const Homepage = () => {
     officedata,
     statusdata,
   } = useSelector((store) => store.productReducer);
-  console.log(products);
-  console.log(catTotal);
+  // console.log(products);
+  // console.log(catTotal);
 
   let dataMain = { kiosk: false };
   const JWTToken = localStorage.getItem("token");
@@ -147,58 +150,7 @@ export const Homepage = () => {
 
   console.log(statusdata);
   /////////////////////////////////
-  // const [chartData] = useState({
-  //   series:catCountArray||[] ,
-  //   options: {
-  //     chart: {
-  //       type: 'donut',
-  //     },
-  //     plotOptions: {
-  //       pie: {
-  //         donut: {
-  //           labels: {
-  //             show: true,
-  //             total: {
-  //               showAlways: true,
-  //               show: true
-  //             }
-  //           }
-  //         }
-  //       }
-  //     },
-  //     dataLabels: {
-  //       enabled: false
-  //     },
-  //     labels:catNameArray||[],
-  //   //   dataLabels: {
-  //   //     dropShadow: {
-  //   //       blur: 3,
-  //   //       opacity: 0.8
-  //   //     }
-  //   //   },
-  //     responsive: [
-  //       {
-  //         breakpoint: 480,
-  //         options: {
-  //           chart: {
-  //             width: 200,
-  //           },
-  //           legend: {
-  //             position: 'bottom',
-  //           },
-  //         },
-  //       },
-  //     ],
-  //   },
-  // });
-  // if(catNameArray.length==0 ){
-  //   countRef.current= setTimeout(() => {
-  //     window.location.reload()
-  //    }, 1000)
-  // }else{
-  //   clearTimeout(countRef.current);
-  // }
-
+  
   const colorArray = [
     "rgb(0, 143, 251)",
     "rgb(0, 227, 150)",
@@ -214,15 +166,8 @@ export const Homepage = () => {
     dispatch(getTodayEvent(yourConfig));
     dispatch(getOffice(yourConfig));
     dispatch(getStatus(yourConfig));
-    dispatch(getProductDAta(dataMain, yourConfig));
-    dispatch(getInProgressDAta(dataMain, yourConfig));
-    dispatch(getSolvedDAta(dataMain, yourConfig));
-    dispatch(getOnHoldDAta(dataMain, yourConfig));
-    dispatch(getQueueDAta(dataMain, yourConfig));
-    dispatch(getStatusUpdateDAta(dataMain, yourConfig));
-    dispatch(getCategoriesData(yourConfig));
-    dispatch(getAssembliesData(yourConfig));
-  }, [JWTToken, cm]);
+   dispatch(getKarykrtaDAta({},yourConfig))
+  }, []);
 
   return (
     <DIV>
@@ -243,23 +188,27 @@ export const Homepage = () => {
           </div>
         </div>
       </DIV1>
-      {isLoading ? (
+      {/* {isLoading ? (
         <h1>Loading........</h1>
-      ) : (
+      ) : ( */}
+
         <div className="graphbigdiv">
           <div className="graphcatMain">
             <div className="graphcat">
               <div className="graphcat1">
-                <div className="chart1">
-                  <span style={{ padding: "10px", fontSize: "12px" }}>
+              <span style={{ fontSize: "12px",float:"left" }}>
                     Complain Category
                   </span>
+                <div className="chart1">
+                 
                   {catNameArray && catNameArray.length > 0 ? (
                     <ApexChart
                       catNameArray={catNameArray || []}
                       catCountArray={catCountArray || []}
                       posi={"right"}
                       legenda={true}
+                      widths={410}
+                      lableshow={true}
                     />
                   ) : null}
                 </div>
@@ -274,6 +223,9 @@ export const Homepage = () => {
                 </div>
               </div>
               <div className="graphcat2">
+              <span style={{ padding: "10px", fontSize: "12px" ,float:"left"}}>
+                  Complaints
+                </span>
                 <div style={{}}>
                   {statusNameArray && statusNameArray.length > 0 ? (
                     <ApexChart
@@ -282,6 +234,8 @@ export const Homepage = () => {
                       catCountArray={statusCountdata || []}
                       posi={"bottom"}
                       legenda={true}
+                      widths={380}
+                      lableshow={true}
                     />
                   ) : null}
                 </div>
@@ -289,16 +243,19 @@ export const Homepage = () => {
             </div>
             <div className="graphcat">
               <div className="graphcat1">
-                <div className="chart1">
-                  <span style={{ padding: "10px", fontSize: "12px" }}>
-                    Complain Category
+              <span style={{ padding: "10px", fontSize: "12px",float:"left" }}>
+                    Schedule Book
                   </span>
+                <div className="chart1">
+                  
                   {attendNameArray && attendNameArray.length > 0 ? (
                     <ApexChart
                       catNameArray={attendNameArray || []}
                       catCountArray={attendCountArray || []}
                       posi={"right"}
                       legenda={true}
+                      widths={410}
+                      lableshow={true}
                     />
                   ) : null}
                 </div>
@@ -313,6 +270,9 @@ export const Homepage = () => {
                 </div>
               </div>
               <div className="graphcat2">
+              <span style={{ padding: "10px", fontSize: "12px",float:"left" }}>
+                  Register Book
+                </span>
                 <div style={{}}>
                   {inwardNameArray && inwardNameArray.length > 0 ? (
                     <ApexChart
@@ -321,6 +281,8 @@ export const Homepage = () => {
                       catCountArray={inwardCountArray || []}
                       posi={"bottom"}
                       legenda={true}
+                      widths={380}
+                      lableshow={true}
                     />
                   ) : null}
                 </div>
@@ -328,64 +290,81 @@ export const Homepage = () => {
             </div>
 
             <div className="graphcat3">
-              <div className="chart1">
-                <span style={{ padding: "10px", fontSize: "12px" }}>
-                  Complain Category
+             <span style={{  fontSize: "12px",padding:"10px" }}>
+                  Register Book
                 </span>
+            
+                <div style={{display:"flex",marginTop:"20px",marginLeft:"50px",gap:"80px"}}>
+                <div>
+               {statusNameArray && statusNameArray.length > 0 ? (
+                 <ApexChart
+                   catNameArray={statusNameArray || []}
+                   catCountArray={statusCountdata || []}
+                   posi={"right"}
+                   legenda={false}
+                   widths={290}
+                   lableshow={true}
+                 />
+               ) : null}
+             </div>
 
-                {statusNameArray && statusNameArray.length > 0 ? (
-                  <ApexChart
-                    catNameArray={statusNameArray || []}
-                    catCountArray={statusCountdata || []}
-                    posi={"right"}
-                    legenda={false}
-                  />
-                ) : null}
-              </div>
+             <div
+               style={{
+                // width:"300px",
+                height:"100px",
+                 display: "grid",
+                 gridTemplateColumns: "repeat(3, 1fr)",
+                //  gap: "8px",
+                 alignContent:"centre",
+                 alignItems:"center"
+               }}
+              //  className="chart2"
+             >  
+               {statusdata.length > 0 &&
+                 statusdata.map((item, ind) => {
+                   return (
+                     <div style={{ width: "100%",display:"flex",gap:"5px" }}>
+                       <FaCircle
+                           style={{ marginTop:"5px"}}
+                           color={colorArray[ind]}
+                         ></FaCircle>
+                       <p style={{marginRight:"10px",fontSize:"14px"}}>
+                         
+                         {item.count} {item.status}
+                       </p>
+                     </div>
+                   );
+                 })}
+             </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
-                  gap: "8px",
-                  alignContent:"centre",
-                  alignItems:"center"
-                }}
-                className="chart2"
-              >
-                {statusdata.length > 0 &&
-                  statusdata.map((item, ind) => {
-                    return (
-                      <div style={{ width: "100%" }}>
-                        <FaCircle
-                            style={{ }}
-                            color={colorArray[ind]}
-                          ></FaCircle>
-                        <p style={{  marginTop:"-20px",marginRight:"10px"}}>
-                          
-                          {item.count} {item.status}
-                        </p>
-                      </div>
-                    );
-                  })}
-              </div>
+                </div>
+              
             </div>
             <div className="graphcat4">
-              <div className="chart1">
-                <span style={{ padding: "10px", fontSize: "12px" }}>
-                  Complain Category
+              <div style={{textAlign:"start"}}>
+              <span style={{ padding: "10px", fontSize: "12px"}}>
+                  Development Category
                 </span>
+              </div>
+             
+             
+           
+                <div style={{display:"flex",marginTop:"20px"}}>
+                <div className="chart1">
+                
                 {developNameArray && developNameArray.length > 0 ? (
                   <ApexChart
                     catNameArray={developNameArray || []}
                     catCountArray={developCountdata || []}
                     legenda={false}
+                    widths={290}
+                    lableshow={true}
                   />
                 ) : null}
               </div>
 
               <div className="chart2" style={{ width: "100%" }}>
-                <TableContainer maxWidth={"100%"}>
+                <TableContainer maxWidth={"100%"} fontSize={"14px"}>
                   <Table variant="simple" bg={"white"} textDecoration={"none"}>
                     <Thead bg={"white"} color={"white"}>
                       <Tr color={"white"}>
@@ -422,27 +401,79 @@ export const Homepage = () => {
                   </Table>
                 </TableContainer>
               </div>
+                </div>
+              
             </div>
+
+            <div className="box">
+             <p style={{padding:"10px",textAlign:"start",fontSize:"14px"}}>Recent Complaints</p>
+                <Complaincard/>
+                <div >
+                 
+              <Link to={"/complaint"}>See More...</Link>
+                </div>
+            </div>
+            
+<div className="officecard">
+  <p style={{textAlign:"start"}}>Offices</p>
+<Officecard/>
+</div>
+<div className="karykrtacard">
+  <p style={{textAlign:"start"}}>Top Performer Karyakartas</p>
+<KarykrtaCard/>
+</div>
+
+
           </div>
+
+          
 
           <div className="lastdivgraph">
             <div className="lastdivgraph1">
-              {/* <h1>last</h1> */}
-              <ApexChart3 />
+              <div style={{ width:"90%",display:"flex",justifyContent:"space-between",margin:'auto',fontSize:"12px",padding:"10px",marginTop:"20px"}}>
+                <p style={{}}>No.Of Visitor's <button></button></p>
+                <p>Today,Fiday,23Oct 2023</p>
+              </div>
+              <ApexChart3  />
+              <div style={{width:"90%",display:"flex",justifyContent:"space-between",margin:'auto',marginTop:"20px"}}>
+              <GrFormPrevious size={25}></GrFormPrevious>
+              <IoIosArrowForward size={20}></IoIosArrowForward>
+              </div>
+              <div style={{width:"90%",display:"flex",justifyContent:"space-between",margin:'auto',marginTop:"20px"}}>
+              <p>Total No. of Visitor's</p>
+             <img src="https://staging.digitaloms.in/assets/layout/icon/leader.svg" alt="" />
+              </div>
+              <div style={{width:"90%",backgroundColor:"rgb(254, 176, 25)",margin:'auto',marginTop:"20px"}}>
+              <button>Add Visitor</button>
+              </div>
+              
             </div>
             <div className="lastdivgraph2">
-              <h3>Today's Birthday</h3>
+              <h1>Today's Birthday</h1>
             </div>
-            <div className="lastdivgraph3">ajay</div>
+            <div className="lastdivgraph3">
+              <div style={{width:"90%",display:"flex",gap:"20px",margin:"auto",alignContent:"center"}}>
+                <div>
+                  <h2>Karykrta</h2>
+                  <p>45</p>
+                </div>
+                <div>
+                  <h2>Inactive</h2>
+                  <p>78</p>
+                </div>
+                <img src="https://staging.digitaloms.in/assets/layout/icon/leader.svg" alt="" />
+              </div>
+            </div>
           </div>
         </div>
-      )}
+      {/* )} */}
+ 
     </DIV>
   );
 };
 const DIV = styled.div`
   width: 100%;
-  height: 2000px;
+  height: 3500px;
   background-color: #eceff5;
 
   .graphbigdiv {
@@ -471,7 +502,7 @@ const DIV = styled.div`
     width: 100%;
   }
   .graphcat1 {
-    display: flex;
+    /* display: flex; */
     background-color: #ffffff;
     width: 75%;
     gap: 50px;
@@ -480,21 +511,24 @@ const DIV = styled.div`
     align-items: center;
   }
   .graphcat3 {
-    display: flex;
-    background-color: #ffffff;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff; 
     height: 350px;
-    gap: 50px;
     border-radius: 20px;
     padding: 10px;
-    align-items: center;
+    
+    align-items: start;
+   
   }
   .graphcat4 {
-    display: flex;
+    /* display: flex; */
+    /* flex-direction:"column"; */
     background-color: #ffffff;
     width: 100%;
     height: 400px;
-    gap: 50px;
+    /* gap: 80px; */
     border-radius: 20px;
     padding: 10px;
     align-items: center;
@@ -507,6 +541,7 @@ const DIV = styled.div`
     text-align: left;
     /* margin: auto; */
     margin-left: 30px;
+    /* width: "400px" */
   }
 
   .chart2 {
@@ -518,10 +553,7 @@ const DIV = styled.div`
     background-color: #ffffff;
     padding: 10px;
     border-radius: 20px;
-    /* align-items: center;
-    align-content: center; */
-    /* margin-left: 40px; */
-    /* margin: auto; */
+    
   }
 
   .lastdivgraph {
@@ -545,16 +577,43 @@ const DIV = styled.div`
   .lastdivgraph2 {
     height: 100px;
     width: 100%;
-    /* border: 1px solid green; */
+    padding:12px;
+    text-align: start;
     border-radius: 20px;
     background-color: #ffffff;
+    font-size: 20px;
   }
   .lastdivgraph3 {
     height: 80px;
     width: 100%;
-    /* border: 1px solid green; */
+    margin:"auto";
+    align-content:center;
     border-radius: 20px;
     background-color: #ffffff;
+  }
+
+  .box{
+    margin: auto;
+    background-color: #ffffff;
+    width: 100%;
+    height: 470px;
+    border-radius: 20px;
+  }
+  .officecard{
+    background-color: #ffffff;
+    width: 100%;
+    height: 630px;
+    border-radius: 20px;
+    padding: 10px;
+    align-items: center;
+  }
+  .karykrtacard{
+    background-color: #ffffff;
+    width: 100%;
+    height: 450px;
+    border-radius: 20px;
+    padding: 10px;
+    align-items: center;
   }
 `;
 
