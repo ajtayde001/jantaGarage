@@ -1,7 +1,43 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
-import { Box, Card } from '@chakra-ui/react';
+import { Box, Card } from "@chakra-ui/react";
+import CanvasJSReact from "@canvasjs/react-charts";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAssembliesData,
+  getAttend,
+  getCatTotal,
+  getCategoriesData,
+  getDevelopmentwork,
+  getInProgressDAta,
+  getInwardOut,
+  getOffice,
+  getOnHoldDAta,
+  getProductDAta,
+  getQueueDAta,
+  getSolvedDAta,
+  getStatus,
+  getStatusUpdateDAta,
+  getTodayEvent,
+} from "../redux/productReducer.js/action";
+import ApexChart from "../components/Piechart";
+import ReactApexChart from "react-apexcharts";
+import ApexChart3 from "../components/Barchart";
+import { BsCircle } from "react-icons/bs";
+import { FaCircle } from "react-icons/fa";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -51,7 +87,7 @@ export const Homepage = () => {
     catTotal?.map((item) => {
       return item.name == null ? "null" : item.name;
     });
-  // console.log(catArray)
+
   const catCountArray =
     catTotal.length > 0 &&
     catTotal?.map((item) => {
