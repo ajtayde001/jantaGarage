@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
+
 import { Box, Card} from "@chakra-ui/react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import axios from "axios";
@@ -46,6 +47,7 @@ import Complaincard from "../components/Complaincard";
 // import { Link, Navigate } from "react-router-dom";
 import Officecard from "../components/OfficeCard";
 import KarykrtaCard from "../components/KarykrtaCard";
+
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -91,7 +93,7 @@ export const Homepage = () => {
     catTotal?.map((item) => {
       return item.name == null ? "null" : item.name;
     });
-  // console.log(catArray)
+
   const catCountArray =
     catTotal.length > 0 &&
     catTotal?.map((item) => {
