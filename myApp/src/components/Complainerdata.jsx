@@ -4,7 +4,9 @@ export const Complainerdata = ({complainer}) => {
    <div style={{display:"flex",gap:"5px"}}>
     <div>
         {
-            complainer?.isVoter? <img style={{width:"15px",marginLeft:"20px"}} src="https://staging.digitaloms.in/assets/icons/isVoter.svg" alt="" />: <img style={{width:"15px",marginLeft:"20px"}} src="https://staging.digitaloms.in/assets/icons/isVoterred.svg" alt="" />
+            complainer?.isVoter? <img style={{width:"15px",marginLeft:"20px"}} 
+            src="https://staging.digitaloms.in/assets/icons/isVoter.svg" alt="" />: <img style={{width:"15px",marginLeft:"20px"}} 
+            src="https://staging.digitaloms.in/assets/icons/isVoterred.svg" alt="" />
         }
         {/* <img style={{width:"15px",marginLeft:"20px"}} src="https://staging.digitaloms.in/assets/icons/isVoter.svg" alt="" /> */}
     </div>

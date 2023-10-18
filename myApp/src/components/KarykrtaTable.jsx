@@ -3,11 +3,6 @@ import { MdModeEdit } from "react-icons/md";
 import { GrDocument, GrDocumentDownload } from "react-icons/gr";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { BiPlusMedical } from "react-icons/bi";
-import {
-  BsBookmark,
-  BsFillBookmarkFill,
-  BsFillCheckCircleFill,
-} from "react-icons/bs";
 import { FaComments } from "react-icons/fa";
 import { IoIosDocument } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
@@ -24,51 +19,19 @@ import {
   
 } from "@chakra-ui/react";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  TableContainer,
-  Table,
   Flex,
-  Select,
-  Input,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Text,
-  Td,
-
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { Complainerdata } from "./Complainerdata";
 import ApexChart from "./Piechart";
 
 const KartkrtaTable = ({
-
-    address,
-    officeImage,
-    users,
-    name,
     indexData,
-    karyakartas,
     InProgress,
     hold,
     solved,
-    total,
     unSolved,
-    officedata,
+   
     email,
     phone,
     firstName,
@@ -83,9 +46,6 @@ const KartkrtaTable = ({
     // officeName
 }) => {
 
-    // const officename = name ? name : "__";
-    // const karykertaname=karyakartas?karyakartas:"__"
-    // const totalkarykrta=total?total:"__"
     const userName=firstName+lastName
   
     let Inpro=InProgress==null?0:+InProgress
@@ -131,24 +91,9 @@ const newcreatedDate = createdDate?createdDate.split("T")[0] : "";
     onOpen: statusOnOpen,
     onClose: statusClose,
   } = useDisclosure();
-  // const { cmntIsOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = useRef();
-  const initialRef = useRef(null);
-  const finalRef = useRef(null);
-  const [textdata, setTextdata] = useState("");
+ 
   const [hide, setHide] = useState(false);
   const [btn, setBtn] = useState(true);
-  const [deletbtn, setdeleteBtn] = useState(false);
-  const [comentbtn, setcomentBtn] = useState(false);
-  const CustomCard = React.forwardRef(({ children, ...rest }, ref) => (
-    <Flex>
-      <Box>
-        <Tag bg={"white"}  ref={ref} {...rest}>
-          {children}
-        </Tag>
-      </Box>
-    </Flex>
-  ));
   // console.log(textdata)
   const hidehaddele = () => {
     setHide(true);
@@ -253,6 +198,16 @@ const newcreatedDate = createdDate?createdDate.split("T")[0] : "";
         </td>
         <td style={{width:"70px",fontSize:"13px"}}>
           {newcreatedDate}
+        </td>
+        <td style={{width:"30px",fontSize:"13px"}}>
+          <MdModeEdit  size="18px"
+                    color="orange"
+                    type="button"></MdModeEdit>
+        </td>
+        <td style={{width:"30px",fontSize:"13px"}}>
+         <RiDeleteBin5Line  size="18px"
+                    color="orange"
+                    type="button"></RiDeleteBin5Line>
         </td>
       </tr>
 
