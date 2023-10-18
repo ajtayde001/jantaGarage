@@ -1,7 +1,50 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
-import { Box, Card } from '@chakra-ui/react';
+import { Box, Card, Link } from "@chakra-ui/react";
+import CanvasJSReact from "@canvasjs/react-charts";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAssembliesData,
+  getAttend,
+  getCatTotal,
+  getCategoriesData,
+  getDevelopmentwork,
+  getInProgressDAta,
+  getInwardOut,
+  getKarykrtaDAta,
+  getOffice,
+  getOnHoldDAta,
+  getProductDAta,
+  getQueueDAta,
+  getSolvedDAta,
+  getStatus,
+  getStatusUpdateDAta,
+  getTodayEvent,
+} from "../redux/productReducer.js/action";
+import ApexChart from "../components/Piechart";
+import ReactApexChart from "react-apexcharts";
+import ApexChart3 from "../components/Barchart";
+import { BsCircle } from "react-icons/bs";
+import { FaCircle } from "react-icons/fa";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
+import { IoIosArrowForward } from "react-icons/io";
+import { GrFormPrevious } from "react-icons/gr";
+import Complaincard from "../components/Complaincard";
+// import { Link, Navigate } from "react-router-dom";
+import Officecard from "../components/OfficeCard";
+import KarykrtaCard from "../components/KarykrtaCard";
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -130,7 +173,11 @@ export const Homepage = () => {
       <DIV1>
         <div className="dashboarduper">
           <div className="dashh3">
-            <h3>Dashboard</h3>
+            <h1 style={{
+              fontWeight:"bold",
+              fontSize:"20px",
+              margin:"10px"
+            }}>WelCome To Dashboard</h1>
           </div>
           <div className="dashrightdiv">
             <button> View All States</button>
@@ -139,7 +186,7 @@ export const Homepage = () => {
                 src="https://staging.digitaloms.in/assets/tempIcons/Path%20281.png"
                 alt=""
               />
-              <span>Sampark Karyalay</span>
+              <span >Sampark Karyalay</span>
             </div>
           </div>
         </div>
@@ -365,8 +412,8 @@ export const Homepage = () => {
              <p style={{padding:"10px",textAlign:"start",fontSize:"14px"}}>Recent Complaints</p>
                 <Complaincard/>
                 <div >
-                 
-              <Link color={"blue"} textDecoration={"none"} to={"/complaint"}>See More...</Link>
+                 <Link href={"/complaint"} color={"blue"}><button>See More...</button></Link>
+              
                 </div>
             </div>
             
@@ -388,7 +435,7 @@ export const Homepage = () => {
             <div className="lastdivgraph1">
               <div style={{ width:"90%",display:"flex",justifyContent:"space-between",margin:'auto',fontSize:"12px",padding:"10px",marginTop:"20px"}}>
                 <p style={{}}>No.Of Visitor's <button></button></p>
-                <p>Today,Fiday,23Oct 2023</p>
+                <p>{`Today, ${(new Date().toDateString())}`}</p>
               </div>
               <ApexChart3  />
               <div style={{width:"90%",display:"flex",justifyContent:"space-between",margin:'auto',marginTop:"20px"}}>
@@ -558,7 +605,7 @@ const DIV = styled.div`
   .officecard{
     background-color: #ffffff;
     width: 100%;
-    height: 630px;
+    height: 530px;
     border-radius: 20px;
     padding: 10px;
     align-items: center;

@@ -101,7 +101,7 @@ const Officecard = () => {
           marginTop:"10px",
           // maxHeight:"300px",
           // overflowY:"auto"
-          height: "345px",
+          // height: "345px",
           
         }}
       >       <div
@@ -214,13 +214,13 @@ const Officecard = () => {
                           style={{
                             width: "100%",
                             padding: "20px",
-                            height: "50px",
-                            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+                            // height: "50px",
+                            // boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
                           }}
                         >
                           {mainData?.length > 0 &&
                             mainData?.map((item,index) => {
-                                if(index<=3){
+                                if(index<3){
                                     return (
                                         <OfficeTable
                                           key={item.id}

@@ -80,6 +80,7 @@ const KartkrtaTable = ({
     registerInProgress,
     registerSolved,
     registerUnSolved,
+    recordStatus
     // officeName
 }) => {
 
@@ -108,7 +109,7 @@ let regUnsolve=registerUnSolved==null?0:+registerUnSolved
   let registerNamearray=['registerInProgress','registerHold','registerSolved','registerUnSolved']
 // console.log(arr)
 // console.log(arrName)
-
+let clr=recordStatus=="DELETED"?'red':"green"
 
 const newcreatedDate = createdDate?createdDate.split("T")[0] : "";
   const {
@@ -220,7 +221,7 @@ const newcreatedDate = createdDate?createdDate.split("T")[0] : "";
             <div style={{ marginTop:"10px"}}>
             <img src="https://staging.digitaloms.in/assets/icons/man.svg" alt="" />
                 </div>
-                <GoDotFill style={{color:"greenyellow"}}></GoDotFill>
+                <GoDotFill color={clr}></GoDotFill>
                 <div>
                     <div>
                     {userName}
