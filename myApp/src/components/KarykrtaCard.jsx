@@ -1,50 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  deleteData,
-  getAssembliesData,
-  getCategoriesData,
-  getFilterDAta,
-  getFilterInprogress,
-  getFilterOnHold,
-  getFilterQueue,
-  getFilterSolved,
-  getFilterStatusupdate,
-  getInProgressDAta,
-  getKarykrtaDAta,
-  getOnHoldDAta,
-  getProductDAta,
-  getQueueDAta,
-  getSearchDAta,
-  getSearchInprogress,
-  getSearchOnHold,
-  getSearchQueue,
-  getSearchSolved,
-  getSearchsStatusUpdate,
-  getSolvedDAta,
-  getStatusUpdateDAta,
-  postCommentData,
-} from "../redux/productReducer.js/action";
 import { useDispatch, useSelector } from "react-redux";
-import { FcFilledFilter } from "react-icons/fc";
-import { FaDownload } from "react-icons/fa";
-import { read, utils, writeFile } from "xlsx";
-import TableList from "../components/TableList";
-import { IoIosArrowForward } from "react-icons/io";
-import { GrFormPrevious } from "react-icons/gr";
-import { Link } from "react-router-dom";
+
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  Box,
-  Button,
-  Portal,
   TabList,
   Tabs,
   Tab,
@@ -52,10 +9,6 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import { color } from "framer-motion";
-import styled from "@emotion/styled";
-import axios from "axios";
-import OfficeTable from "./OfficeTable";
 import KartkrtaTable from "./KarykrtaTable";
 
 const mainObj = {
@@ -69,7 +22,7 @@ const cityData = {
   label: "",
   value: "",
 };
-const KarykrtaCard = () => {
+const KarykrtaCard = ({limit}) => {
   const {
     karykarta,
     officedata
@@ -247,6 +200,20 @@ const KarykrtaCard = () => {
                             {" "}
                             Added on {" "}
                           </th>
+                          <th
+                            _ngcontent-rcy-c20=""
+                            className="ng-star-inserted"
+                          >
+                            {" "}
+                            Actions {" "}
+                          </th>
+                          <th
+                            _ngcontent-rcy-c20=""
+                            className="ng-star-inserted"
+                          >
+                            {" "}
+                           {" "}
+                          </th>
                         </tr>
                       </thead>
                       {mainData?.length == 0 ? (
@@ -262,7 +229,7 @@ const KarykrtaCard = () => {
                         >
                           {mainData?.length > 0 &&
                             mainData?.map((item,index) => {
-                                if(index<=2){
+                                if(limit && (index<=2)){
                                     return (
                                         <KartkrtaTable
                                         indexData={index}
@@ -271,6 +238,15 @@ const KarykrtaCard = () => {
                                          
                                         />
                                       );
+                                } else if (!limit){
+                                  return (
+                                    <KartkrtaTable
+                                    indexData={index}
+                                      key={item.id}
+                                      {...item}
+                                     
+                                    />
+                                  );
                                 }
                               
                             })}

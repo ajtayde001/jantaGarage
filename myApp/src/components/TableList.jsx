@@ -103,18 +103,12 @@ const TableList = ({
         alt=""
       />
     );
-
   const currentDate = new Date();
-  // const day = currentDate.getDate();
-  // const month = currentDate.getMonth() + 1;
-  // const year = currentDate.getFullYear();
-
-  // const formattedDate = `${year}-${month}-${day}`;
-  // console.log(date)
   const newcreatedDate = createdDate ? createdDate.split("T")[0] : null;
   const complainDueData = complainDueDate ? complainDueDate.split("T")[0] : "";
   const newDate = new Date(complainDueData);
-  console.log(currentDate < complainDueData);
+
+  
   const karykrtaMaleFemal =
     karyaKarta?.gender == "MALE" ? (
       <img

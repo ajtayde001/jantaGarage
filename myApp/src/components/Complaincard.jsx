@@ -1,49 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   deleteData,
-  getAssembliesData,
-  getCategoriesData,
-  getFilterDAta,
-  getFilterInprogress,
-  getFilterOnHold,
-  getFilterQueue,
-  getFilterSolved,
-  getFilterStatusupdate,
   getInProgressDAta,
   getOnHoldDAta,
   getProductDAta,
   getQueueDAta,
-  getSearchDAta,
-  getSearchInprogress,
-  getSearchOnHold,
-  getSearchQueue,
-  getSearchSolved,
-  getSearchsStatusUpdate,
   getSolvedDAta,
   getStatusUpdateDAta,
   postCommentData,
 } from "../redux/productReducer.js/action";
 import { useDispatch, useSelector } from "react-redux";
-import { FcFilledFilter } from "react-icons/fc";
-import { FaDownload } from "react-icons/fa";
-import { read, utils, writeFile } from "xlsx";
 import TableList from "../components/TableList";
-import { IoIosArrowForward } from "react-icons/io";
-import { GrFormPrevious } from "react-icons/gr";
-import { Link } from "react-router-dom";
+
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  Box,
-  Button,
-  Portal,
+ 
   TabList,
   Tabs,
   Tab,
@@ -51,9 +21,7 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import { color } from "framer-motion";
-import styled from "@emotion/styled";
-import axios from "axios";
+
 
 const mainObj = {
   dateFrom: "",
@@ -69,40 +37,16 @@ const cityData = {
 const Complaincard = () => {
   const {
     products,
-    serchMainData,
-    CategoriesData,
-    assembliesData,
     inprogressdata,
     solvedata,
     onholddata,
     queuedata,
     statusupdatedata,
   } = useSelector((store) => store.productReducer);
-  console.log(products);
- 
-  const [total,setTotal]=useState(0)
-
-
+  // console.log(products);
   const dispatch = useDispatch();
   const [mainpage, setPage] = useState(0);
   const [mainsize, setPagesize] = useState(1);
-  const [searchdata, setSearchdata] = useState("");
-  const [mainID, setID] = useState(10);
-  const [cm, setcm] = useState(false);
-  const initRef = useRef();
-  const [mainData1, setMainData1] = useState(mainObj);
-  const [city, setCity] = useState(cityData);
-  const [cat, setcatData] = useState(null);
-
-  const [userSarch, setUserSearch] = useState("");
-  const [assemble, setassembleData] = useState(null);
-  const [typ, setTypData] = useState(null);
-  const nest = () => {
-    setPage(mainpage + 1);
-  };
-  const prev = () => {
-    setPage(mainpage - 1);
-  };
   let dataMain = { kiosk: false, page: { number: mainpage, size: mainsize } };
   const JWTToken = localStorage.getItem("token");
   const yourConfig = {
@@ -112,16 +56,6 @@ const Complaincard = () => {
       Authorization: `Bearer ${JWTToken}`,
     },
   };
-
-
-  useEffect(()=>{
-
-    axios.get("https://staging-api.digitaloms.in/complainbox/count",yourConfig)
-    .then((res)=>setTotal(res.data))
-  
-  
-  },[])
- 
 
   const mainData = products[0] ? products[0].reverse() : null;
   // console.log(mainData);
@@ -135,29 +69,6 @@ const Complaincard = () => {
     dispatch(deleteData(pros, yourConfig));
     // window.location.reload();
   };
-
-  // const hnadleSearch = (e) => {
-  //   e.preventDefault();
-  //   const pros = {
-  //     search: searchdata,
-  //     category: null,
-  //     type: null,
-  //     dateFrom: "",
-  //     dateTo: "",
-  //     kiosk: false,
-  //     page: { number: 0, size: mainsize },
-  //     flag: null,
-  //   };
-  //   dispatch(getSearchDAta(pros, yourConfig));
-  //   dispatch(getSearchInprogress(pros, yourConfig));
-  //   dispatch(getSearchSolved(pros, yourConfig));
-  //   dispatch(getSearchOnHold(pros, yourConfig));
-  //   dispatch(getSearchQueue(pros, yourConfig));
-  //   dispatch(getSearchsStatusUpdate(pros, yourConfig));
-  //   // setSearchdata("")
-
-  // };
-
   const hnadleComment = (id, textdata) => {
     let pros = {
       text: textdata,
@@ -168,34 +79,16 @@ const Complaincard = () => {
     dispatch(postCommentData(pros, yourConfig)).then((res) => {
       dispatch(getProductDAta(dataMain, yourConfig));
     });
-
     
   };
-  const caterf = cat ? JSON.parse(cat) : {};
-  // console.log(caterf);
-
-  const assembleOne = assemble ? JSON.parse(assemble) : {};
-  // console.log(assembleOne);
-
-  const typdata = caterf ? caterf.types : [];
-
-  // console.log(typdata)
-  const typKaObj = typ ? JSON.parse(typ) : {};
-  // console.log(city);
-  ////////////////////
-
-  
-
+ 
   useEffect(() => {
     dispatch(getProductDAta(dataMain, yourConfig));
     dispatch(getInProgressDAta(dataMain, yourConfig));
     dispatch(getSolvedDAta(dataMain, yourConfig));
     dispatch(getOnHoldDAta(dataMain, yourConfig));
     dispatch(getQueueDAta(dataMain, yourConfig));
-    dispatch(getStatusUpdateDAta(dataMain, yourConfig));
-    dispatch(getCategoriesData(yourConfig));
-    dispatch(getAssembliesData(yourConfig));
-   
+    dispatch(getStatusUpdateDAta(dataMain, yourConfig)); 
   }, [JWTToken]);
 
   const [bgun, setBgun] = useState(true);
@@ -204,15 +97,7 @@ const Complaincard = () => {
   const [bgOnhold, setOnhold] = useState(false);
   const [bgQueue, setQueue] = useState(false);
   const [bgStatus, setStatus] = useState(false);
-  const Styledcomp = {
-    border: "1px solid red",
-    borderRadius: "8px",
-    display: "flex",
-    flexDirection: "column",
-    backgroundColor: "black",
-    color: "white",
-  };
-
+  
   const handleUnsolved = () => {
     setBgun(true);
     setStatus(false);
@@ -262,7 +147,7 @@ const Complaincard = () => {
     setQueue(false);
     setInprog(false);
   };
-  console.log(bgun);
+  // console.log(bgun);
 
 
   return (
@@ -280,7 +165,7 @@ const Complaincard = () => {
         }}
       >       <div
           style={{
-            width: "95.5%",
+            width: "96.66%",
             margin: "auto",
             float:"left",
             backgroundColor: "white",

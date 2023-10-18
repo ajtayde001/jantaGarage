@@ -13,6 +13,7 @@ import { IoIosDocument } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
+import { PiArrowSquareOut } from "react-icons/pi";
 
 import {
   Badge,
@@ -67,6 +68,7 @@ const OfficeTable = ({
     unSolved,
     officedata
 }) => {
+  
 
     const officename = name ? name : "__";
     const karykertaname=karyakartas?karyakartas:"__"
@@ -100,23 +102,9 @@ const OfficeTable = ({
     onClose: statusClose,
   } = useDisclosure();
   // const { cmntIsOpen, onOpen, onClose } = useDisclosure()
-  const cancelRef = useRef();
-  const initialRef = useRef(null);
-  const finalRef = useRef(null);
-  const [textdata, setTextdata] = useState("");
+
   const [hide, setHide] = useState(false);
   const [btn, setBtn] = useState(true);
-  const [deletbtn, setdeleteBtn] = useState(false);
-  const [comentbtn, setcomentBtn] = useState(false);
-  const CustomCard = React.forwardRef(({ children, ...rest }, ref) => (
-    <Flex>
-      <Box>
-        <Tag bg={"white"}  ref={ref} {...rest}>
-          {children}
-        </Tag>
-      </Box>
-    </Flex>
-  ));
   // console.log(textdata)
   const hidehaddele = () => {
     setHide(true);
@@ -190,6 +178,16 @@ const OfficeTable = ({
             </td>
         <td>
           {karykertaname}
+        </td>
+        <td>
+        <PiArrowSquareOut  color="orange"
+                  type="button"></PiArrowSquareOut>
+        </td>
+        <td>
+        <BsFillCheckCircleFill
+                  color="orange"
+                  type="button"
+                ></BsFillCheckCircleFill>
         </td>
       </tr>
 

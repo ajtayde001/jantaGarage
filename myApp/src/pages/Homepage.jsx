@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Chart } from "react-google-charts";
-import { Box, Card, Link } from "@chakra-ui/react";
+
+import { Box, Card} from "@chakra-ui/react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import {Link} from "react-router-dom"
 import {
   getAssembliesData,
   getAttend,
@@ -45,6 +47,7 @@ import Complaincard from "../components/Complaincard";
 // import { Link, Navigate } from "react-router-dom";
 import Officecard from "../components/OfficeCard";
 import KarykrtaCard from "../components/KarykrtaCard";
+
 export const Homepage = () => {
   // var CanvasJS = CanvasJSReact.CanvasJS;
   var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -56,7 +59,7 @@ export const Homepage = () => {
   const {
     isLoading,
     products,
-   
+    karykarta,
     catTotal,
     attenddata,
     inwardoutdata,
@@ -96,8 +99,8 @@ export const Homepage = () => {
     catTotal?.map((item) => {
       return +item.count;
     });
-  console.log(catNameArray);
-  console.log(catCountArray);
+  // console.log(catNameArray);
+  // console.log(catCountArray);
 
   const attendNameArray =
     attenddata.length > 0 &&
@@ -147,7 +150,7 @@ export const Homepage = () => {
       return +item.count;
     });
 
-  console.log(statusdata);
+   
   /////////////////////////////////
   
   const colorArray = [
@@ -210,7 +213,7 @@ export const Homepage = () => {
                       catCountArray={catCountArray || []}
                       posi={"right"}
                       legenda={true}
-                      widths={410}
+                      widths={340}
                       lableshow={true}
                     />
                   ) : null}
@@ -412,18 +415,27 @@ export const Homepage = () => {
              <p style={{padding:"10px",textAlign:"start",fontSize:"14px"}}>Recent Complaints</p>
                 <Complaincard/>
                 <div >
-                 <Link href={"/complaint"} color={"blue"}><button>See More...</button></Link>
-              
+                 
+              <Link color={"blue"} textDecoration={"none"} to={"/complaint"}>See More...</Link>
                 </div>
             </div>
             
 <div className="officecard">
   <p style={{textAlign:"start"}}>Offices</p>
-<Officecard/>
+<Officecard limit={true}/>
+<div style={{marginTop:"120px",color:"blue"}}  >      
+  <Link color={"blue"} textDecoration={"none"} to={"/officedata"}>See More...</Link>
 </div>
+
+</div>
+{/* <Link color={"blue"} textDecoration={"none"} to={"/officedata"} marginTop={"-100px"}>See More...</Link> */}
 <div className="karykrtacard">
   <p style={{textAlign:"start"}}>Top Performer Karyakartas</p>
-<KarykrtaCard/>
+<KarykrtaCard limit={true}/>
+<div style={{marginTop:"-35px",color:"blue"}} >
+                 
+              <Link color={"blue"} textDecoration={"none"} to={"/karykartadata"}>See More...</Link>
+                </div>
 </div>
 
 
@@ -452,17 +464,21 @@ export const Homepage = () => {
               
             </div>
             <div className="lastdivgraph2">
-              <h1>Today's Birthday</h1>
+              {/* <h1>{`Today's Birthday ${todayevent.length}`}</h1> */}
+              <div style={{display:'flex',gap:"16px"}}>
+                  <h2>Today's Birthday</h2>
+                  <p style={{color:"green",fontWeight:"bold"}}>{todayevent.length}</p>
+                </div>
             </div>
             <div className="lastdivgraph3">
               <div style={{width:"90%",display:"flex",gap:"20px",margin:"auto",alignContent:"center"}}>
                 <div>
                   <h2>Karykrta</h2>
-                  <p>45</p>
+                  <p style={{color:"green",fontWeight:"bold"}}>{karykarta.length}</p>
                 </div>
                 <div>
                   <h2>Inactive</h2>
-                  <p>78</p>
+                  <p style={{color:"green",fontWeight:"bold"}}>0</p>
                 </div>
                 <img src="https://staging.digitaloms.in/assets/layout/icon/leader.svg" alt="" />
               </div>
@@ -476,7 +492,7 @@ export const Homepage = () => {
 };
 const DIV = styled.div`
   width: 100%;
-  height: 3500px;
+  height: 3100px;
   background-color: #eceff5;
 
   .graphbigdiv {
@@ -596,16 +612,17 @@ const DIV = styled.div`
   }
 
   .box{
-    margin: auto;
+    /* margin: auto; */
     background-color: #ffffff;
     width: 100%;
     height: 470px;
     border-radius: 20px;
   }
   .officecard{
+  
     background-color: #ffffff;
     width: 100%;
-    height: 530px;
+    height: 630px;
     border-radius: 20px;
     padding: 10px;
     align-items: center;
@@ -613,7 +630,7 @@ const DIV = styled.div`
   .karykrtacard{
     background-color: #ffffff;
     width: 100%;
-    height: 450px;
+    height: 420px;
     border-radius: 20px;
     padding: 10px;
     align-items: center;

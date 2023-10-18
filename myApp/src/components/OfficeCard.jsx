@@ -1,49 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  deleteData,
-  getAssembliesData,
-  getCategoriesData,
-  getFilterDAta,
-  getFilterInprogress,
-  getFilterOnHold,
-  getFilterQueue,
-  getFilterSolved,
-  getFilterStatusupdate,
-  getInProgressDAta,
-  getOnHoldDAta,
-  getProductDAta,
-  getQueueDAta,
-  getSearchDAta,
-  getSearchInprogress,
-  getSearchOnHold,
-  getSearchQueue,
-  getSearchSolved,
-  getSearchsStatusUpdate,
-  getSolvedDAta,
-  getStatusUpdateDAta,
-  postCommentData,
-} from "../redux/productReducer.js/action";
 import { useDispatch, useSelector } from "react-redux";
-import { FcFilledFilter } from "react-icons/fc";
-import { FaDownload } from "react-icons/fa";
-import { read, utils, writeFile } from "xlsx";
-import TableList from "../components/TableList";
-import { IoIosArrowForward } from "react-icons/io";
-import { GrFormPrevious } from "react-icons/gr";
-import { Link } from "react-router-dom";
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  Box,
-  Button,
-  Portal,
   TabList,
   Tabs,
   Tab,
@@ -51,9 +8,6 @@ import {
   TabPanel,
   TabPanels,
 } from "@chakra-ui/react";
-import { color } from "framer-motion";
-import styled from "@emotion/styled";
-import axios from "axios";
 import OfficeTable from "./OfficeTable";
 
 const mainObj = {
@@ -67,7 +21,7 @@ const cityData = {
   label: "",
   value: "",
 };
-const Officecard = () => {
+const Officecard = ({limit}) => {
   const {
     
     officedata
@@ -87,10 +41,7 @@ const Officecard = () => {
  
 
   const mainData = officedata&&officedata.length>0 ? officedata : [];
-  // console.log(mainData);
   
-
-
   return (
     
       <div
@@ -204,6 +155,20 @@ const Officecard = () => {
                             {" "}
                             Karykrtas {" "}
                           </th>
+                          <th
+                            _ngcontent-rcy-c20=""
+                            className="ng-star-inserted"
+                          >
+                            {" "}
+                            Actions {" "}
+                          </th>
+                          <th
+                            _ngcontent-rcy-c20=""
+                            className="ng-star-inserted"
+                          >
+                            {" "}
+                            {" "}
+                          </th>
                         
                         </tr>
                       </thead>
@@ -220,14 +185,24 @@ const Officecard = () => {
                         >
                           {mainData?.length > 0 &&
                             mainData?.map((item,index) => {
-                                if(index<3){
+                                if (limit && (index<2)){
                                     return (
                                         <OfficeTable
+                                        indexData={index}
                                           key={item.id}
                                           {...item}
                                          
                                         />
                                       );
+                                }else if(!limit){
+                                  return (
+                                    <OfficeTable
+                                    indexData={index}
+                                      key={item.id}
+                                      {...item}
+                                     
+                                    />
+                                  );
                                 }
                               
                             })}

@@ -357,26 +357,7 @@ const handleSarchDataforDisplay = (id) => {
   // setkaryaKartaData([...karyaKartaData, result]);
   
 };
-// console.log(srchData)
 
-  // const handleChange1 = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setaddssData((pre) => {
-  //     return { ...pre, [name]: value };
-  //   });
-  // };
-
-  // const handleSub = (e) => {
-  //   data.addressFields = addssdata;
-  //   data.cast = castdata;
-  //   // console.log(data);
-  //  dispatch(postCOMPLAINERdata(data, yourConfig));
-  // setsrchData(data)
-
-  // };
-
-  ////////////////////////
 
 
   const handleComp = (e) => {
